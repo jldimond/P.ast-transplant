@@ -1,8 +1,8 @@
-#FISH546 2016 project repository
+#Branching _Porites_ project repository
 
-This is a repository for my 2016 FISH 546 project, involving analysis of _Porites_ spp. ddRAD-seq and EpiRAD-seq data.
+This is a repository for a project involving analysis of _Porites_ genetic and epigenetic data.
 
-I have recently obtained [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for 48 samples of _Porites_ spp. corals collected in Belize. Most of these samples consist of branching _Porites_ spp., for which there is taxonomic uncertainty whether these comprise 3 different species or a single polymorphic species. The species are identitied primarily by branch thickness.
+The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for 48 samples of _Porites_ spp. corals collected in Belize. Most of these samples consist of branching _Porites_ spp., for which there is taxonomic uncertainty whether these comprise 3 different species or a single polymorphic species. The species are identitied primarily by branch thickness.
 
 ![_Porites porites_](./images/Screen%20Shot%202016-11-03%20at%206.56.27%20PM.png)
 
