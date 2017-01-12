@@ -2,7 +2,7 @@
 
 This is a repository for a project involving analysis of _Porites_ genetic and epigenetic data.
 
-[###_Link to manuscript in Google Docs_](https://docs.google.com/document/d/1JAGzOHCtuv8C1nVKQgOMc8U6daiojRl1MSwbEL1Hdak/edit?usp=sharing)
+###[_Link to manuscript in Google Docs_](https://docs.google.com/document/d/1JAGzOHCtuv8C1nVKQgOMc8U6daiojRl1MSwbEL1Hdak/edit?usp=sharing)
 
 The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for 48 samples of _Porites_ spp. corals collected in Belize. Most of these samples consist of branching _Porites_ spp., for which there is taxonomic uncertainty whether these comprise 3 different species or a single polymorphic species. The species are identitied primarily by branch thickness.
 
