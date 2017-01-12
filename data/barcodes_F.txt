@@ -1,0 +1,8 @@
+128_epi	TGCAT
+131_ddr	AAGGA
+87_ddr	GCATG
+112_ddr	AACCA
+122_ddr	CAACC
+101_ddr	TCGAT
+122_epi	CGATC
+105_epi	GGTTG
