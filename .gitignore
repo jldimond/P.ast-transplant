@@ -5,6 +5,8 @@
 
 *.fastq
 
+*.fastq.gz
+
 *.refmap
 
 *.htemp
