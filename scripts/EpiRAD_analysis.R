@@ -53,20 +53,20 @@ counts2_cpm <- cpm(counts2, normalized.lib.sizes=TRUE, log=TRUE)
 
 ##Plots to show ddRAD vs EpiRAD library (before normalization)
 par(mfrow = c(5, 5))
-par(mar = c(2, ,2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
+par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
 
 for (i in seq(1,49, by = 2)){
   plot(data5[,i], data5[,i+1], main = colnames(data5[i]))
 }
 
-
 #plot normalized counts
 par(mfrow = c(5, 5))
-par(mar = c(2, ,2 ,2 ,2), oma = c(4, 4, 0.5, 0.5)) 
+par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
 
 for (i in seq(1,49, by = 2)){
   plot(counts2_cpm[,i], counts2_cpm[,i+1], main = colnames(counts2_cpm[i]))
 }
+
 
 ##################################################################
 #Using lm to get residuals
@@ -81,11 +81,17 @@ resid_all <- as.data.frame(residuals)
 
 #plot residuals
 par(mfrow = c(5, 5))
-par(mar = c(2, ,2 ,2 ,2), oma = c(4, 4, 0.5, 0.5)) 
+par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
 
 for (i in 1:25){
   plot(resid_all[,i])
 }
+
+#Plot to compare raw data to residuals
+par(mfrow = c(2, 1))
+par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
+plot(data5[,13], data5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", col = "blue")
+plot(resid_all[,7], ylab = "Residual", col = "blue")
 
 ########################################################
 #Read in sample info

@@ -98,6 +98,10 @@ genind1 <- read.structure("data3-2.str", n.ind = 27, n.loc = 1113,
 groups <- find.clusters(genind1, max.n.clust=10, n.pca = 24,
                         choose.n.clust = FALSE, criterion = "min")
 
+#Plot cluster vs. BIC
+plot(groups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16)
+lines(groups$Kstat)
+
 #Cross validation to determine number of PCs to retain
 xval <- xvalDapc(genind1@tab, groups$grp, n.pca.max = 25, training.set = 0.9,
                  result = "groupMean", center = TRUE, scale = FALSE,
@@ -109,10 +113,9 @@ xval[2:6]
 #perform dapc using groups defined above group (groups$grp). Note 
 #that n.pca and n.da can be left blank and the program will query 
 #which values to choose.
-dapc1 <- dapc(genind1, pop = groups$grp, n.pca=9, n.da=2)
+dapc1 <- dapc(genind1, pop = groups$grp, n.pca=9)
 scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
-        posi.da = "topleft", posi.pca = "topright")
-
+        posi.da = "bottomleft", posi.pca = "topright")
 
 #look at loadings of individual loci
 set.seed(4)
