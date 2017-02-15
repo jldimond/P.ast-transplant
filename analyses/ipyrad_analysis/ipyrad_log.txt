@@ -1,0 +1,10 @@
+2017-02-13 12:51:03,414 	pid=92111 	[assembly.py]	ERROR 	IPyradWarningExit: 
+    Reference sequence must be uncompressed fasta or bgzip compressed,
+    your file is probably gzip compressed. The simplest fix is to gunzip
+    your reference sequence by running this command:
+
+        gunzip /Volumes/toaster/jdimond/Branching-Porites/data/Sym_genome/GCA_001939145.1_ASM193914v1_genomic.fna.gz
+
+    Then edit your params file to remove the `.gz` from the end of the
+    path to your reference sequence file and rerun step 3 with the `-f` flag.
+    
