@@ -35,20 +35,4 @@
 
 *.vcf
 
-*.fna
-
-*.amb
-
-*.ann
-
-*.bwt
-
-*.pac
-
-*.sa
-
-*.nex
-
-*.h5
-
 data3.txt
