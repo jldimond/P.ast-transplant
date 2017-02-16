@@ -8,8 +8,8 @@ output: github_document
 Set directory and read in .str datafile from iPyrad output. This is the unlinked SNPs file.
 
 ```{r}
-data2.2 <- read.delim("data3.u.str", header=FALSE)
-data <- data2.2[,colSums(is.na(data2.2))<nrow(data2.2)]
+ustr <- read.delim("data3.u.str", header=FALSE)
+data <- ustr[,colSums(is.na(ustr))<nrow(ustr)]
 ```
 
 Vector of  unlinked SNP IDs corresponding to data3.snps.map

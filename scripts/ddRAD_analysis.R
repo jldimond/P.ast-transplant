@@ -7,10 +7,10 @@
 ## data to get only ddRAD data and extract only SNPs without missing data.
 
 #Set directory
-setwd("~/Documents/Projects/PoritesRADseq/jldimond-fish546-2016/analyses/ipyrad_analysis/data3_outfiles")
+setwd("~/Documents/Projects/PoritesRADseq/Branching-Porites/analyses/ipyrad_analysis/data3_outfiles")
 # Read in data file
-data2.2 <- read.delim("data3.u.str", header=FALSE)
-data <- data2.2[,colSums(is.na(data2.2))<nrow(data2.2)]
+ustr <- read.delim("data3.u.str", header=FALSE)
+data <- ustr[,colSums(is.na(ustr))<nrow(ustr)]
 #Vector of  unlinkedSNP IDs corresponding to data3.snps.map
 unlinkedsnps <- seq(c(1:11822))
 data2 <- data[,2:11823]
@@ -18,7 +18,7 @@ colnames(data2) <- unlinkedsnps
 data3 <- cbind(data[,1],data2)
 data4 <- t(data3)
 data5 <- as.data.frame(data4)
-#Extract only ddRAD data 
+#Extract only ddRAD data
 data6 <- data5[,c(1,2,5,6,9,10,13,14,17,18,21,22,25,26,29,30,33,34,37,38,41,42,47,48,51,52,55,56,59,60,63,64,69,70,73,74,77,78,81,82,85,86,89,90,93,94,97,98,101,102,105,106,109,110)]
 #Remove any SNPs with missing data (-9 is the NA value)
 data7 <- data6[!rowSums(data6 == -9) >= 1,]
@@ -122,6 +122,12 @@ set.seed(4)
 contrib <- loadingplot(dapc1$var.contr, axis=1, 
                        thres=.005, lab.jitter=1)
 
+###########################################################
+#Fst
+library("hierfstat")
+
+
+###########################################################
 #boxplot comparing branch diameter among groups from dapc
 diam2 <- as.numeric(sinfo[,5])
 boxplot(diam2 ~ dapc1$assign, xlab = "Group", ylab =  "diameter")
