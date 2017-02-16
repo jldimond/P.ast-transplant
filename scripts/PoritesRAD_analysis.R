@@ -343,7 +343,7 @@ SNP_Groups <- groupvec[c(2:10,12:27)]
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "red")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "orange")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "purple")
-col_pal = colorRampPalette(c('red', 'blue'))(25+1)
+col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
 Diameter = col_pal[ cut(as.numeric(sinfo2$V5), data_seq, include.lowest=T) ]
 white <- colorRampPalette(colors= "#ffffff")
 whitespace <- white(25)
