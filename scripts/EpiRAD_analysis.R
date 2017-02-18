@@ -225,7 +225,7 @@ xval <- xvalDapc(resid_t_binary, type, n.pca.max = 24, training.set = 0.9,
 xval[2:6]
 
 #perform dapc using groups defined above group (groups$grp)
-dapc1 <- dapc(resid_t_binary, grp = type)
+dapc1 <- dapc(resid_t_binary, grp = groups$grp)
 scatter(dapc1)
 
 compoplot(dapc1, posi="bottomright",
