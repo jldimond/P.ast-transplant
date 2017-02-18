@@ -95,7 +95,7 @@ Epidata4 <- Epidata3[,c(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
 
 Epidata5 <- Epidata4[apply(Epidata4[c(1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,
                              31,33,35,37,39,41,43,45,47,49)],1,
-                     function(z) !any(z==0)),] 
+                     function(z) !any(z<=10)),] #increased from z==0
 
 
 #################################################################
@@ -157,8 +157,8 @@ mtext('B', side=3, line=-16.8, at = 0.2, outer=TRUE)
 
 #################################################################
 #Make binary dataset of EpiRAD data based on residuals <=-1
-
 #All methylated loci converted to 1, nonmethylated to zero
+
 resid_all_binary <- ifelse(resid_all<=-1, 1, 0)
 
 #proportion of methylated cutsites
@@ -166,10 +166,13 @@ prop_methyl <- colSums(resid_all_binary) / nrow(resid_all_binary)
 barplot(prop_methyl)
 dens <- density(prop_methyl)
 plot(dens)
+mean(prop_methyl)
+sd(prop_methyl)
 
 #Get only rows that are differentially methylated
 resid1 <- resid_all_binary[rowSums(resid_all_binary) < 25, ]
 resid2 <- resid1[rowSums(resid1) >= 1, ]
+
 
 ########################################################
 #Read in sample info (sample #, depth, symbiont type, diameter)
@@ -308,17 +311,15 @@ print(ttest)
 #Multiple regression: test linear model of depth, symbiont type, and
 #branch diameter vs. dapc of SNPs using a single DA from the model above
 
-#dapc with single DF
-dapc1 <- dapc(genind1, pop = groups$grp, n.pca=9, n.da=1)
-#Select # pcs = 9, # df = 1
-scatter(dapc1)
+#use DA one from DAPC as SNP variable
+scatter(dapc1,1,1)
 #convert DF coord to vector
-dapc1_da1 <- dapc1$ind.coord
+dapc1_da1 <- dapc1$ind.coord[,1]
 #replace unknown symbiont type NAs to "U"
 sinfo[is.na(sinfo)] <- "U"
 #fit model with water depth (sinfo$V2), branch diameter (sinfo$V5), 
 # and symbiont type (sinfo$V4) 
-fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$V2) + as.factor(sinfo$V4) + as.numeric(sinfo$V5)))
+fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$V2) + as.factor(sinfo$V3) + as.numeric(sinfo$V4)))
 #Relative importance of different variables in model
 library(relaimpo)
 relimp <- calc.relimp(fit,type=c("lmg","last","first"),
@@ -344,14 +345,15 @@ SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "red")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "orange")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "purple")
 col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
-Diameter = col_pal[ cut(as.numeric(sinfo2$V5), data_seq, include.lowest=T) ]
+data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$V4)), max(as.numeric(sinfo[c(2:10,12:27),]$V4)), length=25)
+Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$V4), data_seq, include.lowest=T) ]
 white <- colorRampPalette(colors= "#ffffff")
 whitespace <- white(25)
 myCols = cbind(SNP_Groups, whitespace, Diameter)
 
 library("heatmap.plus")
 
-heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo2$V1, labCol = FALSE,
+heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$V1, labCol = FALSE,
         RowSideColors = myCols, col = c("#6baed6", "#08519c"))
 
 ############################################################################
@@ -361,3 +363,10 @@ heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo2$V1, labCol = FALSE,
 loci.90 <- unique(gsub("\\..*","",contrib$var.names))
 loci.Epi <- colnames(resid_t_diff)
 loci.both <- intersect(loci.90,loci.Epi)
+
+cont <- dapc1$var.contr[,1]
+denscont <- density(cont)
+plot(denscont)
+
+minmax = pmin(pmax(dapc1$var.contr, quantile(dapc1$var.contr, .10)), 
+                    quantile(dapc1$var.contr, .90))
