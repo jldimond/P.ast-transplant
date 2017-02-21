@@ -357,16 +357,30 @@ heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$V1, labCol = FALSE,
         RowSideColors = myCols, col = c("#6baed6", "#08519c"))
 
 ############################################################################
-#Determine loci that are both weighting the SNP grouping and 
-#are differentially methylated
+#Determine if diff. methylated loci are associated with SNPs with high 
+#loading scores in the DAPC
 
-loci.90 <- unique(gsub("\\..*","",contrib$var.names))
-loci.Epi <- colnames(resid_t_diff)
-loci.both <- intersect(loci.90,loci.Epi)
+cont <- as.matrix(dapc1$var.contr[,1])
+loci.names <- gsub("\\..*","",rownames(cont))
+loci.1 <- cbind(loci.names, cont)
+loci.2 <-  loci.1[!duplicated(loci.1[,1]),]
 
-cont <- dapc1$var.contr[,1]
-denscont <- density(cont)
-plot(denscont)
+loci.Epi <- as.matrix(rownames(resid2))
+loci.both <- as.matrix(merge(loci.2,loci.Epi, by.x = "loci.names", by.y = "V1"))
+loci.Epi2 <- as.numeric(loci.both[,2])
+loci.all <- as.numeric(loci.2[,2])
 
-minmax = pmin(pmax(dapc1$var.contr, quantile(dapc1$var.contr, .10)), 
-                    quantile(dapc1$var.contr, .90))
+# Compare epi loci to random sample, plot density curves
+
+random.loci <- sample(loci.all, 151, replace=FALSE)
+random.loci.dens <- density(random.loci)
+loci.epi.dens <- density(loci.Epi2)
+plot(random.loci.dens, col = "blue", xlab = "Contribution to DAPC axis 1", main = NA)
+lines(loci.epi.dens, col = "red")
+legend(0.001667958, 2882.674, legend = c("random sample of loci", "differentially methylated loci"), 
+       col = c("blue", "red"), bty = "n", lty = 1)
+
+#Compare distributions with Kolomogorov-Smirnov test
+
+ks <- ks.test(random.loci, loci.Epi2)
+ks$p.value
