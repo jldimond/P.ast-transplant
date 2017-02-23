@@ -1,4 +1,5 @@
 ## ---
+## title: "Porites_RAD_analysis"
 ## output: github_document
 ## ---
 
@@ -26,7 +27,9 @@ ddata3 <- cbind(ddata[,1],ddata2)
 ddata4 <- t(ddata3)
 ddata5 <- as.data.frame(ddata4)
 #Extract only ddRAD data
-ddata6 <- ddata5[,c(1,2,5,6,9,10,13,14,17,18,21,22,25,26,29,30,33,34,37,38,41,42,47,48,51,52,55,56,59,60,63,64,69,70,73,74,77,78,81,82,85,86,89,90,93,94,97,98,101,102,105,106,109,110)]
+ddata6 <- ddata5[,c(1,2,5,6,9,10,13,14,17,18,21,22,25,26,29,30,33,34,37,38,41,
+                    42,47,48,51,52,55,56,59,60,63,64,69,70,73,74,77,78,81,82,85,86,
+                    89,90,93,94,97,98,101,102,105,106,109,110)]
 #Remove any SNPs with missing data (-9 is the NA value)
 ddata7 <- ddata6[!rowSums(ddata6 == -9) >= 1,]
 ddata8 <-t(ddata7)
@@ -46,7 +49,9 @@ colnames(geno2) <- names2
 
 #Select samples of interest (some have very low sample sizes)
 
-geno3 <- geno2[,c(1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56)]
+geno3 <- geno2[,c(1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+                  21,22,24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,
+                  40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56)]
 
 #Matrix with only ddr loci **if including sample 101
 
@@ -57,7 +62,24 @@ geno4 <- geno3[,c(1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,4
 geno5 <- geno4[!rowSums(geno4 == 9) >= 1,]
 head(geno5)
 
+#########################################################################
+#Matrix with ddr and epi loci for comparison of genotyping error
 
+geno6 <- geno2[,c(3:20,24:33,35:56)]
+geno7 <- geno6[!rowSums(geno6 == 9) >= 1,]
+geno8 <- t(geno7)
+
+library("ape")
+
+epidd_dist <- dist.gene(geno8, method = "percent", pairwise.deletion = FALSE,
+                        variance = FALSE)
+
+epidd_dist2 <- as.matrix(epidd_dist)
+
+write.table(epidd_dist2, file = "percent_dist.txt", 
+            row.names = TRUE, col.names = TRUE, quote = FALSE)
+
+##############################################################################
 ## Next we read in a text file derived from the "Base Counts"
 ## .vcf output from ipyrad. Base counts are used for analysis of 
 ## EpiRADseq data.
@@ -175,8 +197,8 @@ resid2 <- resid1[rowSums(resid1) >= 1, ]
 
 
 ########################################################
-#Read in sample info (sample #, depth, symbiont type, diameter)
-sinfo <- read.table("sample_info.txt", colClasses = 'character', header = FALSE)
+#Read in sample info (sample #, depth, symbiont type, habitat, diameter)
+sinfo <- read.table("sample_info.txt", colClasses = 'character', header = TRUE)
 #transpose
 tsinfo <- t(sinfo)
 #create vectors for diameter (note whether sample 101
@@ -184,31 +206,14 @@ tsinfo <- t(sinfo)
 diam <- tsinfo[4,]
 
 ###########################################################################
-#MDS of ddRAD and EpiRAD data
-#First ddRAD
+#MDS of ddRAD - SNP data
 
 geno6 <- t(geno5)
 ddist <- dist(geno6) # euclidean distances between the rows
 ddfit <- cmdscale(ddist,eig=TRUE, k=2)
 ddx <- ddfit$points[,1]
 ddy <- ddfit$points[,2]
-
-#Now EpiRAD
-
-resid_t_binary <- t(resid_all_binary)
-epidist <- dist(resid_t_binary) # euclidean distances between the rows
-epifit <- cmdscale(epidist,eig=TRUE, k=2)
-epix <- epifit$points[,1]
-epiy <- epifit$points[,2]
-
-#Plot both MDS plots
-
-par(mfrow = c(2, 1))
-par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
 plot(ddx, ddy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
-plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
-mtext('A', side=3, line=-1.6, at = 0.22, outer=TRUE)
-mtext('B', side=3, line=-20, at = 0.22, outer=TRUE)
 
 ####################################################################
 #DAPC (discriminant analysis of principal components) of SNPs using adegenet
@@ -261,11 +266,27 @@ contrib <- loadingplot(dapc1$var.contr, axis=1,
                        threshold= quantile(dapc1$var.contr,0.90), lab.jitter=1)
 
 ###########################################################
-#Fst
+#Fst and basic stats for pops based on find.clusters
+
 library("hierfstat")
 
-fst <- pairwise.fst(genind1, pop = groups$grp)
-fst
+pop(genind1) <- groups$grp
+
+#number of individuals per group
+summary(groups$grp)
+#observed heterozygosity
+summary(basic.stats(genind1)$Ho)
+#expected heterozygosity
+summary(basic.stats(genind1)$Hs)
+#inbreeding coefficient
+summary(basic.stats(genind1)$Fis)
+#pairwise Fst
+pairwise.fst(genind1)
+
+genind1_df <- genind2hierfstat(genind1,pop=NULL)
+groups <- as.vector(groups$grp)
+#pairwise Weir and Cockeram's Fst
+pairwise.WCfst(genind1_df,diploid=TRUE)
 
 ####################################################################
 #DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
@@ -315,22 +336,28 @@ print(ttest)
 scatter(dapc1,1,1)
 #convert DF coord to vector
 dapc1_da1 <- dapc1$ind.coord[,1]
-#replace unknown symbiont type NAs to "U"
-sinfo[is.na(sinfo)] <- "U"
+
 #fit model with water depth (sinfo$V2), branch diameter (sinfo$V5), 
-# and symbiont type (sinfo$V4) 
-fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$V2) + as.factor(sinfo$V3) + as.numeric(sinfo$V4)))
+# habitat(sinfo$V4), and symbiont type (sinfo$V5) 
+fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$depth) + as.factor(sinfo$sym) + 
+                    as.factor(sinfo$habitat) +as.numeric(sinfo$diam)))
+
 #Relative importance of different variables in model
 library(relaimpo)
-relimp <- calc.relimp(fit,type=c("lmg","last","first"),
-                      rela=TRUE)
+relimp <- calc.relimp(fit,type=c("lmg","last","first"),rela=TRUE)
 print(relimp)
 
-# Bootstrap Measures of Relative Importance (1000 samples) 
-boot <- boot.relimp(fit, b = 1000, type = c("lmg", "last", "first"), 
-                    rank = TRUE, diff = TRUE, rela = TRUE)
-booteval.relimp(boot) # print result
-plot(booteval.relimp(boot,sort=TRUE)) # plot result
+
+###########################################################################
+#MDS of EpiRAD data
+
+resid_t_binary <- t(resid_all_binary)
+epidist <- dist(resid_t_binary) # euclidean distances between the rows
+epifit <- cmdscale(epidist,eig=TRUE, k=2)
+epix <- epifit$points[,1]
+epiy <- epifit$points[,2]
+plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
+
 
 ############################################################################
 #heatmap of EpiRAD data 
