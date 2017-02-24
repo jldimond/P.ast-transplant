@@ -260,28 +260,6 @@ set.seed(4)
 contrib <- loadingplot(dapc1$var.contr, axis=1, 
                        threshold= quantile(dapc1$var.contr,0.90), lab.jitter=1)
 
-###########################################################
-#Fst and basic stats for pops based on find.clusters
-
-library("hierfstat")
-
-pop(genind1) <- groups$grp
-
-#number of individuals per group
-summary(groups$grp)
-#observed heterozygosity
-summary(basic.stats(genind1)$Ho)
-#expected heterozygosity
-summary(basic.stats(genind1)$Hs)
-#inbreeding coefficient
-summary(basic.stats(genind1)$Fis)
-#pairwise Fst
-pairwise.fst(genind1)
-
-genind1_df <- genind2hierfstat(genind1,pop=NULL)
-groups <- as.vector(groups$grp)
-#pairwise Weir and Cockeram's Fst
-pairwise.WCfst(genind1_df,diploid=TRUE)
 
 ####################################################################
 #DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
@@ -407,4 +385,4 @@ legend(0.001667958, 2882.674, legend = c("random sample of loci", "differentiall
 ks <- ks.test(random.loci, loci.Epi2)
 ks$p.value
 
-rmarkdown::render("~/Documents/Projects/PoritesRADseq/Branching-Porites/scripts/PoritesRAD_analysis.R", "github_document")
+rmarkdown::render("PoritesRAD_analysis.R", "github_document")
