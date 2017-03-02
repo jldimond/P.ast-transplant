@@ -30,6 +30,35 @@ Each sample has both a ddRAD-seq and EpiRAD-seq library associated with it. The 
 In essence the analysis involves (1) analysis of single nucleotide polymorphisms (SNPs) in the ddRAD data and (2) analysis of read counts in the EpiRAD data. ipyrad generates many [output files](https://github.com/jldimond/Branching-Porites/tree/master/analyses/ipyrad_analysis/data3_outfiles) that can be readily used for the ddRAD SNP anlysis, but the EpiRAD analysis requires a bit more work to extract workable data. First, read count data are extracted from the .vcf format output from iPyrad. This file is too large to be included in the online repository, but the workflow can be found [here](https://github.com/jldimond/Branching-Porites/blob/master/notebooks/VCF_readcounts.ipynb). The remainder of the analysis is performed in R. The R notebook is located [here](https://github.com/jldimond/Branching-Porites/blob/master/scripts/PoritesRAD_analysis.R).
 
 
+##Software
+
+This study made use of the following software:
+
+ipyrad v0.3.41
+
+SnpEff(SnpSift) v4.2
+
+R v3.1.3
+
+RStudio v1.0.136
+
+####R packages:
+
+ape v3.4
+
+edgeR v3.8.6
+
+adegenet v2.0.1
+
+ade4 v1.7-4
+
+hierfstat v0.04-22
+
+lmtest v0.9-34
+
+relaimpo v2.2-2
+
+
 ##Directory structure
 
 
