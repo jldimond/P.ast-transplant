@@ -12,7 +12,6 @@ The goal is to evaluate (1) if there is any genetic structuring of these individ
 
 #Methods overview
 
-
 ##Library preparation
 
 A starting set of 48 samples of _Porites_ spp. were prepared for ddRADseq and EpiRADseq. Only 30 of these samples were the branching _Porites_ spp. analyzed in this study; the rest were _Porites astreoides_ destined for analysis in a separate study. A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. These were split into 12 pools that were run on a single Illumina HiSeq 4000 lane (100 bp paired-end reads). The [data](https://github.com/jldimond/Branching-Porites/tree/master/data) directory contains sample metadata and barcode files associated with each library. 
