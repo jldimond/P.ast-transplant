@@ -148,6 +148,7 @@ for (i in seq(1,49, by = 2)){
   models[[colnames(counts2_cpm)[i]]] <- lm(counts2_cpm[,i+1] ~ counts2_cpm[,i])
 }
 
+
 residuals <- lapply(models, '[[', 2)
 resid_all <- as.data.frame(residuals)  
 
@@ -160,12 +161,18 @@ for (i in 1:25){
 }
 
 #Plot to compare raw data to residuals
-par(mfrow = c(2, 1))
+par(mfrow = c(3, 1))
 par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
-plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", col = "blue")
-plot(resid_all[,7], ylab = "Residual", col = "blue")
-mtext('A', side=3, line=-1.6, at = 0.2, outer=TRUE)
-mtext('B', side=3, line=-16.8, at = 0.2, outer=TRUE)
+plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+     col = "blue", cex.axis = 1.1, cex.lab = 1.2, yaxp = c(0, 300, 3))
+plot(counts2_cpm[,13], counts2_cpm[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+     col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+abline(models$`109_ddr`)
+plot(resid_all[,7], ylab = "Residual", col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+abline(h = -1, lty = "dotted")
+mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
+mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
+mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
 
 #################################################################
 #Make binary dataset of EpiRAD data based on residuals <=-1
