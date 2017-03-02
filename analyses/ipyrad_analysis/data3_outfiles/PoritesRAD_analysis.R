@@ -25,6 +25,7 @@ ddata5 <- as.data.frame(ddata4)
 ddata6 <- ddata5[,c(1,2,5,6,9,10,13,14,17,18,21,22,25,26,29,30,33,34,37,38,41,
                     42,47,48,51,52,55,56,59,60,63,64,69,70,73,74,77,78,81,82,85,86,
                     89,90,93,94,97,98,101,102,105,106,109,110)]
+
 #Remove any SNPs with missing data (-9 is the NA value)
 ddata7 <- ddata6[!rowSums(ddata6 == -9) >= 1,]
 ddata8 <-t(ddata7)
@@ -44,18 +45,15 @@ colnames(geno2) <- names2
 
 #Select samples of interest (some have very low sample sizes)
 
-geno3 <- geno2[,c(1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-                  21,22,24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,
-                  40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56)]
+geno3 <- geno2[,c(1,3:22,24:33,35:56)]
 
 #Matrix with only ddr loci **if including sample 101
 
-geno4 <- geno3[,c(1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52)]
+geno4 <- geno3[,c(1, (seq(2, 53, by = 2)))]
 
 #Get rid of rows with any NAs (9)
 
 geno5 <- geno4[!rowSums(geno4 == 9) >= 1,]
-head(geno5)
 
 #########################################################################
 #Matrix with ddr and epi loci for comparison of genotyping error
@@ -80,7 +78,7 @@ write.table(epidd_dist2, file = "percent_dist.txt",
 ## EpiRADseq data.
 
 
-#Read in data file
+#Read in data file. The file "data3-2.txt" was generated from the notebook "VCF_readcounts.ipynb"
 Epidata <- read.delim("data3-2.txt", header=FALSE)
 #Since the base counts were split into four columns for each base, these need 
 #to be summed
@@ -98,9 +96,7 @@ header <- read.delim("header_data3.txt", header=FALSE)
 names <- as.vector(t(header))
 colnames(Epidata3) <- names
 #Select samples of interest (some have very low sample sizes)
-Epidata4 <- Epidata3[,c(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
-                  24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,40,
-                  41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56)]
+Epidata4 <- Epidata3[,c(3:20,24:33,35:56)]
 
 #Remove ddr rows that have any zeros. The premise here is that zeros 
 #in the EpiRAD dataset are informative because they may reflect 
@@ -110,8 +106,7 @@ Epidata4 <- Epidata3[,c(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
 #locus, thereby leaving zeros in the EpiRAD library only where the 
 #locus was counted in the ddRAD library.
 
-Epidata5 <- Epidata4[apply(Epidata4[c(1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,
-                             31,33,35,37,39,41,43,45,47,49)],1,
+Epidata5 <- Epidata4[apply(Epidata4[c(seq(1, 50, by = 2))],1,
                      function(z) !any(z<=10)),] #increased from z==0
 
 
@@ -203,8 +198,8 @@ diam <- tsinfo[4,]
 ###########################################################################
 #MDS of ddRAD - SNP data
 
-geno6 <- t(geno5)
-ddist <- dist(geno6) # euclidean distances between the rows
+SNPs <- t(geno5)
+ddist <- dist(SNPs) # euclidean distances between the rows
 ddfit <- cmdscale(ddist,eig=TRUE, k=2)
 ddx <- ddfit$points[,1]
 ddy <- ddfit$points[,2]
@@ -260,7 +255,36 @@ set.seed(4)
 contrib <- loadingplot(dapc1$var.contr, axis=1, 
                        threshold= quantile(dapc1$var.contr,0.90), lab.jitter=1)
 
+###########################################################
+#Fst and basic stats for pops based on find.clusters
 
+library("hierfstat")
+
+pop(genind1) <- groups$grp
+
+#number of individuals per group
+summary(groups$grp)
+#observed heterozygosity
+summary(basic.stats(genind1)$Ho)
+#expected heterozygosity
+summary(basic.stats(genind1)$Hs)
+#inbreeding coefficient
+summary(basic.stats(genind1)$Fis)
+#pairwise Fst
+pairwise.fst(genind1)
+#stats for all loci
+SNPstats <- basic.stats(genind1_df,diploid = TRUE)
+SNPstats2 <- SNPstats$perloc
+hist(SNPstats2$Fst, breaks = 40)
+plot(SNPstats2$Fst)
+outliers <- SNPstats2[SNPstats2$Fst >= quantile(SNPstats2$Fst,0.90,na.rm = TRUE),]
+
+genind1_df <- genind2hierfstat(genind1,pop=NULL)
+groups <- as.vector(groups$grp)
+#pairwise Weir and Cockeram's Fst
+pairwise.WCfst(genind1_df,diploid=TRUE)
+
+fstat(genind1)
 ####################################################################
 #DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
 
@@ -345,8 +369,8 @@ SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "red")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "orange")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "purple")
 col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
-data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$V4)), max(as.numeric(sinfo[c(2:10,12:27),]$V4)), length=25)
-Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$V4), data_seq, include.lowest=T) ]
+data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$V5)), max(as.numeric(sinfo[c(2:10,12:27),]$V5)), length=25)
+Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$V5), data_seq, include.lowest=T) ]
 white <- colorRampPalette(colors= "#ffffff")
 whitespace <- white(25)
 myCols = cbind(SNP_Groups, whitespace, Diameter)
@@ -385,4 +409,61 @@ legend(0.001667958, 2882.674, legend = c("random sample of loci", "differentiall
 ks <- ks.test(random.loci, loci.Epi2)
 ks$p.value
 
-rmarkdown::render("PoritesRAD_analysis.R", "github_document")
+############################################################################
+#Determine if diff. methylated loci are associated with Fst outliers & DAPC loadings
+
+locnames <- loci.2[,1]
+Fst_perloc <- as.data.frame(cbind(locnames, SNPstats2$Fst))
+Fst_perloc$V2 <- as.numeric(as.character(Fst_perloc$V2))
+Fst_outliers <- Fst_perloc[Fst_perloc$V2 >= quantile(Fst_perloc$V2,0.90,na.rm = TRUE),]
+
+loci.3 <- as.data.frame(loci.2)
+loci.3$V2 <- as.numeric(as.character(loci.3$V2))
+contrib_outliers <- loci.3[loci.3$V2 >= quantile(loci.3$V2,0.90,na.rm = TRUE),]
+
+Fst_contrib <- as.matrix(merge(Fst_outliers,contrib_outliers, by.x = "locnames", by.y = "loci.names"))
+
+
+
+############################################################################
+#Outlier detection with PCAdapt
+
+library("qvalue")
+library("pcadapt")
+
+dim(geno5)
+geno5 <- t(geno5)
+
+PCAadapt_file <- tempfile()
+write.table(x = geno5, file = PCAadapt_file, sep = " ", 
+            col.names = FALSE, row.names = FALSE)
+
+geno_file <- read4pcadapt(PCAadapt_file)
+
+x <- pcadapt(geno_file, K = 25)
+
+plot(x,option="screeplot")
+
+#K of 3 appears to be optimal
+
+x <- pcadapt(geno_file, K = 3)
+
+summary(x)
+
+plot(x,option="manhattan")
+
+plot(x,option="qqplot",threshold=0.1)
+
+hist(x$pvalues,xlab="p-values",main=NULL,breaks=50)
+
+plot(x,option="stat.distribution")
+
+pvalues <- as.data.frame(na.omit(cbind(locnames, x$pvalues)))
+
+pvalues$V2 <- as.numeric(as.character(pvalues$V2))
+
+qval <- qvalue(pvalues$V2)$qvalues
+
+qval.df <- cbind(pvalues, qval)
+alpha <- 0.05
+outliers <- subset(qval.df, qval < alpha)

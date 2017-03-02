@@ -1,8 +1,11 @@
 # Data
 
-A starting set of 48 samples of _Porites_ spp. were prepared for ddRADseq and EpiRADseq according to methods described [here](http://onsnetwork.org/jdimond/2016/08/02/rad-sequencing-days-12/). A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. After barcodes were ligated, samples were combined into 12 tubes (pools) for indexing (via PCR). These 12 pools were designated as libraries JD001_A through JD001_L before being sent to the Vincent J. Coates Genomic Sequencing Laboratory at UC Berkeley, where they were run on a single Illumina HiSeq 4000 lane in equimolar ratios (based on qPCR). The raw data consisting of 100 bp paired-end reads can be found [here](http://owl.fish.washington.edu/nightingales/Porites_spp/).
+A starting set of 48 samples of _Porites_ spp. were prepared for ddRADseq and EpiRADseq according to methods described [here](http://onsnetwork.org/jdimond/2016/08/02/rad-sequencing-days-12/). Samples 101-131 are branching _Porites_ samples, while samples 80-100 and "w" are _Porites astreoides_ and are not used in this study. A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. After barcodes were ligated, samples were combined into 12 tubes (pools) for indexing (via PCR). These 12 pools were designated as libraries JD001_A through JD001_L before being sent to the Vincent J. Coates Genomic Sequencing Laboratory at UC Berkeley, where they were run on a single Illumina HiSeq 4000 lane in equimolar ratios (based on qPCR). The raw data consisting of 100 bp paired-end reads can be found [here](http://owl.fish.washington.edu/nightingales/Porites_spp/). Barcode files for each pool can be found in this directory.
 
-## Metadata
+Also in this directory are _Symbiodinium_ cp23S sequences associated with branching _Porites_ samples (Porites_Symbiodinium.fasta). 
+
+
+## Metadata for JD_001
 
 
 **Prep No.**|**Landmark**|**Coordinates**|**Habitat**|**Depth (m)**|**Species**|**Symbiont clade**|**Conc. post digestion (ng/ul)**|**New Pool (column)**|**Well**|**enzymes**|**Barcode**|**Illumina Index**|**Post Size Selection ng/ul**|**Post PCR ng/ul**|**Mean fragment size (bp)**|**Library name**
