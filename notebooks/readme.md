@@ -1,1 +1,1 @@
-This describes the notebooks repository.
+This directory contains Jupyter notebooks used for assembling and analyzing data. `ipyrad_assembly.ipynb` is the notebook used for the ipyrad assembly. `VCF_readcounts.ipynb` is a notebook used to extract read count data from the `.vcf` output from ipyrad. `Locus_ids.ipynb` is used to extract unique locus ID numbers from the `.snps.map` file output from ipyrad.
