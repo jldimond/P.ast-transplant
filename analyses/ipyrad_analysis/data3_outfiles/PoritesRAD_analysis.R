@@ -174,6 +174,7 @@ mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
 mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
 mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
 
+dev.off()
 #################################################################
 #Make binary dataset of EpiRAD data based on residuals <=-1
 #All methylated loci converted to 1, nonmethylated to zero
@@ -206,7 +207,8 @@ diam <- tsinfo[4,]
 #MDS of ddRAD - SNP data
 
 SNPs <- t(geno5)
-ddist <- dist(SNPs) # euclidean distances between the rows
+# euclidean distances between the rows
+ddist <- dist(SNPs) 
 ddfit <- cmdscale(ddist,eig=TRUE, k=2)
 ddx <- ddfit$points[,1]
 ddy <- ddfit$points[,2]
@@ -280,18 +282,18 @@ summary(basic.stats(genind1)$Fis)
 #pairwise Fst
 pairwise.fst(genind1)
 #stats for all loci
+genind1_df <- genind2hierfstat(genind1,pop=NULL)
 SNPstats <- basic.stats(genind1_df,diploid = TRUE)
 SNPstats2 <- SNPstats$perloc
 hist(SNPstats2$Fst, breaks = 40)
 plot(SNPstats2$Fst)
+#90th percentile Fst outliers
 outliers <- SNPstats2[SNPstats2$Fst >= quantile(SNPstats2$Fst,0.90,na.rm = TRUE),]
 
-genind1_df <- genind2hierfstat(genind1,pop=NULL)
 groups <- as.vector(groups$grp)
 #pairwise Weir and Cockeram's Fst
 pairwise.WCfst(genind1_df,diploid=TRUE)
 
-fstat(genind1)
 ####################################################################
 #DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
 
@@ -302,9 +304,10 @@ resid_t_binary <- t(resid_all_binary)
 #In this case, best to retain all PCs
 Epigroups <- find.clusters(resid_t_binary, max.n.clust=10, n.pca = 24,
                            choose.n.clust = TRUE, criterion = "min")
+#Only one group found
+plot(Epigroups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16, 
+     xaxp = c(1, 9, 4))
 
-Epidapc1 <- dapc(resid_t_binary, grp = Epigroups$grp, n.pca=7, n.da = 2)
-scatter(Epidapc1)
 
 ###########################################################
 #boxplot comparing branch diameter among groups from SNP dapc
@@ -356,7 +359,8 @@ print(relimp)
 #MDS of EpiRAD data
 
 resid_t_binary <- t(resid_all_binary)
-epidist <- dist(resid_t_binary) # euclidean distances between the rows
+# euclidean distances between the rows
+epidist <- dist(resid_t_binary) 
 epifit <- cmdscale(epidist,eig=TRUE, k=2)
 epix <- epifit$points[,1]
 epiy <- epifit$points[,2]
@@ -376,15 +380,15 @@ SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "red")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "orange")
 SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "purple")
 col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
-data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$V5)), max(as.numeric(sinfo[c(2:10,12:27),]$V5)), length=25)
-Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$V5), data_seq, include.lowest=T) ]
+data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$diam)), max(as.numeric(sinfo[c(2:10,12:27),]$diam)), length=25)
+Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$diam), data_seq, include.lowest=T) ]
 white <- colorRampPalette(colors= "#ffffff")
 whitespace <- white(25)
 myCols = cbind(SNP_Groups, whitespace, Diameter)
 
 library("heatmap.plus")
 
-heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$V1, labCol = FALSE,
+heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$sample, labCol = FALSE,
         RowSideColors = myCols, col = c("#6baed6", "#08519c"))
 
 ############################################################################
@@ -474,3 +478,43 @@ qval <- qvalue(pvalues$V2)$qvalues
 qval.df <- cbind(pvalues, qval)
 alpha <- 0.05
 outliers <- subset(qval.df, qval < alpha)
+
+#Comparison with DAPC axis 1 contributions (merge datasets to find common loci)
+
+SNPstats3 <- cbind(locnames, SNPstats2)
+contrib_outliers2 <- as.matrix(merge(SNPstats3, contrib_outliers, by.x = "locnames", by.y = "loci.names"))
+PCAdapt_outliers <- as.matrix(merge(SNPstats3, outliers, by.x = "locnames", by.y = "locnames"))
+both_outliers <- as.matrix(merge(contrib_outliers2, PCAdapt_outliers, by.x = "locnames", by.y = "locnames"))
+plot(SNPstats3$Ho, SNPstats3$Fst, col= "gray", pch=16, xlab = "Observed heterozygosity", 
+     ylab = "Fst")
+points(contrib_outliers2[,2], contrib_outliers2[,8], col= "orange", pch=16)
+points(PCAdapt_outliers[,2], PCAdapt_outliers[,8], col= "green", pch=16)
+points(both_outliers[,2], both_outliers[,8], col= "purple", pch=16)
+legend(0.3946751, 0.8472581, legend = c("DAPC contrib.", "PCAdapt", "Both"), 
+          col = c("orange", "green", "purple"), pch =  16, bty = "n")
+
+############################################################################
+#Outlier detection with OUTflank 
+
+#****not working
+
+library("OutFLANK")
+
+ind <- as.vector(groups$grp) # vector with the name of population
+
+FstDataFrame <- MakeDiploidFSTMat(geno5, locnames, ind)
+
+plot(FstDataFrame$FST, FstDataFrame$FSTNoCorr, xlim = c(-0.01,0.3), 
+     ylim = c(-0.01, 0.3), pch = 20)
+abline(0, 1) # Checking the effect of sample size on Fst since FSTCoCorr will be used in the follow
+
+OF <- OutFLANK(FstDataFrame, NumberOfSamples=3, qthreshold = 0.05, Hmin = 0.1,
+               RightTrimFraction = 0.6, LeftTrimFraction = 0.1)
+
+# Plot the ditribution of Fst with the chi squared distribution
+OutFLANKResultsPlotter(OF, withOutliers = TRUE, NoCorr = TRUE, Hmin = 0.1, 
+                       binwidth = 0.005, Zoom = FALSE, 
+                       titletext = NULL)
+
+outliers_OF <- OF$results$LocusName[OF$results$OutlierFlag == TRUE]
+print(outliers_OF)
