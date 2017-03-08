@@ -56,7 +56,7 @@ geno4 <- geno3[,c(1, (seq(2, 53, by = 2)))]
 geno5 <- geno4[!rowSums(geno4 == 9) >= 1,]
 
 #########################################################################
-#Matrix with ddr and epi loci for comparison of genotyping error
+#Matrix with ddr and epi loci for comparison of SNP genotyping error
 
 geno6 <- geno2[,c(3:20,24:33,35:56)]
 geno7 <- geno6[!rowSums(geno6 == 9) >= 1,]
@@ -67,10 +67,27 @@ library("ape")
 epidd_dist <- dist.gene(geno8, method = "percent", pairwise.deletion = FALSE,
                         variance = FALSE)
 
+heatmap(epidd_dist)
+
 epidd_dist2 <- as.matrix(epidd_dist)
 
-write.table(epidd_dist2, file = "percent_dist.txt", 
-            row.names = TRUE, col.names = TRUE, quote = FALSE)
+epidd_dist3 <- epidd_dist2[c(seq(from =1, to = nrow(epidd_dist2), by= 2)), 
+                           c(seq(from =2, to = ncol(epidd_dist2), by= 2))]
+
+library(reshape2)
+
+melted <- melt(epidd_dist3, na.rm = TRUE)
+
+library(ggplot2)
+
+ggplot(data = melted, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "white")+
+  scale_fill_gradient2(low = "white", high = "red", limit = c(0,0.35), space = "Lab", 
+                       name="SNP Mismatches") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 9.5, hjust = 1))+
+          labs(x= "EpiRADseq samples", y = "ddRADseq samples")+
+  coord_fixed()
 
 ##############################################################################
 ## Next we read in a text file derived from the "Base Counts"
@@ -157,8 +174,11 @@ par(mfrow = c(5, 5))
 par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
 
 for (i in 1:25){
-  plot(resid_all[,i], col = "blue")
+  plot(resid_all[,i], col = "blue", ylim = c(-10, 4))
+  abline(h = -1)
 }
+
+dev.off()
 
 #Plot to compare raw data to residuals
 par(mfrow = c(3, 1))
@@ -183,9 +203,8 @@ resid_all_binary <- ifelse(resid_all<=-1, 1, 0)
 
 #proportion of methylated cutsites
 prop_methyl <- colSums(resid_all_binary) / nrow(resid_all_binary)
-barplot(prop_methyl)
 dens <- density(prop_methyl)
-plot(dens)
+plot(dens, xlab = "Methylation", ylab = "Density", main = "")
 mean(prop_methyl)
 sd(prop_methyl)
 
@@ -201,7 +220,7 @@ sinfo <- read.table("sample_info.txt", colClasses = 'character', header = TRUE)
 tsinfo <- t(sinfo)
 #create vectors for diameter (note whether sample 101
 #was included or not)
-diam <- tsinfo[4,]
+diam <- as.numeric(tsinfo[5,])
 
 ###########################################################################
 #MDS of ddRAD - SNP data
@@ -376,20 +395,36 @@ resid_t_diff <- t(resid2)
 #color pallet matrix for SNP groups and branch diam groups (in between whitespace)
 groupvec <- as.character(groups$grp)
 SNP_Groups <- groupvec[c(2:10,12:27)]
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "red")
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "orange")
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "purple")
-col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
-data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$diam)), max(as.numeric(sinfo[c(2:10,12:27),]$diam)), length=25)
-Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$diam), data_seq, include.lowest=T) ]
-white <- colorRampPalette(colors= "#ffffff")
-whitespace <- white(25)
-myCols = cbind(SNP_Groups, whitespace, Diameter)
+SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "#FE9EA3")
+SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "#FEDAA9")
+SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "#D8ACF7")
+#col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
+#data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$diam)), max(as.numeric(sinfo[c(2:10,12:27),]$diam)), length=25)
+#Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$diam), data_seq, include.lowest=T) ]
+#white <- colorRampPalette(colors= "#ffffff")
+#whitespace <- white(25)
+#myCols = cbind(SNP_Groups, whitespace, Diameter)
 
-library("heatmap.plus")
+#library("heatmap.plus")
 
-heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$sample, labCol = FALSE,
-        RowSideColors = myCols, col = c("#6baed6", "#08519c"))
+#heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$sample, labCol = FALSE,
+#        RowSideColors = myCols, col = c("#6baed6", "#08519c"))
+
+#devtools::install_github("rlbarter/superheat")
+library("superheat")
+
+#Matrix for heatmap
+heat.mat <- cbind(diam[c(2:10,12:27)], resid_t_diff)
+rownames(heat.mat) <- sinfo$sample[c(2:10,12:27)]
+
+superheat(heat.mat[,2:209], left.label.size = 0.11, bottom.label.size = 0.1,
+          scale = FALSE, row.dendrogram = FALSE, col.dendrogram = FALSE,
+          pretty.order.rows = TRUE, pretty.order.cols = TRUE,
+          heat.pal = c("#6baed6", "#08519c"), yr = heat.mat[,1], 
+          legend = FALSE, grid.hline.col = "black",
+          grid.hline.size = 0.1, yr.obs.col = rep("gray", 25),
+          left.label.col = SNP_Groups, yr.axis.name = "Diameter (cm)",
+          yr.plot.type = "bar")
 
 ############################################################################
 #Determine if diff. methylated loci are associated with SNPs with high 
@@ -455,9 +490,9 @@ x <- pcadapt(geno_file, K = 25)
 
 plot(x,option="screeplot")
 
-#K of 3 appears to be optimal
+#K of 3-20 appears to be optimal
 
-x <- pcadapt(geno_file, K = 3)
+x <- pcadapt(geno_file, K = 12)
 
 summary(x)
 
@@ -481,9 +516,9 @@ outliers <- subset(qval.df, qval < alpha)
 
 #Comparison with DAPC axis 1 contributions (merge datasets to find common loci)
 
-SNPstats3 <- cbind(locnames, SNPstats2)
+SNPstats3 <- as.data.frame(cbind(locnames, SNPstats2))
 contrib_outliers2 <- as.matrix(merge(SNPstats3, contrib_outliers, by.x = "locnames", by.y = "loci.names"))
-PCAdapt_outliers <- as.matrix(merge(SNPstats3, outliers, by.x = "locnames", by.y = "locnames"))
+PCAdapt_outliers <- as.data.frame(merge(SNPstats3, outliers, by.x = "locnames", by.y = "locnames"))
 both_outliers <- as.matrix(merge(contrib_outliers2, PCAdapt_outliers, by.x = "locnames", by.y = "locnames"))
 plot(SNPstats3$Ho, SNPstats3$Fst, col= "gray", pch=16, xlab = "Observed heterozygosity", 
      ylab = "Fst")
@@ -493,28 +528,68 @@ points(both_outliers[,2], both_outliers[,8], col= "purple", pch=16)
 legend(0.3946751, 0.8472581, legend = c("DAPC contrib.", "PCAdapt", "Both"), 
           col = c("orange", "green", "purple"), pch =  16, bty = "n")
 
-############################################################################
-#Outlier detection with OUTflank 
+#####################################################################################
+#Outlier detection with LOSITAN
+#First prep structure (.str) file that will allow conversion to Genepop format for LOSITAN
 
-#****not working
+#create DAPC group vector that can be bound with genotype matrix
+groupvec2 <- rep(groupvec, each = 2)
 
-library("OutFLANK")
+structure1 <- as.data.frame(cbind(groupvec2, ddata9))
+write.table(structure1, file = "data3-3.str", row.names = rownames(structure1), col.names = colnames(structure1), quote = FALSE)
 
-ind <- as.vector(groups$grp) # vector with the name of population
+###############################################################################
 
-FstDataFrame <- MakeDiploidFSTMat(geno5, locnames, ind)
+#
+#Bare bones script to read LOSITAN data into R
+#
+# USAGE:
+# The script expects to find:
+#    a file called loci with locus He/Fst and
+#    a file called ci with the confidence intervals
+#
+# A PNG graphic will be generated called output.png
+#
+# The graphic and the tables generated are 'bare bones' in
+# the sense that they are provided as a STARTING POINT on
+# how to read the data into R.
+# User customization of the script is expected.
+# Feel free to change and use it at your discretion
+#
+#(C) 2008 Tiago Antao
+#This script is free software under the GPL v3
 
-plot(FstDataFrame$FST, FstDataFrame$FSTNoCorr, xlim = c(-0.01,0.3), 
-     ylim = c(-0.01, 0.3), pch = 20)
-abline(0, 1) # Checking the effect of sample size on Fst since FSTCoCorr will be used in the follow
+plot_ci <- function(ci, bcolor, mcolor, tcolor) {
+  cpl <- read.table("lositan_ci", header=TRUE, sep = '\t')
+  lines(cpl[,1],cpl[,2], lty = "dotted", col=bcolor)
+  lines(cpl[,1],cpl[,3], lty = "solid", col=mcolor)
+  lines(cpl[,1],cpl[,4], lty = "dotted", col=tcolor)
+}
 
-OF <- OutFLANK(FstDataFrame, NumberOfSamples=3, qthreshold = 0.05, Hmin = 0.1,
-               RightTrimFraction = 0.6, LeftTrimFraction = 0.1)
+plot_loci <- function(loci, color, dot) {
+  cpl <- read.table("lositan_loci", header=TRUE, sep='\t')
+  points(cpl[,2],cpl[,3], col=color, pch = dot)
+}
 
-# Plot the ditribution of Fst with the chi squared distribution
-OutFLANKResultsPlotter(OF, withOutliers = TRUE, NoCorr = TRUE, Hmin = 0.1, 
-                       binwidth = 0.005, Zoom = FALSE, 
-                       titletext = NULL)
 
-outliers_OF <- OF$results$LocusName[OF$results$OutlierFlag == TRUE]
-print(outliers_OF)
+plot(-10, ylim=c(-0.1,1), xlim=c(0,0.7), xlab='He', ylab='Fst')
+plot_ci('ci', 'black', 'black', 'black')
+plot_loci('loci', "gray", 16)
+
+#Merge outliers
+lositan_outliers <- read.table("lositan_outliers")
+lositan_loci <- read.table("lositan_loci", header=TRUE, sep='\t')
+lositan_outliers2 <- as.matrix(merge(lositan_loci, lositan_outliers, by.x = "Locus", by.y = "V1"))
+PCAdapt_outliers <- as.matrix(merge(lositan_loci, outliers, by.x = "Locus", by.y = "locnames"))
+DAPC_outliers <- as.matrix(merge(lositan_loci, contrib_outliers, by.x = "Locus", by.y = "loci.names"))
+los_PCA_out <- as.matrix(merge(lositan_outliers2, PCAdapt_outliers, by.x = "Locus", by.y = "V1"))
+
+points(lositan_outliers2[,2], lositan_outliers2[,3], col= "orange", pch=16)
+points(PCAdapt_outliers[,2], PCAdapt_outliers[,3], col= "green", pch=16)
+points(DAPC_outliers[,2], DAPC_outliers[,3], col= "purple", pch=16)
+
+
+library("VennDiagram")
+
+venn.plot <- venn.diagram(list(A = lositan_outliers2[,1], B = PCAdapt_outliers[,1], C = DAPC_outliers[,1]), filename = "Venn1.tiff")
+
