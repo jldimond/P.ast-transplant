@@ -5,6 +5,18 @@
 #Set directory
 setwd("~/Documents/Projects/PoritesRADseq/Branching-Porites/analyses/ipyrad_analysis/data3_outfiles")
 
+#Load libraries
+library(ape, quietly = TRUE)
+library(reshape2, quietly = TRUE)
+library(ggplot2, quietly = TRUE)
+library(edgeR, quietly = TRUE)
+library(adegenet, quietly = TRUE)
+library(ade4, quietly = TRUE)
+library(hierfstat, quietly = TRUE)
+library(lmtest, quietly = TRUE)
+library(relaimpo, quietly = TRUE)
+library(superheat, quietly = TRUE)
+
 
 ## First we read in a .str file from the ipyrad output and subset the
 ## data to get only ddRAD data and extract only SNPs without missing data.
@@ -44,15 +56,12 @@ names2 <-as.vector(names)
 colnames(geno2) <- names2
 
 #Select samples of interest (some have very low sample sizes)
-
 geno3 <- geno2[,c(1,3:22,24:33,35:56)]
 
 #Matrix with only ddr loci **if including sample 101
-
 geno4 <- geno3[,c(1, (seq(2, 53, by = 2)))]
 
 #Get rid of rows with any NAs (9)
-
 geno5 <- geno4[!rowSums(geno4 == 9) >= 1,]
 
 #########################################################################
@@ -61,24 +70,13 @@ geno5 <- geno4[!rowSums(geno4 == 9) >= 1,]
 geno6 <- geno2[,c(3:20,24:33,35:56)]
 geno7 <- geno6[!rowSums(geno6 == 9) >= 1,]
 geno8 <- t(geno7)
-
-library("ape")
-
 epidd_dist <- dist.gene(geno8, method = "percent", pairwise.deletion = FALSE,
                         variance = FALSE)
-
-heatmap(epidd_dist)
-
 epidd_dist2 <- as.matrix(epidd_dist)
-
 epidd_dist3 <- epidd_dist2[c(seq(from =1, to = nrow(epidd_dist2), by= 2)), 
                            c(seq(from =2, to = ncol(epidd_dist2), by= 2))]
 
-library(reshape2)
-
 melted <- melt(epidd_dist3, na.rm = TRUE)
-
-library(ggplot2)
 
 ggplot(data = melted, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
@@ -88,12 +86,12 @@ ggplot(data = melted, aes(Var2, Var1, fill = value))+
   theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 9.5, hjust = 1))+
           labs(x= "EpiRADseq samples", y = "ddRADseq samples")+
   coord_fixed()
+ 
 
 ##############################################################################
 ## Next we read in a text file derived from the "Base Counts"
 ## .vcf output from ipyrad. Base counts are used for analysis of 
 ## EpiRADseq data.
-
 
 #Read in data file. The file "data3-2.txt" was generated from the notebook "VCF_readcounts.ipynb"
 Epidata <- read.delim("data3-2.txt", header=FALSE)
@@ -130,8 +128,7 @@ Epidata5 <- Epidata4[apply(Epidata4[c(seq(1, 50, by = 2))],1,
 #################################################################
 # Now use edgeR package to standardize EpiRAD count data by library size
 
-library("edgeR")
-#read in the file to edgeR
+#read in the file for edgeR
 counts <- DGEList(counts=Epidata5)
 counts$samples
 #TMM normalization (corrects for library size)
@@ -148,6 +145,8 @@ for (i in seq(1,49, by = 2)){
   plot(Epidata5[,i], Epidata5[,i+1], main = colnames(Epidata5[i]), col = "blue")
 }
 
+ 
+
 #plot normalized counts
 par(mfrow = c(5, 5))
 par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
@@ -156,7 +155,7 @@ for (i in seq(1,49, by = 2)){
   plot(counts2_cpm[,i], counts2_cpm[,i+1], main = colnames(counts2_cpm[i]), col = "blue")
 }
 
-
+ 
 ##################################################################
 #Using lm to get residuals
 
@@ -164,7 +163,6 @@ models <- list()
 for (i in seq(1,49, by = 2)){
   models[[colnames(counts2_cpm)[i]]] <- lm(counts2_cpm[,i+1] ~ counts2_cpm[,i])
 }
-
 
 residuals <- lapply(models, '[[', 2)
 resid_all <- as.data.frame(residuals)  
@@ -178,9 +176,9 @@ for (i in 1:25){
   abline(h = -1)
 }
 
-dev.off()
+ 
 
-#Plot to compare raw data to residuals
+#Plot to compare raw data to residuals for representative sample
 par(mfrow = c(3, 1))
 par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
 plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
@@ -194,7 +192,7 @@ mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
 mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
 mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
 
-dev.off()
+ 
 #################################################################
 #Make binary dataset of EpiRAD data based on residuals <=-1
 #All methylated loci converted to 1, nonmethylated to zero
@@ -204,7 +202,10 @@ resid_all_binary <- ifelse(resid_all<=-1, 1, 0)
 #proportion of methylated cutsites
 prop_methyl <- colSums(resid_all_binary) / nrow(resid_all_binary)
 dens <- density(prop_methyl)
+par(mfrow = c(1, 1))
+par(mar = c(5, 4, 4, 2))
 plot(dens, xlab = "Methylation", ylab = "Density", main = "")
+ 
 mean(prop_methyl)
 sd(prop_methyl)
 
@@ -215,10 +216,11 @@ resid2 <- resid1[rowSums(resid1) >= 1, ]
 
 ########################################################
 #Read in sample info (sample #, depth, symbiont type, habitat, diameter)
+
 sinfo <- read.table("sample_info.txt", colClasses = 'character', header = TRUE)
 #transpose
 tsinfo <- t(sinfo)
-#create vectors for diameter (note whether sample 101
+#create vector for diameter (note whether sample 101
 #was included or not)
 diam <- as.numeric(tsinfo[5,])
 
@@ -232,12 +234,10 @@ ddfit <- cmdscale(ddist,eig=TRUE, k=2)
 ddx <- ddfit$points[,1]
 ddy <- ddfit$points[,2]
 plot(ddx, ddy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
+ 
 
 ####################################################################
 #DAPC (discriminant analysis of principal components) of SNPs using adegenet
-
-library("adegenet")
-library("ade4")
 
 #Read in unlinked SNP file created at the top of this script.
 #Note: must manually delete 1st entry in 1st row of "data3-2.str"
@@ -253,18 +253,19 @@ groups <- find.clusters(genind1, max.n.clust=10, n.pca = 24,
 
 
 #Cross validation to determine number of PCs to retain
-xval <- xvalDapc(genind1@tab, groups$grp, n.pca.max = 25, training.set = 0.9,
-                 result = "groupMean", center = TRUE, scale = FALSE,
-                 n.pca = NULL, n.rep = 100, xval.plot = TRUE)
-dev.off() 
+#xval <- xvalDapc(genind1@tab, groups$grp, n.pca.max = 25, training.set = 0.9,
+                 #result = "groupMean", center = TRUE, scale = FALSE,
+                 #n.pca = NULL, n.rep = 100, xval.plot = TRUE)
+  
 #show max number of PCs to retain
-xval[2:6]
+#xval[2:6]
 
 #perform dapc using groups defined above group (groups$grp). Note 
 #that n.pca and n.da can be left blank and the program will query 
 #which values to choose.
 dapc1 <- dapc(genind1, pop = groups$grp, n.pca=9, n.da = 2)
 scatter(dapc1, posi.da = "bottomleft", scree.pca = TRUE, posi.pca = "bottomright")
+ 
 
 #Plot cluster vs. BIC and DAPC together
 par(mfrow = c(2, 1))
@@ -278,38 +279,21 @@ scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
         cell=0, cstar=0, clab=0, cex=3, solid=.4, bg="white", 
         leg=TRUE, posi.leg="topleft", col = cols)
 
-#look at loadings of individual loci
+ 
+
+#look at loadings of individual loci (with labels for 90th percentile)
 set.seed(4)
+par(mfrow = c(1, 1))
+par(mar = c(5, 4, 4, 2))
 contrib <- loadingplot(dapc1$var.contr, axis=1, 
                        threshold= quantile(dapc1$var.contr,0.90), lab.jitter=1)
-
+ 
 ###########################################################
-#Fst and basic stats for pops based on find.clusters
-
-library("hierfstat")
+#Fst for populations based on find.clusters
 
 pop(genind1) <- groups$grp
-
-#number of individuals per group
-summary(groups$grp)
-#observed heterozygosity
-summary(basic.stats(genind1)$Ho)
-#expected heterozygosity
-summary(basic.stats(genind1)$Hs)
-#inbreeding coefficient
-summary(basic.stats(genind1)$Fis)
-#pairwise Fst
-pairwise.fst(genind1)
-#stats for all loci
 genind1_df <- genind2hierfstat(genind1,pop=NULL)
-SNPstats <- basic.stats(genind1_df,diploid = TRUE)
-SNPstats2 <- SNPstats$perloc
-hist(SNPstats2$Fst, breaks = 40)
-plot(SNPstats2$Fst)
-#90th percentile Fst outliers
-outliers <- SNPstats2[SNPstats2$Fst >= quantile(SNPstats2$Fst,0.90,na.rm = TRUE),]
 
-groups <- as.vector(groups$grp)
 #pairwise Weir and Cockeram's Fst
 pairwise.WCfst(genind1_df,diploid=TRUE)
 
@@ -322,20 +306,21 @@ resid_t_binary <- t(resid_all_binary)
 #Find optimal number of clusters irrespective of species id
 #In this case, best to retain all PCs
 Epigroups <- find.clusters(resid_t_binary, max.n.clust=10, n.pca = 24,
-                           choose.n.clust = TRUE, criterion = "min")
+                           choose.n.clust = FALSE, criterion = "min")
 #Only one group found
 plot(Epigroups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16, 
      xaxp = c(1, 9, 4))
-
+ 
 
 ###########################################################
 #boxplot comparing branch diameter among groups from SNP dapc
 
-diam2 <- as.numeric(sinfo[,4])
+diam2 <- as.numeric(sinfo[,5])
 boxplot(diam2 ~ dapc1$assign, xlab = "Group", ylab =  "Diameter (mm)")
 text(1.376804, 22.84152, "a", cex = 1)
 text(1.990675, 13.63027, "b", cex = 1)
 text(2.985303, 20.00729, "b", cex = 1)
+ 
 
 #ANOVA
 #Run lm on diameter by group
@@ -343,7 +328,8 @@ model <- lm(diam2 ~ dapc1$assign)
 #Check model (qq plot, etc)
 par(mfrow=c(2,2))
 plot(model)
-library(lmtest)
+ 
+
 #Breush Pagan Test for heteroscadisticity
 bpt <- bptest(model)
 print(bpt)
@@ -360,6 +346,7 @@ print(ttest)
 
 #use DA one from DAPC as SNP variable
 scatter(dapc1,1,1)
+ 
 #convert DF coord to vector
 dapc1_da1 <- dapc1$ind.coord[,1]
 
@@ -369,7 +356,6 @@ fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$depth) + as.factor(sinfo$sym) +
                     as.factor(sinfo$habitat) +as.numeric(sinfo$diam)))
 
 #Relative importance of different variables in model
-library(relaimpo)
 relimp <- calc.relimp(fit,type=c("lmg","last","first"),rela=TRUE)
 print(relimp)
 
@@ -384,7 +370,7 @@ epifit <- cmdscale(epidist,eig=TRUE, k=2)
 epix <- epifit$points[,1]
 epiy <- epifit$points[,2]
 plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
-
+ 
 
 ############################################################################
 #heatmap of EpiRAD data 
@@ -410,8 +396,6 @@ SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "#D8ACF7")
 #heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$sample, labCol = FALSE,
 #        RowSideColors = myCols, col = c("#6baed6", "#08519c"))
 
-#devtools::install_github("rlbarter/superheat")
-library("superheat")
 
 #Matrix for heatmap
 heat.mat <- cbind(diam[c(2:10,12:27)], resid_t_diff)
@@ -425,7 +409,7 @@ superheat(heat.mat[,2:209], left.label.size = 0.11, bottom.label.size = 0.1,
           grid.hline.size = 0.1, yr.obs.col = rep("gray", 25),
           left.label.col = SNP_Groups, yr.axis.name = "Diameter (cm)",
           yr.plot.type = "bar")
-
+ 
 ############################################################################
 #Determine if diff. methylated loci are associated with SNPs with high 
 #loading scores in the DAPC
@@ -445,151 +429,71 @@ loci.all <- as.numeric(loci.2[,2])
 random.loci <- sample(loci.all, 151, replace=FALSE)
 random.loci.dens <- density(random.loci)
 loci.epi.dens <- density(loci.Epi2)
+
+par(mfrow = c(1, 1))
+par(mar = c(5, 4, 4, 2))
 plot(random.loci.dens, col = "blue", xlab = "Contribution to DAPC axis 1", main = NA)
 lines(loci.epi.dens, col = "red")
 legend(0.001667958, 2882.674, legend = c("random sample of loci", "differentially methylated loci"), 
        col = c("blue", "red"), bty = "n", lty = 1)
+ 
 
 #Compare distributions with Kolomogorov-Smirnov test
 
 ks <- ks.test(random.loci, loci.Epi2)
 ks$p.value
 
-############################################################################
-#Determine if diff. methylated loci are associated with Fst outliers & DAPC loadings
 
-locnames <- loci.2[,1]
-Fst_perloc <- as.data.frame(cbind(locnames, SNPstats2$Fst))
-Fst_perloc$V2 <- as.numeric(as.character(Fst_perloc$V2))
-Fst_outliers <- Fst_perloc[Fst_perloc$V2 >= quantile(Fst_perloc$V2,0.90,na.rm = TRUE),]
+############################################################
+#Compare pairwise genetic distance with pairwise epigenetic distance
 
-loci.3 <- as.data.frame(loci.2)
-loci.3$V2 <- as.numeric(as.character(loci.3$V2))
-contrib_outliers <- loci.3[loci.3$V2 >= quantile(loci.3$V2,0.90,na.rm = TRUE),]
+snpdist <- t(geno7[,c(seq(1,50, by = 2))])
 
-Fst_contrib <- as.matrix(merge(Fst_outliers,contrib_outliers, by.x = "locnames", by.y = "loci.names"))
+snpdist2 <- dist.gene(snpdist, method = "percent", pairwise.deletion = FALSE,
+                        variance = FALSE)
+snpdist3 <- as.matrix(snpdist2)
 
-
-
-############################################################################
-#Outlier detection with PCAdapt
-
-library("qvalue")
-library("pcadapt")
-
-dim(geno5)
-geno5 <- t(geno5)
-
-PCAadapt_file <- tempfile()
-write.table(x = geno5, file = PCAadapt_file, sep = " ", 
-            col.names = FALSE, row.names = FALSE)
-
-geno_file <- read4pcadapt(PCAadapt_file)
-
-x <- pcadapt(geno_file, K = 25)
-
-plot(x,option="screeplot")
-
-#K of 3-20 appears to be optimal
-
-x <- pcadapt(geno_file, K = 12)
-
-summary(x)
-
-plot(x,option="manhattan")
-
-plot(x,option="qqplot",threshold=0.1)
-
-hist(x$pvalues,xlab="p-values",main=NULL,breaks=50)
-
-plot(x,option="stat.distribution")
-
-pvalues <- as.data.frame(na.omit(cbind(locnames, x$pvalues)))
-
-pvalues$V2 <- as.numeric(as.character(pvalues$V2))
-
-qval <- qvalue(pvalues$V2)$qvalues
-
-qval.df <- cbind(pvalues, qval)
-alpha <- 0.05
-outliers <- subset(qval.df, qval < alpha)
-
-#Comparison with DAPC axis 1 contributions (merge datasets to find common loci)
-
-SNPstats3 <- as.data.frame(cbind(locnames, SNPstats2))
-contrib_outliers2 <- as.matrix(merge(SNPstats3, contrib_outliers, by.x = "locnames", by.y = "loci.names"))
-PCAdapt_outliers <- as.data.frame(merge(SNPstats3, outliers, by.x = "locnames", by.y = "locnames"))
-both_outliers <- as.matrix(merge(contrib_outliers2, PCAdapt_outliers, by.x = "locnames", by.y = "locnames"))
-plot(SNPstats3$Ho, SNPstats3$Fst, col= "gray", pch=16, xlab = "Observed heterozygosity", 
-     ylab = "Fst")
-points(contrib_outliers2[,2], contrib_outliers2[,8], col= "orange", pch=16)
-points(PCAdapt_outliers[,2], PCAdapt_outliers[,8], col= "green", pch=16)
-points(both_outliers[,2], both_outliers[,8], col= "purple", pch=16)
-legend(0.3946751, 0.8472581, legend = c("DAPC contrib.", "PCAdapt", "Both"), 
-          col = c("orange", "green", "purple"), pch =  16, bty = "n")
-
-#####################################################################################
-#Outlier detection with LOSITAN
-#First prep structure (.str) file that will allow conversion to Genepop format for LOSITAN
-
-#create DAPC group vector that can be bound with genotype matrix
-groupvec2 <- rep(groupvec, each = 2)
-
-structure1 <- as.data.frame(cbind(groupvec2, ddata9))
-write.table(structure1, file = "data3-3.str", row.names = rownames(structure1), col.names = colnames(structure1), quote = FALSE)
-
-###############################################################################
-
-#
-#Bare bones script to read LOSITAN data into R
-#
-# USAGE:
-# The script expects to find:
-#    a file called loci with locus He/Fst and
-#    a file called ci with the confidence intervals
-#
-# A PNG graphic will be generated called output.png
-#
-# The graphic and the tables generated are 'bare bones' in
-# the sense that they are provided as a STARTING POINT on
-# how to read the data into R.
-# User customization of the script is expected.
-# Feel free to change and use it at your discretion
-#
-#(C) 2008 Tiago Antao
-#This script is free software under the GPL v3
-
-plot_ci <- function(ci, bcolor, mcolor, tcolor) {
-  cpl <- read.table("lositan_ci", header=TRUE, sep = '\t')
-  lines(cpl[,1],cpl[,2], lty = "dotted", col=bcolor)
-  lines(cpl[,1],cpl[,3], lty = "solid", col=mcolor)
-  lines(cpl[,1],cpl[,4], lty = "dotted", col=tcolor)
+# Get lower triangle of the  matrix
+get_lower_tri<-function(snpdist3){
+  snpdist3[upper.tri(snpdist3)] <- NA
+  return(snpdist3)
+}
+# Get upper triangle of the  matrix
+get_upper_tri <- function(snpdist3){
+  snpdist3[lower.tri(snpdist3)]<- NA
+  return(snpdist3)
 }
 
-plot_loci <- function(loci, color, dot) {
-  cpl <- read.table("lositan_loci", header=TRUE, sep='\t')
-  points(cpl[,2],cpl[,3], col=color, pch = dot)
+upper_tri <- get_upper_tri(snpdist3)
+snpdist4 <- melt(upper_tri, na.rm = TRUE)
+snpdist5 <- snpdist4[!(snpdist4$value == 0) >= 1,]
+
+#Now do the same thing for methylation data
+
+resid_diff <- t(resid_t_diff)
+colnames(resid_diff) <- colnames(Epidata5[,c(seq(1,50, by = 2))])
+methdist <- t(resid_diff)
+methdist2 <- dist.gene(methdist, method = "percent", pairwise.deletion = FALSE,
+                        variance = FALSE)
+methdist3 <- as.matrix(methdist2)
+
+# Get lower triangle of the  matrix
+get_lower_tri<-function(methdist3){
+  methdist3[upper.tri(methdist3)] <- NA
+  return(methdist3)
+}
+# Get upper triangle of the  matrix
+get_upper_tri <- function(methdist3){
+  methdist3[lower.tri(methdist3)]<- NA
+  return(methdist3)
 }
 
+upper_tri <- get_upper_tri(methdist3)
+methdist4 <- melt(upper_tri, na.rm = TRUE)
+methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
+epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
 
-plot(-10, ylim=c(-0.1,1), xlim=c(0,0.7), xlab='He', ylab='Fst')
-plot_ci('ci', 'black', 'black', 'black')
-plot_loci('loci', "gray", 16)
-
-#Merge outliers
-lositan_outliers <- read.table("lositan_outliers")
-lositan_loci <- read.table("lositan_loci", header=TRUE, sep='\t')
-lositan_outliers2 <- as.matrix(merge(lositan_loci, lositan_outliers, by.x = "Locus", by.y = "V1"))
-PCAdapt_outliers <- as.matrix(merge(lositan_loci, outliers, by.x = "Locus", by.y = "locnames"))
-DAPC_outliers <- as.matrix(merge(lositan_loci, contrib_outliers, by.x = "Locus", by.y = "loci.names"))
-los_PCA_out <- as.matrix(merge(lositan_outliers2, PCAdapt_outliers, by.x = "Locus", by.y = "V1"))
-
-points(lositan_outliers2[,2], lositan_outliers2[,3], col= "orange", pch=16)
-points(PCAdapt_outliers[,2], PCAdapt_outliers[,3], col= "green", pch=16)
-points(DAPC_outliers[,2], DAPC_outliers[,3], col= "purple", pch=16)
-
-
-library("VennDiagram")
-
-venn.plot <- venn.diagram(list(A = lositan_outliers2[,1], B = PCAdapt_outliers[,1], C = DAPC_outliers[,1]), filename = "Venn1.tiff")
-
+plot(snpdist5[,3], methdist5[,3], ylim = c(0, 0.35), col = "blue", 
+     xlab = "Genetic distance", ylab = "Epigenetic distance")
+abline(epi_snp_lm)
+ 
