@@ -1,0 +1,1 @@
+This directory includes gel images from _Symbiodinium_ cp23S amplification.

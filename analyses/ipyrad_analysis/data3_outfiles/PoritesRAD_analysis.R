@@ -275,9 +275,9 @@ plot(groups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16,
 lines(groups$Kstat)
 cols <- c("red", "orange", "purple")
 scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
-        posi.da = "bottomleft", scree.pca = TRUE, posi.pca = "bottomright",
-        cell=0, cstar=0, clab=0, cex=3, solid=.4, bg="white", 
-        leg=TRUE, posi.leg="topleft", col = cols)
+        posi.da = "topleft", scree.pca = TRUE, posi.pca = "topright",
+        ratio.da=.28, cell=0, cstar=0, cex=3, solid=.4, bg="white", 
+        leg=TRUE, posi.leg="bottomleft", clab= 1, col = cols)
 
  
 
@@ -464,11 +464,12 @@ get_upper_tri <- function(snpdist3){
   return(snpdist3)
 }
 
+#get just the upper triangle of the matrix
 upper_tri <- get_upper_tri(snpdist3)
 snpdist4 <- melt(upper_tri, na.rm = TRUE)
 snpdist5 <- snpdist4[!(snpdist4$value == 0) >= 1,]
 
-#Now do the same thing for methylation data
+#Now the same thing for methylation data
 
 resid_diff <- t(resid_t_diff)
 colnames(resid_diff) <- colnames(Epidata5[,c(seq(1,50, by = 2))])
@@ -488,12 +489,22 @@ get_upper_tri <- function(methdist3){
   return(methdist3)
 }
 
+#get just the upper triangle of the matrix
 upper_tri <- get_upper_tri(methdist3)
 methdist4 <- melt(upper_tri, na.rm = TRUE)
 methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
+
+#linear regression of the snp and meth data
 epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
+summary(epi_snp_lm)
+#linear regression without outliers
+snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
+methdist6 <- methdist5[which(methdist5[,3]>0.159),]
+epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
+summary(epi_snp_lm_no_out)
 
 plot(snpdist5[,3], methdist5[,3], ylim = c(0, 0.35), col = "blue", 
      xlab = "Genetic distance", ylab = "Epigenetic distance")
-abline(epi_snp_lm)
+abline(epi_snp_lm, col = "orange")
+abline(epi_snp_lm_no_out, col = "green")
  
