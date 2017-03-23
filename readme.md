@@ -1,6 +1,6 @@
 #Branching _Porites_ project repository
 
-This is a repository to accompany the manuscript ["Genetic and epigenetic variation in Caribbean branching corals of the genus _Porites_: insights into sources of phenotypic variation"](https://docs.google.com/document/d/1JAGzOHCtuv8C1nVKQgOMc8U6daiojRl1MSwbEL1Hdak/edit?usp=sharing).
+This is a repository to accompany the manuscript ["Genetic and epigenetic variation in Caribbean branching corals of the genus _Porites_: insights into sources of phenotypic variation"](http://biorxiv.org/content/early/2017/03/22/119156).
 
 
 The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for 27 samples of branching _Porites_ spp. corals collected in Belize. There is taxonomic uncertainty whether Caribbean branching _Porites_ spp. comprise 3 different species or a single polymorphic species. The species are distinguished primarily by branch thickness.
