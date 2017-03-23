@@ -176,7 +176,6 @@ for (i in 1:25){
   abline(h = -1)
 }
 
- 
 
 #Plot to compare raw data to residuals for representative sample
 par(mfrow = c(3, 1))
@@ -276,8 +275,8 @@ lines(groups$Kstat)
 cols <- c("red", "orange", "purple")
 scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
         posi.da = "topleft", scree.pca = TRUE, posi.pca = "topright",
-        ratio.da=.28, cell=0, cstar=0, cex=3, solid=.4, bg="white", 
-        leg=TRUE, posi.leg="bottomleft", clab= 1, col = cols)
+        ratio.da=.25, cex=1.5, solid=1, bg="white", inset.solid=1,
+        leg=FALSE, col = cols)
 
  
 
@@ -497,6 +496,7 @@ methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
 #linear regression of the snp and meth data
 epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
 summary(epi_snp_lm)
+
 #linear regression without outliers
 snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
 methdist6 <- methdist5[which(methdist5[,3]>0.159),]
