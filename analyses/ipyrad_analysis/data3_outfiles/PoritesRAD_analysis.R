@@ -15,7 +15,7 @@ library(ade4, quietly = TRUE)
 library(hierfstat, quietly = TRUE)
 library(lmtest, quietly = TRUE)
 library(relaimpo, quietly = TRUE)
-library(superheat, quietly = TRUE)
+library(iheatmapr, quietly = TRUE)
 
 
 ## First we read in a .str file from the ipyrad output and subset the
@@ -81,9 +81,10 @@ melted <- melt(epidd_dist3, na.rm = TRUE)
 ggplot(data = melted, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
   scale_fill_gradient2(low = "white", high = "red", limit = c(0,0.35), space = "Lab", 
-                       name="SNP Mismatches") +
+                       name="SNP 
+Mismatches") +
   theme_minimal()+ 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 9.5, hjust = 1))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 9.5, hjust = 0))+
           labs(x= "EpiRADseq samples", y = "ddRADseq samples")+
   coord_fixed()
  
@@ -146,7 +147,6 @@ for (i in seq(1,49, by = 2)){
 }
 
  
-
 #plot normalized counts
 par(mfrow = c(5, 5))
 par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
@@ -172,24 +172,27 @@ par(mfrow = c(5, 5))
 par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
 
 for (i in 1:25){
-  plot(resid_all[,i], col = "blue", ylim = c(-10, 4))
+  plot(resid_all[,i], col = "blue", ylim = c(-10,4))
   abline(h = -1)
 }
 
 
 #Plot to compare raw data to residuals for representative sample
 par(mfrow = c(3, 1))
-par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
-plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+par(mar = c(3, 3, 1, 1), oma = c(1, 1, 1, 1))
+plot(Epidata5[,13], Epidata5[,14], xlab = "", ylab = "", 
      col = "blue", cex.axis = 1.1, cex.lab = 1.2, yaxp = c(0, 300, 3))
-plot(counts2_cpm[,13], counts2_cpm[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+title(xlab = "ddRAD read counts", ylab="EpiRAD read counts", mgp=c(2,2,0), cex.lab = 1.2)
+plot(counts2_cpm[,13], counts2_cpm[,14], xlab = "", ylab = "", 
      col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+title(xlab = "ddRAD read counts", ylab="EpiRAD read counts", mgp=c(2,2,0), cex.lab = 1.2)
 abline(models$`109_ddr`)
-plot(resid_all[,7], ylab = "Residual", col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+plot(resid_all[,7], ylab = "", col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+title(xlab = "Index", ylab="Residual", mgp=c(2,2,0), cex.lab = 1.2)
 abline(h = -1, lty = "dotted")
-mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
-mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
-mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
+mtext('A', side=3, line=-1, at = 0.18, outer=TRUE)
+mtext('B', side=3, line=-17.2, at = 0.18, outer=TRUE)
+mtext('C', side=3, line=-33.7, at = 0.18, outer=TRUE)
 
  
 #################################################################
@@ -275,8 +278,10 @@ lines(groups$Kstat)
 cols <- c("red", "orange", "purple")
 scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
         posi.da = "topleft", scree.pca = TRUE, posi.pca = "topright",
-        ratio.da=.25, cex=1.5, solid=1, bg="white", inset.solid=1,
-        leg=FALSE, col = cols)
+        ratio.da=.25, cex=1, solid=1, bg="white", inset.solid=1,
+        clabel = FALSE, leg=TRUE, col = cols, posi.leg = "bottomleft",
+        txt.leg = c("Group 1", "Group 2", "Group 3"))
+text(-54, -193, "Group2")
 
  
 
@@ -295,31 +300,68 @@ genind1_df <- genind2hierfstat(genind1,pop=NULL)
 
 #pairwise Weir and Cockeram's Fst
 pairwise.WCfst(genind1_df,diploid=TRUE)
-
-####################################################################
-#DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
-
-#This uses the binary methylation file generated above (must be transposed)
-resid_t_binary <- t(resid_all_binary)
-
-#Find optimal number of clusters irrespective of species id
-#In this case, best to retain all PCs
-Epigroups <- find.clusters(resid_t_binary, max.n.clust=10, n.pca = 24,
-                           choose.n.clust = FALSE, criterion = "min")
-#Only one group found
-plot(Epigroups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16, 
-     xaxp = c(1, 9, 4))
  
 
 ###########################################################
-#boxplot comparing branch diameter among groups from SNP dapc
+#barplot comparing branch diameter among groups from SNP dapc
 
 diam2 <- as.numeric(sinfo[,5])
-boxplot(diam2 ~ dapc1$assign, xlab = "Group", ylab =  "Diameter (mm)")
+diam_group <- cbind(dapc1$assign, diam2)
+mean <- aggregate(diam_group[,2],
+                    by = list(group = diam_group[,1]),
+                    FUN = mean)
+sd <- aggregate(diam_group[,2],
+                by = list(group = diam_group[,1]),
+                FUN = sd)
+number <- aggregate(diam_group[,2],
+                by = list(group = diam_group[,1]),
+                FUN = length)
+se <- sd$x / sqrt(number$x)
+
+bars <- barplot(mean$x, names.arg = mean$group, col = c("red", "orange", "purple"), 
+                ylim = c(0,20), ylab = "Branch Diameter (cm)", xlab = "Group",
+                axis.lty = 1)
+segments(bars, mean$x - se, bars,
+         mean$x + se, lwd = 1.5)
+arrows(bars, mean$x - se, bars,
+       mean$x + se, lwd = 1.5, angle = 90,
+       code = 3, length = 0.1)
 text(1.376804, 22.84152, "a", cex = 1)
 text(1.990675, 13.63027, "b", cex = 1)
 text(2.985303, 20.00729, "b", cex = 1)
- 
+
+### Multi-panel figure for genetic component
+mat <- rbind(c(1, 2), c(3, 4))
+layout(mat)
+par(mar = c(4, 4, 0.5, 0.5))
+plot(ddx, ddy, xlab="", ylab="", col = "blue")
+title(xlab = "Coordinate 1", ylab="Coordinate 2", mgp=c(2,2,0))
+plot(groups$Kstat, xlab = "", ylab = "", pch = 16, 
+     xaxp = c(1, 9, 4), col = "blue")
+title(xlab = "Groups (K)", ylab="BIC", mgp=c(2,2,0))
+lines(groups$Kstat, col = "blue")
+cols <- c("red", "orange", "purple")
+scatter(dapc1,posi.da = "topleft", scree.pca = TRUE, posi.pca = "topright",
+        cex=1, solid=1, bg="white", inset.solid=1,
+        clabel = FALSE, leg=FALSE, col = cols)
+text(-54, -170, "Group 2")
+text(0, -240, "Group 3")
+text(-12, 22, "Group 1")
+
+bars <- barplot(mean$x, names.arg = mean$group, col = c("red", "orange", "purple"), 
+                ylim = c(0,21), ylab = "", xlab = "",
+                axis.lty = 1)
+title(xlab = "Group", ylab="Branch Diameter (cm)", mgp=c(2,2,0))
+segments(bars, mean$x - se, bars,
+         mean$x + se, lwd = 1.5)
+arrows(bars, mean$x - se, bars,
+       mean$x + se, lwd = 1.5, angle = 90,
+       code = 3, length = 0.1)
+
+text(1.8770144, 20.01817, "a", cex = 1)
+text(0.670000, 11.0000, "b", cex = 1)
+text(3.1000, 13, "b", cex = 1)
+
 
 #ANOVA
 #Run lm on diameter by group
@@ -369,7 +411,35 @@ epifit <- cmdscale(epidist,eig=TRUE, k=2)
 epix <- epifit$points[,1]
 epiy <- epifit$points[,2]
 plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
- 
+
+####################################################################
+#DAPC (discriminant analysis of principal components) of Epi-loci using adegenet
+
+#This uses the binary methylation file generated above (must be transposed)
+resid_t_binary <- t(resid_all_binary)
+
+#Find optimal number of clusters irrespective of species id
+#In this case, best to retain all PCs
+Epigroups <- find.clusters(resid_t_binary, max.n.clust=10, n.pca = 24,
+                           choose.n.clust = FALSE, criterion = "min")
+#Only one group found
+plot(Epigroups$Kstat, xlab = "Groups (K)", ylab = "BIC", pch = 16, 
+     xaxp = c(1, 9, 4), col = "Blue")
+lines(Epigroups$Kstat, col = "Blue")
+
+#Multipanel figure for supplementary info
+
+par(mfrow = c(2, 1))
+par(mar = c(4, 4, 1, 1), oma = c(1, 1, 1, 1))
+
+plot(epix, epiy, xlab="", ylab="", col = "blue")
+title(xlab = "Coordinate 1", ylab="Coordinate 2", mgp=c(2,2,0), cex.lab = 1.0)
+plot(Epigroups$Kstat, xlab = "", ylab = "", pch = 16, 
+     xaxp = c(1, 9, 4), col = "Blue")
+title(xlab = "Groups (K)", ylab="BIC", mgp=c(2,2,0), cex.lab = 1.0)
+lines(Epigroups$Kstat, col = "Blue")
+mtext('A', side=3, line=-1, at = 0.22, outer=TRUE)
+mtext('B', side=3, line=-16, at = 0.22, outer=TRUE)
 
 ############################################################################
 #heatmap of EpiRAD data 
@@ -377,38 +447,31 @@ plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
 #transpose differentially expressed dataset
 resid_t_diff <- t(resid2)
 
-#color pallet matrix for SNP groups and branch diam groups (in between whitespace)
+row.names(resid_t_diff) <- sinfo$sample[c(2:10,12:27)]
+
+#vector for SNP groups
 groupvec <- as.character(groups$grp)
-SNP_Groups <- groupvec[c(2:10,12:27)]
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 1), "#FE9EA3")
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 2), "#FEDAA9")
-SNP_Groups <- replace(SNP_Groups, which(SNP_Groups == 3), "#D8ACF7")
-#col_pal = colorRampPalette(c('light gray', 'black'))(25+1)
-#data_seq = seq(min(as.numeric(sinfo[c(2:10,12:27),]$diam)), max(as.numeric(sinfo[c(2:10,12:27),]$diam)), length=25)
-#Diameter = col_pal[ cut(as.numeric(sinfo[c(2:10,12:27),]$diam), data_seq, include.lowest=T) ]
-#white <- colorRampPalette(colors= "#ffffff")
-#whitespace <- white(25)
-#myCols = cbind(SNP_Groups, whitespace, Diameter)
 
-#library("heatmap.plus")
+par(mar = c(7, 4, 1, 1))
+plot <- main_heatmap(resid_t_diff, name = "Methyl", colors = c("#6baed6", "#08519c"), orientation = "horizontal") %>%
+  add_col_clustering() %>%
+  add_row_clustering() %>%
+  add_row_labels(size = 0.3,font = list(size = 10)) %>% 
+  add_row_signal(as.numeric(sinfo$depth[c(2:10,12:27)]), "Depth<br>(m)", title = "Depth",
+                 size = 0.08, buffer = 0.015) %>%
+  add_row_signal(as.numeric(sinfo$diam[c(2:10,12:27)]), "Diameter<br>(mm)", title = "Diam",
+                 size = 0.08, buffer = 0.015) %>%
+  add_row_groups(sinfo$habitat[c(2:10,12:27)], "Habitat", title = "Habitat",
+                 size = 0.08, buffer = 0.015, colors = c("#66c2a5", "#fc8d62", "#80b1d3",
+                                                         "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3")) %>%
+  add_row_groups(sinfo$sym[c(2:10,12:27)], "Symbiont<br>Clade", title = "Sym",
+                 size = 0.08, buffer = 0.015) %>%
+  add_row_groups(groupvec[c(2:10,12:27)], "SNP<br>Group", title = "SNP", colors = c("red", "orange", "purple"),
+                 size = 0.08, buffer = 0.015)
 
-#heatmap.plus(resid_t_diff, scale = "none", labRow = sinfo$sample, labCol = FALSE,
-#        RowSideColors = myCols, col = c("#6baed6", "#08519c"))
-
-
-#Matrix for heatmap
-heat.mat <- cbind(diam[c(2:10,12:27)], resid_t_diff)
-rownames(heat.mat) <- sinfo$sample[c(2:10,12:27)]
-
-superheat(heat.mat[,2:209], left.label.size = 0.11, bottom.label.size = 0.1,
-          scale = FALSE, row.dendrogram = FALSE, col.dendrogram = FALSE,
-          pretty.order.rows = TRUE, pretty.order.cols = TRUE,
-          heat.pal = c("#6baed6", "#08519c"), yr = heat.mat[,1], 
-          legend = FALSE, grid.hline.col = "black",
-          grid.hline.size = 0.1, yr.obs.col = rep("gray", 25),
-          left.label.col = SNP_Groups, yr.axis.name = "Diameter (cm)",
-          yr.plot.type = "bar")
- 
+plot
+plot %>% save_iheatmap("MethylHeatMap.pdf")                                       
+                                                          
 ############################################################################
 #Determine if diff. methylated loci are associated with SNPs with high 
 #loading scores in the DAPC
@@ -503,8 +566,17 @@ methdist6 <- methdist5[which(methdist5[,3]>0.159),]
 epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
 summary(epi_snp_lm_no_out)
 
+par(mar = c(4,5,0,0))
+par(fig = c(0,1,0,1))
+plot(snpdist6[,3], methdist6[,3], ylim = c(0.15, 0.35), xlim = c (0.15, 0.35), col = "blue", 
+     xlab = "Genetic distance", ylab = "Epigenetic distance", cex.axis = 1.3, cex.lab = 1.5)
+abline(epi_snp_lm_no_out)
+par(fig = c(0.67, 1, 0.67, 1), new = T)  
 plot(snpdist5[,3], methdist5[,3], ylim = c(0, 0.35), col = "blue", 
-     xlab = "Genetic distance", ylab = "Epigenetic distance")
-abline(epi_snp_lm, col = "orange")
-abline(epi_snp_lm_no_out, col = "green")
- 
+     xlab = "", ylab = "", axes = FALSE)
+axis(side = 1, at = c(0,0.15,0.3), tcl = -0.2, mgp=c(0.5,0.5,0))
+axis(side = 2, at = c(0,0.15,0.3), tcl = -0.2, mgp=c(0.5,0.5,0))
+box()
+
+cor(snpdist5[,3], methdist5[,3], method = "spearman")
+cor(snpdist6[,3], methdist6[,3], method = "spearman")
