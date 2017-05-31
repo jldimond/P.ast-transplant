@@ -1,3 +1,11 @@
+#'---  
+#'title: "Porites RADseq analysis"  
+#'author: "James Dimond"  
+#'date: "`r format(Sys.Date())`"
+#'output: html_document 
+#'keep_md: true  
+#'---  
+
 ############################################################################
 ## This script analyzes ddRADseq and EpiRADseq data in branching Porites spp.
 
@@ -470,41 +478,8 @@ plot <- main_heatmap(resid_t_diff, name = "Methyl", colors = c("#6baed6", "#0851
                  size = 0.08, buffer = 0.015)
 
 plot
-plot %>% save_iheatmap("MethylHeatMap.pdf")                                       
+#plot %>% save_iheatmap("MethylHeatMap.pdf")                                       
                                                           
-############################################################################
-#Determine if diff. methylated loci are associated with SNPs with high 
-#loading scores in the DAPC
-
-cont <- as.matrix(dapc1$var.contr[,1])
-loci.names <- gsub("\\..*","",rownames(cont))
-loci.1 <- cbind(loci.names, cont)
-loci.2 <-  loci.1[!duplicated(loci.1[,1]),]
-
-loci.Epi <- as.matrix(rownames(resid2))
-loci.both <- as.matrix(merge(loci.2,loci.Epi, by.x = "loci.names", by.y = "V1"))
-loci.Epi2 <- as.numeric(loci.both[,2])
-loci.all <- as.numeric(loci.2[,2])
-
-# Compare epi loci to random sample, plot density curves
-
-random.loci <- sample(loci.all, 151, replace=FALSE)
-random.loci.dens <- density(random.loci)
-loci.epi.dens <- density(loci.Epi2)
-
-par(mfrow = c(1, 1))
-par(mar = c(5, 4, 4, 2))
-plot(random.loci.dens, col = "blue", xlab = "Contribution to DAPC axis 1", main = NA)
-lines(loci.epi.dens, col = "red")
-legend(0.001667958, 2882.674, legend = c("random sample of loci", "differentially methylated loci"), 
-       col = c("blue", "red"), bty = "n", lty = 1)
- 
-
-#Compare distributions with Kolomogorov-Smirnov test
-
-ks <- ks.test(random.loci, loci.Epi2)
-ks$p.value
-
 
 ############################################################
 #Compare pairwise genetic distance with pairwise epigenetic distance

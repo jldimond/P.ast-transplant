@@ -1,6 +1,5 @@
 
-
-```r
+```{r }
 ############################################################################
 ## This script analyzes ddRADseq and EpiRADseq data in branching Porites spp.
 
@@ -90,11 +89,8 @@ Mismatches") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, size = 9.5, hjust = 0))+
           labs(x= "EpiRADseq samples", y = "ddRADseq samples")+
   coord_fixed()
-```
+ 
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
-
-```r
 ##############################################################################
 ## Next we read in a text file derived from the "Base Counts"
 ## .vcf output from ipyrad. Base counts are used for analysis of 
@@ -138,123 +134,9 @@ Epidata5 <- Epidata4[apply(Epidata4[c(seq(1, 50, by = 2))],1,
 #read in the file for edgeR
 counts <- DGEList(counts=Epidata5)
 counts$samples
-```
-
-```
-##         group lib.size norm.factors
-## 103_ddr     1   411254            1
-## 103_epi     1   368277            1
-## 104_ddr     1   307000            1
-## 104_epi     1   115373            1
-## 105_ddr     1   608489            1
-## 105_epi     1   249848            1
-## 106_ddr     1   564488            1
-## 106_epi     1   429368            1
-## 107_ddr     1    64310            1
-## 107_epi     1    50632            1
-## 108_ddr     1   186890            1
-## 108_epi     1   114820            1
-## 109_ddr     1   181319            1
-## 109_epi     1   118132            1
-## 110_ddr     1   471251            1
-## 110_epi     1   230335            1
-## 111_ddr     1   376482            1
-## 111_epi     1   352327            1
-## 114_ddr     1   108736            1
-## 114_epi     1   135584            1
-## 115_ddr     1   195523            1
-## 115_epi     1   215589            1
-## 116_ddr     1   170836            1
-## 116_epi     1   104142            1
-## 117_ddr     1   243369            1
-## 117_epi     1   178226            1
-## 118_ddr     1   558897            1
-## 118_epi     1   269466            1
-## 121_ddr     1   283137            1
-## 121_epi     1   228322            1
-## 122_ddr     1   474335            1
-## 122_epi     1   285211            1
-## 123_ddr     1   386564            1
-## 123_epi     1   165287            1
-## 124_ddr     1   186061            1
-## 124_epi     1   146663            1
-## 125_ddr     1   184894            1
-## 125_epi     1   265467            1
-## 126_ddr     1   222104            1
-## 126_epi     1   219826            1
-## 127_ddr     1   366450            1
-## 127_epi     1   584926            1
-## 128_ddr     1   353694            1
-## 128_epi     1   233223            1
-## 129_ddr     1   268912            1
-## 129_epi     1   330763            1
-## 130_ddr     1   273323            1
-## 130_epi     1   192190            1
-## 131_ddr     1   252362            1
-## 131_epi     1   297413            1
-```
-
-```r
 #TMM normalization (corrects for library size)
 counts2 <- calcNormFactors(counts)
 counts2$samples
-```
-
-```
-##         group lib.size norm.factors
-## 103_ddr     1   411254    0.9331087
-## 103_epi     1   368277    1.1020241
-## 104_ddr     1   307000    0.9614042
-## 104_epi     1   115373    1.1227085
-## 105_ddr     1   608489    0.9344246
-## 105_epi     1   249848    1.1064124
-## 106_ddr     1   564488    0.9057313
-## 106_epi     1   429368    1.1064527
-## 107_ddr     1    64310    0.9387256
-## 107_epi     1    50632    1.1133242
-## 108_ddr     1   186890    0.9251993
-## 108_epi     1   114820    1.0814023
-## 109_ddr     1   181319    0.9007711
-## 109_epi     1   118132    1.1020525
-## 110_ddr     1   471251    0.9287103
-## 110_epi     1   230335    1.1022461
-## 111_ddr     1   376482    0.9248727
-## 111_epi     1   352327    1.0871394
-## 114_ddr     1   108736    0.9113329
-## 114_epi     1   135584    1.1206588
-## 115_ddr     1   195523    0.8873901
-## 115_epi     1   215589    1.1100679
-## 116_ddr     1   170836    0.8648593
-## 116_epi     1   104142    1.0031083
-## 117_ddr     1   243369    0.9130984
-## 117_epi     1   178226    1.0855159
-## 118_ddr     1   558897    0.9245375
-## 118_epi     1   269466    1.0641612
-## 121_ddr     1   283137    0.9053579
-## 121_epi     1   228322    1.0496501
-## 122_ddr     1   474335    0.9377433
-## 122_epi     1   285211    1.0965725
-## 123_ddr     1   386564    0.9073029
-## 123_epi     1   165287    1.0842226
-## 124_ddr     1   186061    0.9211635
-## 124_epi     1   146663    1.0911060
-## 125_ddr     1   184894    0.9083563
-## 125_epi     1   265467    1.1190389
-## 126_ddr     1   222104    0.8763117
-## 126_epi     1   219826    1.1291995
-## 127_ddr     1   366450    0.8974457
-## 127_epi     1   584926    1.1031081
-## 128_ddr     1   353694    0.8864402
-## 128_epi     1   233223    1.1008290
-## 129_ddr     1   268912    0.8859438
-## 129_epi     1   330763    1.1200127
-## 130_ddr     1   273323    0.9133991
-## 130_epi     1   192190    1.0938135
-## 131_ddr     1   252362    0.9323836
-## 131_epi     1   297413    1.1019866
-```
-
-```r
 #extract normalized counts
 counts2_cpm <- cpm(counts2, normalized.lib.sizes=TRUE, log=TRUE)
 
@@ -265,11 +147,8 @@ par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
 for (i in seq(1,49, by = 2)){
   plot(Epidata5[,i], Epidata5[,i+1], main = colnames(Epidata5[i]), col = "blue")
 }
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-2.png)
-
-```r
+ 
 #plot normalized counts
 par(mfrow = c(5, 5))
 par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
@@ -277,11 +156,8 @@ par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5))
 for (i in seq(1,49, by = 2)){
   plot(counts2_cpm[,i], counts2_cpm[,i+1], main = colnames(counts2_cpm[i]), col = "blue")
 }
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-3.png)
-
-```r
+ 
 ##################################################################
 #Using lm to get residuals
 
@@ -301,11 +177,8 @@ for (i in 1:25){
   plot(resid_all[,i], col = "blue", ylim = c(-10,4))
   abline(h = -1)
 }
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-4.png)
 
-```r
 #Plot to compare raw data to residuals for representative sample
 par(mfrow = c(3, 1))
 par(mar = c(3, 3, 1, 1), oma = c(1, 1, 1, 1))
@@ -322,11 +195,8 @@ abline(h = -1, lty = "dotted")
 mtext('A', side=3, line=-1, at = 0.18, outer=TRUE)
 mtext('B', side=3, line=-17.2, at = 0.18, outer=TRUE)
 mtext('C', side=3, line=-33.7, at = 0.18, outer=TRUE)
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-5.png)
-
-```r
+ 
 #################################################################
 #Make binary dataset of EpiRAD data based on residuals <=-1
 #All methylated loci converted to 1, nonmethylated to zero
@@ -339,27 +209,10 @@ dens <- density(prop_methyl)
 par(mfrow = c(1, 1))
 par(mar = c(5, 4, 4, 2))
 plot(dens, xlab = "Methylation", ylab = "Density", main = "")
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-6.png)
-
-```r
+ 
 mean(prop_methyl)
-```
-
-```
-## [1] 0.1835673
-```
-
-```r
 sd(prop_methyl)
-```
 
-```
-## [1] 0.005443003
-```
-
-```r
 #Get only rows that are differentially methylated
 resid1 <- resid_all_binary[rowSums(resid_all_binary) < 25, ]
 resid2 <- resid1[rowSums(resid1) >= 1, ]
@@ -385,11 +238,8 @@ ddfit <- cmdscale(ddist,eig=TRUE, k=2)
 ddx <- ddfit$points[,1]
 ddy <- ddfit$points[,2]
 plot(ddx, ddy, xlab="Coordinate 1", ylab="Coordinate 2", col = "blue")
-```
+ 
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-7.png)
-
-```r
 ####################################################################
 #DAPC (discriminant analysis of principal components) of SNPs using adegenet
 
@@ -399,14 +249,7 @@ genind1 <- read.structure("data3-2.str", n.ind = 27, n.loc = 1113,
                           onerowperind = FALSE, col.lab = 1, 
                           NA.char = "-9", ask = FALSE, 
                           row.marknames = 1, quiet = FALSE)
-```
 
-```
-## 
-##  Converting data from a STRUCTURE .stru file to a genind object...
-```
-
-```r
 #Find optimal number of clusters irrespective of species id
 #In this case, best to retain all PCs
 groups <- find.clusters(genind1, max.n.clust=10, n.pca = 24,
@@ -426,11 +269,8 @@ groups <- find.clusters(genind1, max.n.clust=10, n.pca = 24,
 #which values to choose.
 dapc1 <- dapc(genind1, pop = groups$grp, n.pca=9, n.da = 2)
 scatter(dapc1, posi.da = "bottomleft", scree.pca = TRUE, posi.pca = "bottomright")
-```
+ 
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-8.png)
-
-```r
 #Plot cluster vs. BIC and DAPC together
 par(mfrow = c(2, 1))
 par(mar = c(6, 4.5, 2, 2), oma = c(1, 1, 1, 1))
@@ -444,22 +284,16 @@ scatter(dapc1, #label.inds = list(air = 0.1, pch = 0.5),
         clabel = FALSE, leg=TRUE, col = cols, posi.leg = "bottomleft",
         txt.leg = c("Group 1", "Group 2", "Group 3"))
 text(-54, -193, "Group2")
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-9.png)
+ 
 
-```r
 #look at loadings of individual loci (with labels for 90th percentile)
 set.seed(4)
 par(mfrow = c(1, 1))
 par(mar = c(5, 4, 4, 2))
 contrib <- loadingplot(dapc1$var.contr, axis=1, 
                        threshold= quantile(dapc1$var.contr,0.90), lab.jitter=1)
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-10.png)
-
-```r
+ 
 ###########################################################
 #Fst for populations based on find.clusters
 
@@ -468,16 +302,8 @@ genind1_df <- genind2hierfstat(genind1,pop=NULL)
 
 #pairwise Weir and Cockeram's Fst
 pairwise.WCfst(genind1_df,diploid=TRUE)
-```
+ 
 
-```
-##           2         3         1
-## 2        NA 0.1942800 0.2069206
-## 3 0.1942800        NA 0.1907835
-## 1 0.2069206 0.1907835        NA
-```
-
-```r
 ###########################################################
 #barplot comparing branch diameter among groups from SNP dapc
 
@@ -505,11 +331,7 @@ arrows(bars, mean$x - se, bars,
 text(1.376804, 22.84152, "a", cex = 1)
 text(1.990675, 13.63027, "b", cex = 1)
 text(2.985303, 20.00729, "b", cex = 1)
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-11.png)
-
-```r
 ### Multi-panel figure for genetic component
 mat <- rbind(c(1, 2), c(3, 4))
 layout(mat)
@@ -541,24 +363,13 @@ arrows(bars, mean$x - se, bars,
 text(1.8770144, 20.01817, "a", cex = 1)
 text(0.670000, 11.0000, "b", cex = 1)
 text(3.1000, 13, "b", cex = 1)
-```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-12.png)
 
-```r
 #ANOVA
 #Run lm on diameter by group
 model <- lm(diam2 ~ dapc1$assign)
 #Check model (qq plot, etc)
 dev.off()
-```
-
-```
-## null device 
-##           1
-```
-
-```r
 par(mfrow=c(2,2))
 plot(model)
  
@@ -566,61 +377,13 @@ plot(model)
 #Breush Pagan Test for heteroscadisticity
 bpt <- bptest(model)
 print(bpt)
-```
-
-```
-## 
-## 	studentized Breusch-Pagan test
-## 
-## data:  model
-## BP = 3.724, df = 2, p-value = 0.1554
-```
-
-```r
 #Run ANOVA
 aov <- anova(model)
 print(summary(aov))
-```
-
-```
-##        Df           Sum Sq         Mean Sq          F value     
-##  Min.   : 2.0   Min.   :242.7   Min.   : 10.11   Min.   :17.38  
-##  1st Qu.: 7.5   1st Qu.:269.9   1st Qu.: 51.52   1st Qu.:17.38  
-##  Median :13.0   Median :297.1   Median : 92.92   Median :17.38  
-##  Mean   :13.0   Mean   :297.1   Mean   : 92.92   Mean   :17.38  
-##  3rd Qu.:18.5   3rd Qu.:324.3   3rd Qu.:134.33   3rd Qu.:17.38  
-##  Max.   :24.0   Max.   :351.5   Max.   :175.74   Max.   :17.38  
-##                                                  NA's   :1      
-##      Pr(>F)        
-##  Min.   :2.16e-05  
-##  1st Qu.:2.16e-05  
-##  Median :2.16e-05  
-##  Mean   :2.16e-05  
-##  3rd Qu.:2.16e-05  
-##  Max.   :2.16e-05  
-##  NA's   :1
-```
-
-```r
 #pairwise t test with bonferonni adjustment
 ttest <- pairwise.t.test(diam2, dapc1$assign, p.adj = "bonf")
 print(ttest)
-```
 
-```
-## 
-## 	Pairwise comparisons using t tests with pooled SD 
-## 
-## data:  diam2 and dapc1$assign 
-## 
-##   1       2      
-## 2 0.00012 -      
-## 3 0.72411 0.00015
-## 
-## P value adjustment method: bonferroni
-```
-
-```r
 ######################################################################
 #Multiple regression: test linear model of depth, symbiont type, and
 #branch diameter vs. dapc of SNPs using a single DA from the model above
@@ -638,67 +401,9 @@ fit <- lm(na.omit(dapc1_da1 ~ as.numeric(sinfo$depth) + as.factor(sinfo$sym) +
 
 #Relative importance of different variables in model
 relimp <- calc.relimp(fit,type=c("lmg","last","first"),rela=TRUE)
-```
-
-```
-## Warning in rev(variances[[p]]) - variances[[p + 1]]: Recycling array of length 1 in vector-array arithmetic is deprecated.
-##   Use c() or as.vector() instead.
-```
-
-```r
 print(relimp)
-```
 
-```
-## Response variable: dapc1_da1 
-## Total response variance: 111.4157 
-## Analysis based on 24 observations 
-## 
-## 10 Regressors: 
-## Some regressors combined in groups: 
-##         Group  as.factor(sinfo$habitat) : `as.factor(sinfo$habitat)`IRS `as.factor(sinfo$habitat)`LAG `as.factor(sinfo$habitat)`LSG `as.factor(sinfo$habitat)`MGR `as.factor(sinfo$habitat)`OR `as.factor(sinfo$habitat)`TRT `as.factor(sinfo$habitat)`USG 
-## 
-##  Relative importance of 4 (groups of) regressors assessed: 
-##  as.factor(sinfo$habitat) as.numeric(sinfo$depth) as.factor(sinfo$sym) as.numeric(sinfo$diam) 
-##  
-## Proportion of variance explained by model: 59.78%
-## Metrics are normalized to sum to 100% (rela=TRUE). 
-## 
-## Relative importance metrics: 
-## 
-##                                  lmg        last        first
-## as.factor(sinfo$habitat) 0.360032801 0.248088828 0.3979916890
-## as.numeric(sinfo$depth)  0.006331622 0.016010070 0.0006968082
-## as.factor(sinfo$sym)     0.028222869 0.006960101 0.0397377002
-## as.numeric(sinfo$diam)   0.605412708 0.728941001 0.5615738027
-## 
-## Average coefficients for different model sizes: 
-## 
-##                                    1group    2groups     3groups
-## as.numeric(sinfo$depth)       -0.04106976  0.3612993   0.7207189
-## as.factor(sinfo$sym)          -5.26379943 -4.4391303  -1.8675292
-## `as.factor(sinfo$habitat)`IRS 10.11381996  2.5221526  -6.1484200
-## `as.factor(sinfo$habitat)`LAG  4.57369678  2.3228383   0.4543486
-## `as.factor(sinfo$habitat)`LSG  0.29692459 -3.0775287  -7.2443995
-## `as.factor(sinfo$habitat)`MGR 14.95559715 10.0751922   4.5095376
-## `as.factor(sinfo$habitat)`OR   5.06502902 -1.1586271  -8.4478465
-## `as.factor(sinfo$habitat)`TRT 16.44519348 11.8428627   8.6374582
-## `as.factor(sinfo$habitat)`USG -4.10793568 -7.9544324 -12.6019046
-## as.numeric(sinfo$diam)        -1.51594178 -1.4863554  -1.4820249
-##                                   4groups
-## as.numeric(sinfo$depth)         0.8209180
-## as.factor(sinfo$sym)            2.2019166
-## `as.factor(sinfo$habitat)`IRS -12.0090397
-## `as.factor(sinfo$habitat)`LAG  -0.2276446
-## `as.factor(sinfo$habitat)`LSG -10.1700291
-## `as.factor(sinfo$habitat)`MGR  -1.7712753
-## `as.factor(sinfo$habitat)`OR  -12.4797810
-## `as.factor(sinfo$habitat)`TRT   6.9452793
-## `as.factor(sinfo$habitat)`USG -16.1149857
-## as.numeric(sinfo$diam)         -1.4947708
-```
 
-```r
 ###########################################################################
 #MDS of EpiRAD data
 
@@ -728,14 +433,6 @@ lines(Epigroups$Kstat, col = "Blue")
 #Multipanel figure for supplementary info
 
 dev.off()
-```
-
-```
-## null device 
-##           1
-```
-
-```r
 par(mfrow = c(2, 1))
 par(mar = c(4, 4, 1, 1), oma = c(1, 1, 1, 1))
 
@@ -777,11 +474,6 @@ plot <- main_heatmap(resid_t_diff, name = "Methyl", colors = c("#6baed6", "#0851
                  size = 0.08, buffer = 0.015)
 
 plot
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-13.png)
-
-```r
 #plot %>% save_iheatmap("MethylHeatMap.pdf")                                       
                                                           
 
@@ -838,59 +530,13 @@ methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
 #linear regression of the snp and meth data
 epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
 summary(epi_snp_lm)
-```
 
-```
-## 
-## Call:
-## lm(formula = snpdist5[, 3] ~ methdist5[, 3])
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.197169 -0.023920 -0.002375  0.027497  0.109394 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)     0.15182    0.01699   8.938  < 2e-16 ***
-## methdist5[, 3]  0.32117    0.07290   4.406 1.47e-05 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.04157 on 298 degrees of freedom
-## Multiple R-squared:  0.06115,	Adjusted R-squared:  0.058 
-## F-statistic: 19.41 on 1 and 298 DF,  p-value: 1.473e-05
-```
-
-```r
 #linear regression without outliers
 snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
 methdist6 <- methdist5[which(methdist5[,3]>0.159),]
 epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
 summary(epi_snp_lm_no_out)
-```
 
-```
-## 
-## Call:
-## lm(formula = snpdist6[, 3] ~ methdist6[, 3])
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.081780 -0.023342 -0.004919  0.026076  0.110650 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)     0.17822    0.01610  11.071  < 2e-16 ***
-## methdist6[, 3]  0.21265    0.06894   3.084  0.00223 ** 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.03837 on 296 degrees of freedom
-## Multiple R-squared:  0.03114,	Adjusted R-squared:  0.02786 
-## F-statistic: 9.513 on 1 and 296 DF,  p-value: 0.002233
-```
-
-```r
 par(mar = c(4,5,0,0))
 par(fig = c(0,1,0,1))
 plot(snpdist6[,3], methdist6[,3], ylim = c(0.15, 0.35), xlim = c (0.15, 0.35), col = "blue", 
@@ -904,17 +550,6 @@ axis(side = 2, at = c(0,0.15,0.3), tcl = -0.2, mgp=c(0.5,0.5,0))
 box()
 
 cor(snpdist5[,3], methdist5[,3], method = "spearman")
-```
-
-```
-## [1] 0.1892272
-```
-
-```r
 cor(snpdist6[,3], methdist6[,3], method = "spearman")
-```
-
-```
-## [1] 0.1727723
 ```
 
