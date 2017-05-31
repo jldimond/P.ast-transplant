@@ -34,21 +34,34 @@ In essence the analysis involves (1) analysis of single nucleotide polymorphisms
 This study made use of the following software:
 
 ipyrad v0.3.41
+
 SnpEff(SnpSift) v4.2
+
 R v3.1.3
+
 RStudio v1.0.136
+
 
 #### R packages:
 
 ape v3.4
+
 edgeR v3.8.6
+
 adegenet v2.0.1
+
 ade4 v1.7-4
+
 hierfstat v0.04-22
+
 lmtest v0.9-34
+
 relaimpo v2.2-2
+
 iheatmapr v0.2.5
+
 reshape2 v1.4.2
+
 ggplot2 v2.2.1
 
 
