@@ -369,7 +369,6 @@ text(3.1000, 13, "b", cex = 1)
 #Run lm on diameter by group
 model <- lm(diam2 ~ dapc1$assign)
 #Check model (qq plot, etc)
-dev.off()
 par(mfrow=c(2,2))
 plot(model)
  
@@ -432,7 +431,6 @@ lines(Epigroups$Kstat, col = "Blue")
 
 #Multipanel figure for supplementary info
 
-dev.off()
 par(mfrow = c(2, 1))
 par(mar = c(4, 4, 1, 1), oma = c(1, 1, 1, 1))
 

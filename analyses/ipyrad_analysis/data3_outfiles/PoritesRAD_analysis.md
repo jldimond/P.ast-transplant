@@ -550,19 +550,13 @@ text(3.1000, 13, "b", cex = 1)
 #Run lm on diameter by group
 model <- lm(diam2 ~ dapc1$assign)
 #Check model (qq plot, etc)
-dev.off()
-```
-
-```
-## null device 
-##           1
-```
-
-```r
 par(mfrow=c(2,2))
 plot(model)
- 
+```
 
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-13.png)
+
+```r
 #Breush Pagan Test for heteroscadisticity
 bpt <- bptest(model)
 print(bpt)
@@ -727,16 +721,12 @@ lines(Epigroups$Kstat, col = "Blue")
 
 #Multipanel figure for supplementary info
 
-dev.off()
+par(mfrow = c(2, 1))
 ```
 
-```
-## null device 
-##           1
-```
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-14.png)
 
 ```r
-par(mfrow = c(2, 1))
 par(mar = c(4, 4, 1, 1), oma = c(1, 1, 1, 1))
 
 plot(epix, epiy, xlab="", ylab="", col = "blue")
@@ -747,7 +737,11 @@ title(xlab = "Groups (K)", ylab="BIC", mgp=c(2,2,0), cex.lab = 1.0)
 lines(Epigroups$Kstat, col = "Blue")
 mtext('A', side=3, line=-1, at = 0.22, outer=TRUE)
 mtext('B', side=3, line=-16, at = 0.22, outer=TRUE)
+```
 
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-15.png)
+
+```r
 ############################################################################
 #heatmap of EpiRAD data 
 
@@ -779,7 +773,7 @@ plot <- main_heatmap(resid_t_diff, name = "Methyl", colors = c("#6baed6", "#0851
 plot
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-13.png)
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-16.png)
 
 ```r
 #plot %>% save_iheatmap("MethylHeatMap.pdf")                                       
@@ -902,7 +896,11 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0, 0.35), col = "blue",
 axis(side = 1, at = c(0,0.15,0.3), tcl = -0.2, mgp=c(0.5,0.5,0))
 axis(side = 2, at = c(0,0.15,0.3), tcl = -0.2, mgp=c(0.5,0.5,0))
 box()
+```
 
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-17.png)
+
+```r
 cor(snpdist5[,3], methdist5[,3], method = "spearman")
 ```
 
