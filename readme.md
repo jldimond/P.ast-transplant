@@ -11,10 +11,12 @@ The goal is to evaluate whether DNA methylation levels in these corals change in
 
 One-year common garden transplantation experiment on Belize Barrier Reef
  - colonies moved to common garden from 10-20 km away
+ 
 ddRADseq coupled with EpiRADseq (ddRAD variant) to assess methylation
  - EpiRADseq uses methylation-sensitive restriction enzyme
  - Methylation estimated by read counts 
  - Reads low/absent in EpiRADseq library = methylated
+ 
 De novo assembly using ipyrad (no P. astreoides genome available yet)
  - Symbiodinium Clade A genome used to remove symbiont reads
 
