@@ -36,3 +36,5 @@
 *.vcf
 
 data3.txt
+*.nex
+*.loci

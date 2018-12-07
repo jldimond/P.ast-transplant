@@ -1,0 +1,12 @@
+
+VCFtools - 0.1.15
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf data2.vcf
+	--extract-FORMAT-info DP
+
+After filtering, kept 96 out of 96 Individuals
+Outputting FORMAT information for DP
+After filtering, kept 51977 out of a possible 51977 Sites
+Run Time = 3.00 seconds

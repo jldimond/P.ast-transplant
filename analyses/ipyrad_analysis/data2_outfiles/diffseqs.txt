@@ -1,0 +1,77 @@
+w1_ddr           TCACTGTCACTACCTTTGAGTTTGAAAGAAGGGGATGCCAGGGAAAAGTAGAAAGCCCAAAGAGTGGGAGGAACACAATTTTACACTTAT-nnnnCGGTCAATGCCTAAACGACAAGGGGAAGAAAACTGCCCCCATGGGGCTTGATCTTTCATACAACTTTCAAGAGTGTGTTAACATTT
+//                                                                                                               -                              *                                                     |8699|
+--
+w3_ddr           AGGTACACAAAGACAAGGTAGACTATTTTCCCAAAACCCTTAACTTTAAACACCTTAGAGAACACAAAGACA--TCAAAAGATGTTTCTACT-nnnn-GGCTCGAGGAACAATTGTAACTACTTTAGGGGATCTCCTGAAGGAGGGTATAATATATTGCTTTTTAAATGTTGAGAACAGCATACTG----
+//                                                        *               *               *                       *-                                                                 ---    --                 |21864|
+--
+pa9-16_epi       CTCATACCTGAAGCCCTAGACAACCCTACCCGCTAAACCCTGGCCACTACCCCAAAGCCTAAACCTAACGCATAAAATCTCACACTA-nnnn---AACACCAGCTGCTGGGTCAAGCTTCTGAAGCCCAAACGTACTAAGCCTCAAACGTCAGGGCTCTGGGGGTTTAGGGTTTAGGGT---
+//                                                                                                             -                                                                                       |27115|
+--
+w3_ddr           ACTCTCCTTTCAACTTTTTTATCACAACATTTGCACTCTCCTTTGCAAAATTGACCAAAAAACAAAACGAAATCTGCCTCTTCCCAACTC-nnnnCGGAATTTGCGGTAATGGTAAACAACCAGTAACAGAAAATTGCACCATCAACGTCACCTCCTTGTCCAATCAACACAGTAGTAATTG---
+//                                                                                   *      *                    *                                                                        *               |32948|
+--
+w1_epi           CCGGTGGTTAGTATGTGGATTTAAGTGACAGCTGCTGTGCAGTACTTTCCTATGGCTCTGCTTATCATACTGTTCTTAGTTTTGATGTGT-nnnnCGGTTCCGCGAAAGATGGTCAAGTTTAACCCAAGGTTAATCCAAATTCTAAGCAAGGTTTTCTTG-TCTAAGAACATGTAACTAGAGC---
+//                                      *                                                                        *                                                             *  *  * *  *   **** ****    |33276|
+--
+w3_ddr           TCTGCATTTTATTCTCAGTCTGCATTTTACCCCTGGTCCGCAGTCTGCGTTTTACACTGACCGATTTCAAAATTGTCTCAAATTTCACTC-nnnn-GGTGATAATATTGACTGGCAGYCATCTCTCTCTTAACAAGGGGCACTTTTGGGGCCGGCAATATATGTCCGTCTTAGAGAAACGTCTG-
+//                                                                                                               -                    *                                                                   |38907|
+--
+w1_ddr           GGATAAATACTGTAATGTAACAAAATAGATTTACATTTATCAATAAATGTTTTTTTTATTTTGTAGGGTCTTTTTAGACTTGCTGGAAGT-nnnn---ATTTATCGTGTAAACACTGATTTACGTCATCAGTATGGAATTTCTGACGCTGAGTCGTAGACGTTCCTCCTGGCAAAACGTCCC
+//                                                                                                                *                                                                                    |39212|
+--
+w1_epi           AGTCTTTTACCCTTTCGTGCGTCGTACTAACAGCGCACAGATCTCTGGGCTCAGCTACCACCGTGAGTACACGCAAACACACATCCACAA-nnnnCGGTACACTGTTGCAATTCACGCTTCTGTTGGCGGTCCGCTCGGGGCCAGGCGGGCCCATTATCGGAATCTGCCAACACGACATTG-
+//                                                                                                               -                                                                                     |41205|
+--
+w3_ddr           ATCACTTCCACCCGCCAGTACTTAGAGAGATGCAATCAAAAGCATTGACAAAAGACAAGAAGAGCGGCAAAGAAGCGTTATGCTCGGTGA-nnnnCGGAGTTATCAGATCTAAACGCCTTTGCCTTGGTGACATGTTTGGAGTATGTGCTTTAGGGGGAGAAACATTTCTCACATTACAAGGTG
+//                           *                           *                        *          -                                                                                                           |42421|
+--
+pa9-16_epi       TGGAGGTGGGCTGGGTCGCAGCGTCGCTTGCAGCTGCGAGTTGTCGTTGCTGGCTTCTGGTGCATACACAGCGCGTACCTGACAAAAGTGTnnnn--GAGAATTCCTTGAAGTCGATTTACCAAGTGATGCCCCTCGCGACTCTGTCTATGCATTGGAACCGCGGACCGATGCACCCAGCATA-
+//                                                       -                               * *               *     *                                                          *                          - |44571|
+--
+w1_epi           CTTCGGTAACTYGAGGTGTAACTCTGAGCTGAAGTGGTCGGCGTGAAGTTTATGGCCACCTCAACTGGGCAGACRGGAGTAGTCTTGAGG-nnnnCGGAATAGTTGGAAAGGAACTTAGTGACCTTTGCGATCTATACCATAACTGAAAYTTTTCTAATGCACCTTCTCTGTGTCATTTCAGGG-
+//                          *                                                              *           *              -                                     -         *    *                              |50198|
+--
+pa8-16_epi       CCGGCCCACGCACTCGTCTAAACCATTTTAGAGCGTCTGCGACACAGGCAACTCAGCGCTGTGACAAGTCCAGGAGCGTTGTGTGACGACAnnnnCGGCGGCTTAGTGTCCGCTTGATCATGATAGAGGGTGTCGGCTTAATTGGGGGTCCGCTTAATGCAGGTTTCACTGTACTAGATTAAA
+//                                                                                                               -                                                                                      |56256|
+--
+w1_epi           CATCGCGTTATGTTTAATGTTGAACAATGTGTTGTTGACAAAATTTTAGAATTATGAAGCATCCAAGTTCCACGGTTAGTATCCAGCGGG-nnnnCGGCTCAAGGCTTTAATCTGATCTTCTGTTGTTTTTCCAAAGGTTAAAGTGAGTGACGTTAGTCATGGTGTGGTTCAAGGAATTGT--
+//                                                                     -                                                                             -                                                  |66056|
+--
+w3_ddr           AAACTACTCTACATGATTGTTAACATTATTACACTGTTAAAACGAATCCCTGTCTGGCATCTACACGTAAGACACGAATGCTGTCCTGGC-nnnnCGGTCATTTTGAAAATGAAATAGGYTTTTCCCAAGAGTTTTTGATGAAAAGCCATCTCCTTTTAGGATTTGATCTGGTCGGATAGTT--
+//                                                                                                              *                    *  *    ***-* *                                                     |67957|
+--
+w3_ddr           AAAAGATAACCTCACATGGTATGATGAATAAACAAACACAAACATTCAATTTCTAATG-TTTTATTGTTCGTGTTATATCATTTAATGATT-nnnnCGGTATGTCAGTTGAAATCTTTAGACTTCTTTGAGGACAATTCCAATGGGGAGGAGCAGTGGGCACTGGGTTCTGGGTACTCAGGAT
+//                         *                          -               *            *                               -          -                                             *     *             *     * |69826|
+--
+w3_ddr           TTTGTAAATACAGTAGAACCTCGATACGTTGAACTCGGATACAAATTTCACTGAAATTTCCCCTGATAACTCGAATTCTTTGCTAACTCG-nnnnCGGGATGTCTTGGGCCTTATCGGCTTATTTCTCGCAACTGTGGTAAATCCTAAGTCTTGCAAAGTAAAGCTGTAATATTTGTACTTG---
+//                   *                                                                   *                                                                                                                |70737|
+--
+w3_ddr           TACCAATTCCTGCTAGCACCCAAAGTTACAGGAAGAGAAAAGAGGAGGAGGCGAAAGCGTCCGCAATGCCACTAAAAATGT-CAGAAGGAT-nnnnCGGATATTTTACATTTGACTCAATGCTGATCAGTAACCTAACGTTGGCAGGGTTTTAATTACAATCTATTGAATGGTGAGCTGTGTCTT-
+//                                                                   -        -   -            -      -                                               -    -                                      -        |70985|
+--
+w1_ddr           ACCTATGATCCTCTGAAATACCACAACGTAAGATACAGTTTCAAATTACAAAAGAGAAAATCAAATGCCTTGACGAAAGGCCCACACAAA-nnnn-GGAAGATGTAACACAAACAGAAAAATTCATGCCTTTTGGGACTCTTCTCGCTTCCAAGTGCAAAATACGTTGAAAAGGGAGTTTAA
+//                                                                                                    *         *--                                                                                    |72007|
+--
+w1_epi           TTGGACTATCGTAAGMGACCACTTGCCGTAAGCGACCATTAACTCTTCGCAATAGACCTWGTCACGGTTTTCGACGCCATCTTGACGAGT-nnnnCGGGGATGTCTTACAGACAAATGTATAGAAAATTTTNAAAAGTGGTTCTAGGTCTTGTAGTACATGTAACGCCCTCAATKTTTTTCA-
+//                              *  -                             *          *     -                                                       -                                                  - *        |79549|
+--
+w1_ddr           AATTAAGCCCTAGGAAAGGAGCGCTCAGCACTCTAGTGGCCTAAGTGTTTCCAACATTAAGGACATCAATAGCTAAAGCTATGGCAGAAA-nnnnCGGCCTCCCATACTCCTCCCATCCCCTATTCTCTCGGGCTCCCATCCCCTGTCCTCCCTAGCAAATAGACCATAAGAGAACTGTGA--
+//                                                                                                                 *                              *                      *                 *            |79792|
+--
+w3_ddr           CTGCTGTTTGGCTTTCGCGCCATGTACATCCTCACTCTGTGATGCTGAAAAGATTCTCAATTACGAATTTGCAGCCTCAGTACTCCTGCG-nnnn---TAGAAGTATCTCAATACATTACAATACAGAAAGGTATGTAATGCGAACAATTGGCTCAGTAGCTTTTACTAAAATGAA------
+//                                                                                                                                                                            *                        |87224|
+--
+w1_epi           AGAACCGAACCACATTCCTTTCCCTTTCTGTTTACGGTCTAACGAAGAAACCAATCATGTATAAGAAACTTGACAATAAGTGAGCCGCAG-nnnnCGGACATATACACGTTAAACTGAGAACCAACCGATCCTGGTAAGAGTCTTGTAGGCCTATCAAAYCTTTTCTTTTTAACTTGGAACTTT-
+//                                                                                                     *                                                                *       *              -          |87240|
+--
+w1_epi           ATTTTATAGAAAGAATTAAGGTACATACCACTAAATGCTCTTAGCTTCAATGTATCTTTTTCTTCAGAAAATAAGACCCTATTTAAGAAC-nnnn---GAAACATCAGACAGATAGCGGCGCTCAGTGAATTTAAGATAAAGCTCAGACGTTATCTTATACAATAATACCTGTACTTTTAA----
+//                                                                                                                                     *                             *           *                        |87921|
+--
+w3_ddr           CTGATGACACCATACAAACTGGTGAGTCTCTCCCTGTTGCTAGAAGGTGATATCCTTAGACTGTGAGCAGTCTCTTATTTTTCTATTCAA-nnnn-GGTAATTACTTTAACTACTATTAAGAAAAACACTGTTGGAATCTTTAGAAGGTGTAGGATTTTCTTCACACTAAATACCCCACCATCC
+//                    * *                                                                                                                                                                                |88153|
+--
+pa9-16_epi       ATTTCATCTTTTACA--ACACAAAAAAAGAAAGACAAAAGACAAAAGACAGATTAGCAGATGGATGTTTCCAGATAGTATCTGAAACTCTGTA-----nnnnCGGCCCTCAGATCTTAATGACAGCCCTGTAACAATCTTATTTACTTTTCTGGGTGTCAAGTTATTTTTCCTTCTCTCTCGCTTCCTTTTT
+//                                                                         *                                                                                                                                     |97404|
+--
+pa9-16_epi       TATAAATGAAACAAAATCAAAATAGGATGGCGGCAATTAATCATCAACACACCATACGGATGAAATTTCATGACCATTCTTGACATTT--nnnnCGGTAGCCGTAGTAGCGCCAGCCGTAGCGATTTGCTTAAACTCCCTAATGACCACCTCTCTACAACGGCCACTTAATTTTGTTCCCGC
+//                         *                    *              *  *          *                                                                                        *    *                           |98422|

@@ -1,108 +1,109 @@
 # Data
 
-A starting set of 48 samples of _Porites_ spp. were prepared for ddRADseq and EpiRADseq according to methods described [here](http://onsnetwork.org/jdimond/2016/08/02/rad-sequencing-days-12/). Samples 101-131 are branching _Porites_ samples, while samples 80-100 and "w" are _Porites astreoides_ and are not used in this study. A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. After barcodes were ligated, samples were combined into 12 tubes (pools) for indexing (via PCR). These 12 pools were designated as libraries JD001_A through JD001_L before being sent to the Vincent J. Coates Genomic Sequencing Laboratory at UC Berkeley, where they were run on a single Illumina HiSeq 4000 lane in equimolar ratios (based on qPCR). The raw data consisting of 100 bp paired-end reads can be found [here](http://owl.fish.washington.edu/nightingales/Porites_spp/). Barcode files for each pool can be found in this directory.
-
-Also in this directory are _Symbiodinium_ cp23S sequences associated with branching _Porites_ samples (Porites_Symbiodinium.fasta). 
+The JD002 library consisted of a mixture of different species, prepared for ddRADseq and EpiRADseq according to methods described [here](http://onsnetwork.org/jdimond/2016/08/02/rad-sequencing-days-12/). A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. After barcodes were ligated, samples were combined into 12 tubes (pools) for indexing (via PCR). These 12 pools were designated as libraries JD002_A through JD002_L before being sent to the Vincent J. Coates Genomic Sequencing Laboratory at UC Berkeley, where they were run on a single Illumina HiSeq 4000 lane in equimolar ratios (based on qPCR). The raw data consisting of 100 bp paired-end reads can be found [here](http://owl.fish.washington.edu/nightingales/Porites_spp/) (JD002 library). Further technical details of this library prior to sequencing are [here](http://onsnetwork.org/jdimond/2017/02/14/rad-library-prep/).
 
 
-## Metadata for JD_001
+Demultiplexed reads for the _P. astreoides_ samples only were uploaded to the NCBI Sequence Read Archive and can be accessed [here](https://www.ncbi.nlm.nih.gov/sra/SRP132538).
 
 
-**Prep No.**|**Landmark**|**Coordinates**|**Habitat**|**Depth (m)**|**Species**|**Symbiont clade**|**Conc. post digestion (ng/ul)**|**New Pool (column)**|**Well**|**enzymes**|**Barcode**|**Illumina Index**|**Post Size Selection ng/ul**|**Post PCR ng/ul**|**Mean fragment size (bp)**|**Library name**
-:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
-80\_epi|South Cut|16 42.987, 88 4.773|backreef|2.0|Past|tbd|15|Pool 1|A|PstI-HpaII|TGCAT|ATCACG|0.264|1.93|502|JD001\_A
-80\_ddr|South Cut|16 42.987, 88 4.773|backreef|2.0|Past|tbd|15|Pool 1|B|PstI-MspI|AAGGA|ATCACG|0.264|1.93|502|JD001\_A
-116\_epi|CBC backreef|16 48.354, 88 4.998|backreef|1.2|tbd|tbd|15|Pool 1|C|PstI-HpaII|GCATG|ATCACG|0.264|1.93|502|JD001\_A
-108\_epi|CBC15C|N 16° 48.120', W 088° 04.751'|USG|7.0|tbd|tbd|15|Pool 1|D|PstI-HpaII|AACCA|ATCACG|0.264|1.93|502|JD001\_A
-98\_ddr|Blue Ground Range|16 49.278, 88 8.289|turtlegrass bed|2.0|Past|tbd|15|Pool 1|E|PstI-MspI|CAACC|ATCACG|0.264|1.93|502|JD001\_A
-82\_epi|northwest Gladden Spit|16 41.016, 88 5.796|patch reef/shoal|2.0|Past|tbd|15|Pool 1|F|PstI-HpaII|TCGAT|ATCACG|0.264|1.93|502|JD001\_A
-116\_ddr|CBC backreef|16 48.354, 88 4.998|backreef|1.2|tbd|tbd|15|Pool 1|G|PstI-MspI|CGATC|ATCACG|0.264|1.93|502|JD001\_A
-102\_epi|CBC45S|N 16° 47.939', W 088° 04.656'|IRS|16.8|Ppor|C|15|Pool 1|H|PstI-HpaII|GGTTG|ATCACG|0.264|1.93|502|JD001\_A
-117\_epi|CBC backreef|16 48.354, 88 4.998|backreef|1.2|Pfur|A|9.97|Pool 10|A|PstI-HpaII|TGCAT|TAGCTT|0.358|3.38|498|JD001\_J
-127\_ddr|CBC lagoon|16 48.115, 88 4.983|lagoon/cut|2.7|Pfur|A|9.72|Pool 10|B|PstI-MspI|AAGGA|TAGCTT|0.358|3.38|498|JD001\_J
-130\_epi|CBC backreef|16 48.181, 88 4.885|backreef|0.8|Ppor|C|9.69|Pool 10|C|PstI-HpaII|GCATG|TAGCTT|0.358|3.38|498|JD001\_J
-106\_ddr|SR30N|N 16° 46.792', W 088° 04.599'|LSG|7.0|Pfur|C|9.61|Pool 10|D|PstI-MspI|AACCA|TAGCTT|0.358|3.38|498|JD001\_J
-124\_epi|CBC lagoon|16 48.115, 88 4.983|lagoon/cut|4.6|Pfur|C|9.51|Pool 10|E|PstI-HpaII|CAACC|TAGCTT|0.358|3.38|498|JD001\_J
-114\_ddr|SR60N|N 16° 46.798', W 088° 04.511'|OR|15.5|Pfur|C|9.06|Pool 10|F|PstI-MspI|TCGAT|TAGCTT|0.358|3.38|498|JD001\_J
-109\_ddr|SR45N|N 16° 46.821', W 088° 04.521'|IRS|14.6|Pfur|C|8.89|Pool 10|G|PstI-MspI|CGATC|TAGCTT|0.358|3.38|498|JD001\_J
-109\_epi|SR45N|N 16° 46.821', W 088° 04.521'|IRS|14.6|Pfur|C|8.85|Pool 10|H|PstI-HpaII|GGTTG|TAGCTT|0.358|3.38|498|JD001\_J
-126\_epi|SR60N|N 16° 46.798', W 088° 04.511'|OR|17.4|Ppor|C|8.85|Pool 11|A|PstI-HpaII|TGCAT|GGCTAC|0.236|2.15|501|JD001\_K
-124\_ddr|CBC lagoon|16 48.115, 88 4.983|lagoon/cut|4.6|Pfur|C|8.78|Pool 11|B|PstI-MspI|AAGGA|GGCTAC|0.236|2.15|501|JD001\_K
-110\_ddr|CBC45C|N 16° 48.146', W 088° 04.658'|IRS|14.0|Ppor|C|8.33|Pool 11|C|PstI-MspI|GCATG|GGCTAC|0.236|2.15|501|JD001\_K
-107\_epi|SR45N|N 16° 46.821', W 088° 04.521'|IRS|12.5|tbd|tbd|8.3|Pool 11|D|PstI-HpaII|AACCA|GGCTAC|0.236|2.15|501|JD001\_K
-129\_epi|CBC backreef (turtlegrass)|16 48.115, 88 4.983|turtlegrass/backreef|0.9|Pdiv|A|7.99|Pool 11|E|PstI-HpaII|CAACC|GGCTAC|0.236|2.15|501|JD001\_K
-99\_ddr|Tobacco Reef|16 51.464, 88 4.393|backreef/bommie|2.0|Past|tbd|7.58|Pool 11|F|PstI-MspI|TCGAT|GGCTAC|0.236|2.15|501|JD001\_K
-99\_epi|Tobacco Reef|16 51.464, 88 4.393|backreef/bommie|2.0|Past|tbd|7.58|Pool 11|G|PstI-HpaII|CGATC|GGCTAC|0.236|2.15|501|JD001\_K
-108\_ddr|CBC15C|N 16° 48.120', W 088° 04.751'|USG|7.0|tbd|tbd|6.94|Pool 11|H|PstI-MspI|GGTTG|GGCTAC|0.236|2.15|501|JD001\_K
-118\_ddr|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|6.56|Pool 12|A|PstI-MspI|TGCAT|CTTGTA|0.201|2.56|493|JD001\_L
-104\_ddr|CBC45N|N 16° 48.294', W 088° 04.666'|IRS|16.5|Pfur|C|6.06|Pool 12|B|PstI-MspI|AAGGA|CTTGTA|0.201|2.56|493|JD001\_L
-81\_epi|northwest Gladden Spit|16 41.670, 88 4.539|backreef|2.0|Past|tbd|5.78|Pool 12|C|PstI-HpaII|GCATG|CTTGTA|0.201|2.56|493|JD001\_L
-81\_ddr|northwest Gladden Spit|16 41.670, 88 4.539|backreef|2.0|Past|tbd|4.97|Pool 12|D|PstI-MspI|AACCA|CTTGTA|0.201|2.56|493|JD001\_L
-113\_epi|SR30C|N 16 46.571', W 088 04.524'|LSG|8.5|Ppor|C|4.83|Pool 12|E|PstI-HpaII|CAACC|CTTGTA|0.201|2.56|493|JD001\_L
-104\_epi|CBC45N|N 16° 48.294', W 088° 04.666'|IRS|16.5|Pfur|C|4.34|Pool 12|F|PstI-HpaII|TCGAT|CTTGTA|0.201|2.56|493|JD001\_L
-113\_ddr|SR30C|N 16 46.571', W 088 04.524'|LSG|8.5|Ppor|C|1.33|Pool 12|G|PstI-MspI|CGATC|CTTGTA|0.201|2.56|493|JD001\_L
-82\_ddr|northwest Gladden Spit|16 41.016, 88 5.796|patch reef/shoal|2.0|Past|tbd|0.03|Pool 12|H|PstI-MspI|GGTTG|CTTGTA|0.201|2.56|493|JD001\_L
-84\_ddr|Between Douglas and Elbow Cays|16 41.776, 88 9.353|patch reef/shoal|1.5|Past|tbd|15|Pool 2|A|PstI-MspI|TGCAT|CGATGT|0.39|10.1|493|JD001\_B
-w1\_ddr|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|15|Pool 2|B|PstI-MspI|AAGGA|CGATGT|0.39|10.1|493|JD001\_B
-90\_ddr|Stewart Cay/Blue Ground|16 45.917, 88 9.916|patch reef/shoal|1.5|Past|tbd|15|Pool 2|C|PstI-MspI|GCATG|CGATGT|0.39|10.1|493|JD001\_B
-w1\_epi|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|15|Pool 2|D|PstI-HpaII|AACCA|CGATGT|0.39|10.1|493|JD001\_B
-91\_epi|Blue Ground/Wee Wee Cay|16 46.828, 88 8.161|patch reef/shoal|2.0|Past|tbd|15|Pool 2|E|PstI-HpaII|CAACC|CGATGT|0.39|10.1|493|JD001\_B
-88b\_ddr|Northeast Cay|16 41.351, 88 11.422|patch reef|2.0|Past|tbd|15|Pool 2|F|PstI-MspI|TCGAT|CGATGT|0.39|10.1|493|JD001\_B
-90\_epi|Stewart Cay/Blue Ground|16 45.917, 88 9.916|patch reef/shoal|1.4|Past|tbd|15|Pool 2|G|PstI-HpaII|CGATC|CGATGT|0.39|10.1|493|JD001\_B
-89\_epi|Douglas Cay|16 42.621, 88 10.547|patch reef|1.5|Past|tbd|15|Pool 2|H|PstI-HpaII|GGTTG|CGATGT|0.39|10.1|493|JD001\_B
-98\_epi|Blue Ground Range|16 49.278, 88 8.289|turtlegrass bed|2.0|Past|tbd|18.57|Pool 3|A|PstI-HpaII|TGCAT|TTAGGC|0.411|5.18|498|JD001\_C
-127\_epi|CBC lagoon|16 48.115, 88 4.983|lagoon/cut|2.7|Pfur|A|18.06|Pool 3|B|PstI-HpaII|AAGGA|TTAGGC|0.411|5.18|498|JD001\_C
-102\_ddr|CBC45S|N 16° 47.939', W 088° 04.656'|IRS|16.8|Ppor|C|17.78|Pool 3|C|PstI-MspI|GCATG|TTAGGC|0.411|5.18|498|JD001\_C
-84\_epi|Between Douglas and Elbow Cays|16 41.776, 88 9.353|patch reef/shoal|1.5|Past|tbd|17.02|Pool 3|D|PstI-HpaII|AACCA|TTAGGC|0.411|5.18|498|JD001\_C
-w3\_epi|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|16.96|Pool 3|E|PstI-HpaII|CAACC|TTAGGC|0.411|5.18|498|JD001\_C
-86\_ddr|Manatee Cay|16 39.856, 88 11.289|patch reef|2.0|Past|tbd|16.83|Pool 3|F|PstI-MspI|TCGAT|TTAGGC|0.411|5.18|498|JD001\_C
-103\_epi|CBC45N|N 16° 48.294', W 088° 04.666'|IRS|16.2|Pfur|C|16.22|Pool 3|G|PstI-HpaII|CGATC|TTAGGC|0.411|5.18|498|JD001\_C
-w3\_ddr|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|16.15|Pool 3|H|PstI-MspI|GGTTG|TTAGGC|0.411|5.18|498|JD001\_C
-106\_epi|SR30N|N 16° 46.792', W 088° 04.599'|LSG|7.0|Pfur|C|15.9|Pool 4|A|PstI-HpaII|TGCAT|TGACCA|0.411|5.41|493|JD001\_D
-114\_epi|SR60N|N 16° 46.798', W 088° 04.511'|OR|15.5|Pfur|C|15.31|Pool 4|B|PstI-HpaII|AAGGA|TGACCA|0.411|5.41|493|JD001\_D
-91\_ddr|Blue Ground/Wee Wee Cay|16 46.828, 88 8.161|patch reef/shoal|2.0|Past|tbd|15.28|Pool 4|C|PstI-MspI|GCATG|TGACCA|0.411|5.41|493|JD001\_D
-85\_epi|Elbow Cay|16 40.892, 88 10.396|patch reef|2.0|Past|tbd|15.22|Pool 4|D|PstI-HpaII|AACCA|TGACCA|0.411|5.41|493|JD001\_D
-131\_epi|CBC backreef (turtlegrass)|16 48.181, 88 4.885|turtlegrass/backreef|0.5|Pdiv|A|14.51|Pool 4|E|PstI-HpaII|CAACC|TGACCA|0.411|5.41|493|JD001\_D
-115\_epi|CBC backreef|16 48.354, 88 4.998|backreef|1.2|Ppor|C|14.24|Pool 4|F|PstI-HpaII|TCGAT|TGACCA|0.411|5.41|493|JD001\_D
-95\_ddr|Blue Ground Range|16 48.487, 88 8.443|patch reef|2.0|Past|tbd|14.1|Pool 4|G|PstI-MspI|CGATC|TGACCA|0.411|5.41|493|JD001\_D
-86\_epi|Manatee Cay|16 39.856, 88 11.289|patch reef|2.0|Past|tbd|13.98|Pool 4|H|PstI-HpaII|GGTTG|TGACCA|0.411|5.41|493|JD001\_D
-128\_ddr|CBC backreef|16 48.181, 88 4.885|backreef|0.6|Pfur|C|13.94|Pool 5|A|PstI-MspI|TGCAT|ACAGTG|0.35|5.29|494|JD001\_E
-121\_ddr|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|13.78|Pool 5|B|PstI-MspI|AAGGA|ACAGTG|0.35|5.29|494|JD001\_E
-87\_epi|Co Cat Cay|16 39.940, 88 12.017|patch reef/shoal|2.0|Past|tbd|13.73|Pool 5|C|PstI-HpaII|GCATG|ACAGTG|0.35|5.29|494|JD001\_E
-111\_epi|CBC15C|N 16° 48.120', W 088° 04.751'|USG|7.9|Pfur|C|13.54|Pool 5|D|PstI-HpaII|AACCA|ACAGTG|0.35|5.29|494|JD001\_E
-129\_ddr|CBC backreef (turtlegrass)|16 48.115, 88 4.983|turtlegrass/backreef|0.9|Pdiv|A|13.39|Pool 5|E|PstI-MspI|CAACC|ACAGTG|0.35|5.29|494|JD001\_E
-120\_epi|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|13.37|Pool 5|F|PstI-HpaII|TCGAT|ACAGTG|0.35|5.29|494|JD001\_E
-123\_epi|CBC backreef|16 48.181, 88 4.885|backreef|0.8|Ppor|C|13.37|Pool 5|G|PstI-HpaII|CGATC|ACAGTG|0.35|5.29|494|JD001\_E
-118\_epi|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|13.06|Pool 5|H|PstI-HpaII|GGTTG|ACAGTG|0.35|5.29|494|JD001\_E
-128\_epi|CBC backreef|16 48.181, 88 4.885|backreef|0.6|Pfur|C|12.92|Pool 6|A|PstI-HpaII|TGCAT|GCCAAT|0.321|8.44|496|JD001\_F
-131\_ddr|CBC backreef (turtlegrass)|16 48.181, 88 4.885|turtlegrass/backreef|0.5|Pdiv|A|12.83|Pool 6|B|PstI-MspI|AAGGA|GCCAAT|0.321|8.44|496|JD001\_F
-87\_ddr|Co Cat Cay|16 39.940, 88 12.017|patch reef/shoal|2.0|Past|tbd|12.71|Pool 6|C|PstI-MspI|GCATG|GCCAAT|0.321|8.44|496|JD001\_F
-112\_ddr|SR30C|N 16 46.571', W 088 04.524'|LSG|8.5|tbd|tbd|12.61|Pool 6|D|PstI-MspI|AACCA|GCCAAT|0.321|8.44|496|JD001\_F
-122\_ddr|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|12.56|Pool 6|E|PstI-MspI|CAACC|GCCAAT|0.321|8.44|496|JD001\_F
-101\_ddr|CBC30C|N 16° 48.126', W 088° 04.729'|LSG|7.9|Ppor|C|12.5|Pool 6|F|PstI-MspI|TCGAT|GCCAAT|0.321|8.44|496|JD001\_F
-122\_epi|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|12.5|Pool 6|G|PstI-HpaII|CGATC|GCCAAT|0.321|8.44|496|JD001\_F
-105\_epi|SR30N|N 16° 46.792', W 088° 04.599'|LSG|9.8|tbd|tbd|12.29|Pool 6|H|PstI-HpaII|GGTTG|GCCAAT|0.321|8.44|496|JD001\_F
-101\_epi|CBC30C|N 16° 48.126', W 088° 04.729'|LSG|7.9|Ppor|C|12.22|Pool 7|A|PstI-HpaII|TGCAT|CAGATC|0.372|2.71|491|JD001\_G
-85\_ddr|Elbow Cay|16 40.892, 88 10.396|patch reef|2.0|Past|tbd|12.19|Pool 7|B|PstI-MspI|AAGGA|CAGATC|0.372|2.71|491|JD001\_G
-107\_ddr|SR45N|N 16° 46.821', W 088° 04.521'|IRS|12.5|tbd|tbd|12.17|Pool 7|C|PstI-MspI|GCATG|CAGATC|0.372|2.71|491|JD001\_G
-89\_ddr|Douglas Cay|16 42.621, 88 10.547|patch reef|1.5|Past|tbd|12.12|Pool 7|D|PstI-MspI|AACCA|CAGATC|0.372|2.71|491|JD001\_G
-95\_epi|Blue Ground Range|16 48.487, 88 8.443|patch reef|2.0|Past|tbd|11.68|Pool 7|E|PstI-HpaII|CAACC|CAGATC|0.372|2.71|491|JD001\_G
-125\_epi|SR60N|N 16° 46.798', W 088° 04.511'|OR|16.5|Pfur|C|11.56|Pool 7|F|PstI-HpaII|TCGAT|CAGATC|0.372|2.71|491|JD001\_G
-105\_ddr|SR30N|N 16° 46.792', W 088° 04.599'|LSG|9.8|tbd|tbd|11.5|Pool 7|G|PstI-MspI|CGATC|CAGATC|0.372|2.71|491|JD001\_G
-96\_ddr|Blue Ground / Twin Cays|16 49.064, 88 7.748|patch reef/shoal|2.0|Past|tbd|11.43|Pool 7|H|PstI-MspI|GGTTG|CAGATC|0.372|2.71|491|JD001\_G
-121\_epi|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|11.39|Pool 8|A|PstI-HpaII|TGCAT|ACTTGA|0.302|5.04|500|JD001\_H
-88b\_epi|Northeast Cay|16 41.351, 88 11.422|patch reef|2.0|Past|tbd|11.18|Pool 8|B|PstI-HpaII|AAGGA|ACTTGA|0.302|5.04|500|JD001\_H
-123\_ddr|CBC backreef|16 48.181, 88 4.885|backreef|0.8|Ppor|C|11.11|Pool 8|C|PstI-MspI|GCATG|ACTTGA|0.302|5.04|500|JD001\_H
-126\_ddr|SR60N|N 16° 46.798', W 088° 04.511'|OR|17.4|Ppor|C|11.11|Pool 8|D|PstI-MspI|AACCA|ACTTGA|0.302|5.04|500|JD001\_H
-120\_ddr|Twin Cays - prop roots|16 49.645, 88 6.364|mangroves|0.6|Pdiv|C|10.83|Pool 8|E|PstI-MspI|CAACC|ACTTGA|0.302|5.04|500|JD001\_H
-117\_ddr|CBC backreef|16 48.354, 88 4.998|backreef|1.2|Pfur|A|10.78|Pool 8|F|PstI-MspI|TCGAT|ACTTGA|0.302|5.04|500|JD001\_H
-115\_ddr|CBC backreef|16 48.354, 88 4.998|backreef|1.2|Ppor|C|10.72|Pool 8|G|PstI-MspI|CGATC|ACTTGA|0.302|5.04|500|JD001\_H
-96\_epi|Blue Ground / Twin Cays|16 49.064, 88 7.748|patch reef/shoal|2.0|Past|tbd|10.68|Pool 8|H|PstI-HpaII|GGTTG|ACTTGA|0.302|5.04|500|JD001\_H
-130\_ddr|CBC backreef|16 48.181, 88 4.885|backreef|0.8|Ppor|C|10.61|Pool 9|A|PstI-MspI|TGCAT|GATCAG|0.42|3.57|503|JD001\_I
-111\_ddr|CBC15C|N 16° 48.120', W 088° 04.751'|USG|7.9|Pfur|C|10.56|Pool 9|B|PstI-MspI|AAGGA|GATCAG|0.42|3.57|503|JD001\_I
-w11\_ddr|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|10.5|Pool 9|C|PstI-MspI|GCATG|GATCAG|0.42|3.57|503|JD001\_I
-125\_ddr|SR60N|N 16° 46.798', W 088° 04.511'|OR|16.5|Pfur|C|10.44|Pool 9|D|PstI-MspI|AACCA|GATCAG|0.42|3.57|503|JD001\_I
-112\_epi|SR30C|N 16 46.571', W 088 04.524'|LSG|8.5|tbd|tbd|10.35|Pool 9|E|PstI-HpaII|CAACC|GATCAG|0.42|3.57|503|JD001\_I
-110\_epi|CBC45C|N 16° 48.146', W 088° 04.658'|IRS|14.0|Ppor|C|10.28|Pool 9|F|PstI-HpaII|TCGAT|GATCAG|0.42|3.57|503|JD001\_I
-w11\_epi|CBC backreef|16.803677, -88.082235|backreef|1.5|Past|tbd|10.25|Pool 9|G|PstI-HpaII|CGATC|GATCAG|0.42|3.57|503|JD001\_I
-103\_ddr|CBC45N|N 16° 48.294', W 088° 04.666'|IRS|16.2|Pfur|C|10.17|Pool 9|H|PstI-MspI|GGTTG|GATCAG|0.42|3.57|503|JD001\_I
+## Metadata for JD002 library
+
+
+| Original order | Original Pool | Well | Prep No. | enzymes    | New Pool | Well | ng/ul post-digest | ng/ul post-size select | ng/ul post PCR | Mean frag size | Barcode | Illumina Index | Library name | Species                   | 
+|----------------|---------------|------|----------|------------|----------|------|-------------------|------------------------|----------------|----------------|---------|----------------|--------------|---------------------------| 
+| 10             | Pool 2        | B    | pa11-15  | PstI-MspI  | Pool 1   | A    | 15                | 0.367                  | 7.73           | 546            | TGCAT   | ATCACG         | JD002_A      | Porites astreoides        | 
+| 58             | Pool 8        | B    | pa11-15  | PstI-HpaII | Pool 1   | B    | 15                | 0.367                  | 7.73           | 546            | AAGGA   | ATCACG         | JD002_A      | Porites astreoides        | 
+| 12             | Pool 2        | D    | pa17-15  | PstI-MspI  | Pool 1   | C    | 15                | 0.367                  | 7.73           | 546            | GCATG   | ATCACG         | JD002_A      | Porites astreoides        | 
+| 60             | Pool 8        | D    | pa17-15  | PstI-HpaII | Pool 1   | D    | 15                | 0.367                  | 7.73           | 546            | AACCA   | ATCACG         | JD002_A      | Porites astreoides        | 
+| 96             | Pool 12       | H    | EPI-66   | PstI-HpaII | Pool 1   | E    | 14.4              | 0.367                  | 7.73           | 546            | CAACC   | ATCACG         | JD002_A      | Panopea generosa          | 
+| 48             | Pool 6        | H    | EPI-66   | PstI-MspI  | Pool 1   | F    | 12.8              | 0.367                  | 7.73           | 546            | TCGAT   | ATCACG         | JD002_A      | Panopea generosa          | 
+| 82             | Pool 11       | B    | Ae-B-2   | PstI-HpaII | Pool 1   | G    | 13.7              | 0.367                  | 7.73           | 546            | CGATC   | ATCACG         | JD002_A      | Anthopleura elegantissima | 
+| 34             | Pool 5        | B    | Ae-B-2   | PstI-MspI  | Pool 1   | H    | 12.3              | 0.367                  | 7.73           | 546            | GGTTG   | ATCACG         | JD002_A      | Anthopleura elegantissima | 
+| 36             | Pool 5        | D    | Ae-G-1   | PstI-MspI  | Pool 2   | A    | 13.2              | 0.395                  | 17.3           | 534            | TGCAT   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 84             | Pool 11       | D    | Ae-G-1   | PstI-HpaII | Pool 2   | B    | 11.1              | 0.395                  | 17.3           | 534            | AAGGA   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 85             | Pool 11       | E    | Ae-G-2   | PstI-HpaII | Pool 2   | C    | 12.3              | 0.395                  | 17.3           | 534            | GCATG   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 37             | Pool 5        | E    | Ae-G-2   | PstI-MspI  | Pool 2   | D    | 10.8              | 0.395                  | 17.3           | 534            | AACCA   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 38             | Pool 5        | F    | Ae-G-3   | PstI-MspI  | Pool 2   | E    | 13                | 0.395                  | 17.3           | 534            | CAACC   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 86             | Pool 11       | F    | Ae-G-3   | PstI-HpaII | Pool 2   | F    | 12.5              | 0.395                  | 17.3           | 534            | TCGAT   | CGATGT         | JD002_B      | Anthopleura elegantissima | 
+| 2              | Pool 1        | B    | pa2-15   | PstI-MspI  | Pool 2   | G    | 11.1              | 0.395                  | 17.3           | 534            | CGATC   | CGATGT         | JD002_B      | Porites astreoides        | 
+| 50             | Pool 7        | B    | pa2-15   | PstI-HpaII | Pool 2   | H    | 10.3              | 0.395                  | 17.3           | 534            | GGTTG   | CGATGT         | JD002_B      | Porites astreoides        | 
+| 53             | Pool 7        | E    | pa6-15   | PstI-HpaII | Pool 3   | A    | 10.6              | 0.279                  | 7.53           | 533            | TGCAT   | TTAGGC         | JD002_C      | Porites astreoides        | 
+| 5              | Pool 1        | E    | pa6-15   | PstI-MspI  | Pool 3   | B    | 7                 | 0.279                  | 7.53           | 533            | AAGGA   | TTAGGC         | JD002_C      | Porites astreoides        | 
+| 3              | Pool 1        | C    | pa3-15   | PstI-MspI  | Pool 3   | C    | 10.1              | 0.279                  | 7.53           | 533            | GCATG   | TTAGGC         | JD002_C      | Porites astreoides        | 
+| 51             | Pool 7        | C    | pa3-15   | PstI-HpaII | Pool 3   | D    | 6.1               | 0.279                  | 7.53           | 533            | AACCA   | TTAGGC         | JD002_C      | Porites astreoides        | 
+| 81             | Pool 11       | A    | Ae-B-1   | PstI-HpaII | Pool 3   | E    | 8.5               | 0.279                  | 7.53           | 533            | CAACC   | TTAGGC         | JD002_C      | Anthopleura elegantissima | 
+| 33             | Pool 5        | A    | Ae-B-1   | PstI-MspI  | Pool 3   | F    | 8.3               | 0.279                  | 7.53           | 533            | TCGAT   | TTAGGC         | JD002_C      | Anthopleura elegantissima | 
+| 35             | Pool 5        | C    | Ae-B-3   | PstI-MspI  | Pool 3   | G    | 8.3               | 0.279                  | 7.53           | 533            | CGATC   | TTAGGC         | JD002_C      | Anthopleura elegantissima | 
+| 83             | Pool 11       | C    | Ae-B-3   | PstI-HpaII | Pool 3   | H    | 7.6               | 0.279                  | 7.53           | 533            | GGTTG   | TTAGGC         | JD002_C      | Anthopleura elegantissima | 
+| 88             | Pool 11       | H    | EPI-4    | PstI-HpaII | Pool 4   | A    | 8.5               | 0.142                  | 8              | 552            | TGCAT   | TGACCA         | JD002_D      | Panopea generosa          | 
+| 40             | Pool 5        | H    | EPI-4    | PstI-MspI  | Pool 4   | B    | 7.5               | 0.142                  | 8              | 552            | AAGGA   | TGACCA         | JD002_D      | Panopea generosa          | 
+| 8              | Pool 1        | H    | pa9-15   | PstI-MspI  | Pool 4   | C    | 8.8               | 0.142                  | 8              | 552            | GCATG   | TGACCA         | JD002_D      | Porites astreoides        | 
+| 56             | Pool 7        | H    | pa9-15   | PstI-HpaII | Pool 4   | D    | 6.7               | 0.142                  | 8              | 552            | AACCA   | TGACCA         | JD002_D      | Porites astreoides        | 
+| 87             | Pool 11       | G    | EPI-3    | PstI-HpaII | Pool 4   | E    | 8.3               | 0.142                  | 8              | 552            | CAACC   | TGACCA         | JD002_D      | Panopea generosa          | 
+| 39             | Pool 5        | G    | EPI-3    | PstI-MspI  | Pool 4   | F    | 5.6               | 0.142                  | 8              | 552            | TCGAT   | TGACCA         | JD002_D      | Panopea generosa          | 
+| 13             | Pool 2        | E    | pa18-15  | PstI-MspI  | Pool 4   | G    | 7.7               | 0.142                  | 8              | 552            | CGATC   | TGACCA         | JD002_D      | Porites astreoides        | 
+| 61             | Pool 8        | E    | pa18-15  | PstI-HpaII | Pool 4   | H    | 7.2               | 0.142                  | 8              | 552            | GGTTG   | TGACCA         | JD002_D      | Porites astreoides        | 
+| 30             | Pool 4        | F    | pa-bl-1  | PstI-MspI  | Pool 5   | A    | 7.1               | 0.378                  | 20.1           | 522            | TGCAT   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 78             | Pool 10       | F    | pa-bl-1  | PstI-HpaII | Pool 5   | B    | 6                 | 0.378                  | 20.1           | 522            | AAGGA   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 66             | Pool 9        | B    | pa6-16   | PstI-HpaII | Pool 5   | C    | 6.9               | 0.378                  | 20.1           | 522            | GCATG   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 18             | Pool 3        | B    | pa6-16   | PstI-MspI  | Pool 5   | D    | 7.5               | 0.378                  | 20.1           | 522            | AACCA   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 6              | Pool 1        | F    | pa7-15   | PstI-MspI  | Pool 5   | E    | 6.7               | 0.378                  | 20.1           | 522            | CAACC   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 54             | Pool 7        | F    | pa7-15   | PstI-HpaII | Pool 5   | F    | 5.4               | 0.378                  | 20.1           | 522            | TCGAT   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 9              | Pool 2        | A    | pa10-15  | PstI-MspI  | Pool 5   | G    | 7                 | 0.378                  | 20.1           | 522            | CGATC   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 57             | Pool 8        | A    | pa10-15  | PstI-HpaII | Pool 5   | H    | 3.9               | 0.378                  | 20.1           | 522            | GGTTG   | ACAGTG         | JD002_E      | Porites astreoides        | 
+| 26             | Pool 4        | B    | pa18-16  | PstI-MspI  | Pool 6   | A    | 6.7               | 0.178                  | 15.4           | 538            | TGCAT   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 74             | Pool 10       | B    | pa18-16  | PstI-HpaII | Pool 6   | B    | 6.4               | 0.178                  | 15.4           | 538            | AAGGA   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 4              | Pool 1        | D    | pa5-15   | PstI-MspI  | Pool 6   | C    | 9.2               | 0.178                  | 15.4           | 538            | GCATG   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 52             | Pool 7        | D    | pa5-15   | PstI-HpaII | Pool 6   | D    | 5.6               | 0.178                  | 15.4           | 538            | AACCA   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 7              | Pool 1        | G    | pa8-15   | PstI-MspI  | Pool 6   | E    | 9.8               | 0.178                  | 15.4           | 538            | CAACC   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 55             | Pool 7        | G    | pa8-15   | PstI-HpaII | Pool 6   | F    | 5                 | 0.178                  | 15.4           | 538            | TCGAT   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 1              | Pool 1        | A    | pa1-15   | PstI-MspI  | Pool 6   | G    | 6.8               | 0.178                  | 15.4           | 538            | CGATC   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 49             | Pool 7        | A    | pa1-15   | PstI-HpaII | Pool 6   | H    | 4                 | 0.178                  | 15.4           | 538            | GGTTG   | GCCAAT         | JD002_F      | Porites astreoides        | 
+| 28             | Pool 4        | D    | pa5h-16  | PstI-MspI  | Pool 7   | A    | 5.7               | 0.142                  | 4.41           | 549            | TGCAT   | CAGATC         | JD002_G      | Porites astreoides        | 
+| 76             | Pool 10       | D    | pa5h-16  | PstI-HpaII | Pool 7   | B    | 4.1               | 0.142                  | 4.41           | 549            | AAGGA   | CAGATC         | JD002_G      | Porites astreoides        | 
+| 79             | Pool 10       | G    | pp-bl-1  | PstI-HpaII | Pool 7   | C    | 5.8               | 0.142                  | 4.41           | 549            | GCATG   | CAGATC         | JD002_G      | Porites porites           | 
+| 31             | Pool 4        | G    | pp-bl-1  | PstI-MspI  | Pool 7   | D    | 5.4               | 0.142                  | 4.41           | 549            | AACCA   | CAGATC         | JD002_G      | Porites porites           | 
+| 90             | Pool 12       | B    | EPI-34   | PstI-HpaII | Pool 7   | E    | 5.8               | 0.142                  | 4.41           | 549            | CAACC   | CAGATC         | JD002_G      | Panopea generosa          | 
+| 42             | Pool 6        | B    | EPI-34   | PstI-MspI  | Pool 7   | F    | 5.3               | 0.142                  | 4.41           | 549            | TCGAT   | CAGATC         | JD002_G      | Panopea generosa          | 
+| 32             | Pool 4        | H    | pp-bl-3  | PstI-MspI  | Pool 7   | G    | 6.2               | 0.142                  | 4.41           | 549            | CGATC   | CAGATC         | JD002_G      | Porites porites           | 
+| 80             | Pool 10       | H    | pp-bl-3  | PstI-HpaII | Pool 7   | H    | 5.3               | 0.142                  | 4.41           | 549            | GGTTG   | CAGATC         | JD002_G      | Porites porites           | 
+| 62             | Pool 8        | F    | pa1-16   | PstI-HpaII | Pool 8   | A    | 5                 | 0.193                  | 15.6           | 536            | TGCAT   | ACTTGA         | JD002_H      | Porites astreoides        | 
+| 14             | Pool 2        | F    | pa1-16   | PstI-MspI  | Pool 8   | B    | 4.8               | 0.193                  | 15.6           | 536            | AAGGA   | ACTTGA         | JD002_H      | Porites astreoides        | 
+| 27             | Pool 4        | C    | pa11h-16 | PstI-MspI  | Pool 8   | C    | 5                 | 0.193                  | 15.6           | 536            | GCATG   | ACTTGA         | JD002_H      | Porites astreoides        | 
+| 75             | Pool 10       | C    | pa11h-16 | PstI-HpaII | Pool 8   | D    | 4.3               | 0.193                  | 15.6           | 536            | AACCA   | ACTTGA         | JD002_H      | Porites astreoides        | 
+| 94             | Pool 12       | F    | EPI-32   | PstI-HpaII | Pool 8   | E    | 5.5               | 0.193                  | 15.6           | 536            | CAACC   | ACTTGA         | JD002_H      | Panopea generosa          | 
+| 46             | Pool 6        | F    | EPI-32   | PstI-MspI  | Pool 8   | F    | 4                 | 0.193                  | 15.6           | 536            | TCGAT   | ACTTGA         | JD002_H      | Panopea generosa          | 
+| 95             | Pool 12       | G    | EPI-60   | PstI-HpaII | Pool 8   | G    | 5.7               | 0.193                  | 15.6           | 536            | CGATC   | ACTTGA         | JD002_H      | Panopea generosa          | 
+| 47             | Pool 6        | G    | EPI-60   | PstI-MspI  | Pool 8   | H    | 3.2               | 0.193                  | 15.6           | 536            | GGTTG   | ACTTGA         | JD002_H      | Panopea generosa          | 
+| 77             | Pool 10       | E    | pa7h-16  | PstI-HpaII | Pool 9   | A    | 5.3               | 0.135                  | 13.7           | 536            | TGCAT   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 29             | Pool 4        | E    | pa7h-16  | PstI-MspI  | Pool 9   | B    | 4.1               | 0.135                  | 13.7           | 536            | AAGGA   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 93             | Pool 12       | E    | EPI-30   | PstI-HpaII | Pool 9   | C    | 5                 | 0.135                  | 13.7           | 536            | GCATG   | GATCAG         | JD002_I      | Panopea generosa          | 
+| 45             | Pool 6        | E    | EPI-30   | PstI-MspI  | Pool 9   | D    | 3.8               | 0.135                  | 13.7           | 536            | AACCA   | GATCAG         | JD002_I      | Panopea generosa          | 
+| 22             | Pool 3        | F    | pa10-16  | PstI-MspI  | Pool 9   | E    | 5.4               | 0.135                  | 13.7           | 536            | CAACC   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 70             | Pool 9        | F    | pa10-16  | PstI-HpaII | Pool 9   | F    | 5.5               | 0.135                  | 13.7           | 536            | TCGAT   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 68             | Pool 9        | D    | pa8-16   | PstI-HpaII | Pool 9   | G    | 4.7               | 0.135                  | 13.7           | 536            | CGATC   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 20             | Pool 3        | D    | pa8-16   | PstI-MspI  | Pool 9   | H    | 4.4               | 0.135                  | 13.7           | 536            | GGTTG   | GATCAG         | JD002_I      | Porites astreoides        | 
+| 24             | Pool 3        | H    | pa12-16  | PstI-MspI  | Pool 10  | A    | 4.4               | 0.2                    | 9.68           | 519            | TGCAT   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 72             | Pool 9        | H    | pa12-16  | PstI-HpaII | Pool 10  | B    | 3.8               | 0.2                    | 9.68           | 519            | AAGGA   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 63             | Pool 8        | G    | pa2-16   | PstI-HpaII | Pool 10  | C    | 4.6               | 0.2                    | 9.68           | 519            | GCATG   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 15             | Pool 2        | G    | pa2-16   | PstI-MspI  | Pool 10  | D    | 3.7               | 0.2                    | 9.68           | 519            | AACCA   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 69             | Pool 9        | E    | pa9-16   | PstI-HpaII | Pool 10  | E    | 4.2               | 0.2                    | 9.68           | 519            | CAACC   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 21             | Pool 3        | E    | pa9-16   | PstI-MspI  | Pool 10  | F    | 3.9               | 0.2                    | 9.68           | 519            | TCGAT   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 71             | Pool 9        | G    | pa11-16  | PstI-HpaII | Pool 10  | G    | 4.3               | 0.2                    | 9.68           | 519            | CGATC   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 23             | Pool 3        | G    | pa11-16  | PstI-MspI  | Pool 10  | H    | 3.6               | 0.2                    | 9.68           | 519            | GGTTG   | TAGCTT         | JD002_J      | Porites astreoides        | 
+| 92             | Pool 12       | D    | EPI-29   | PstI-HpaII | Pool 11  | A    | 4.9               | 0.174                  | 6.81           | 522            | TGCAT   | GGCTAC         | JD002_K      | Panopea generosa          | 
+| 44             | Pool 6        | D    | EPI-29   | PstI-MspI  | Pool 11  | B    | 3.1               | 0.174                  | 6.81           | 522            | AAGGA   | GGCTAC         | JD002_K      | Panopea generosa          | 
+| 19             | Pool 3        | C    | pa7-16   | PstI-MspI  | Pool 11  | C    | 4.4               | 0.174                  | 6.81           | 522            | GCATG   | GGCTAC         | JD002_K      | Porites astreoides        | 
+| 67             | Pool 9        | C    | pa7-16   | PstI-HpaII | Pool 11  | D    | 3                 | 0.174                  | 6.81           | 522            | AACCA   | GGCTAC         | JD002_K      | Porites astreoides        | 
+| 25             | Pool 4        | A    | pa17-16  | PstI-MspI  | Pool 11  | E    | 3.4               | 0.174                  | 6.81           | 522            | CAACC   | GGCTAC         | JD002_K      | Porites astreoides        | 
+| 73             | Pool 10       | A    | pa17-16  | PstI-HpaII | Pool 11  | F    | 3.2               | 0.174                  | 6.81           | 522            | TCGAT   | GGCTAC         | JD002_K      | Porites astreoides        | 
+| 43             | Pool 6        | C    | EPI-35   | PstI-MspI  | Pool 11  | G    | 3.3               | 0.174                  | 6.81           | 522            | CGATC   | GGCTAC         | JD002_K      | Panopea generosa          | 
+| 91             | Pool 12       | C    | EPI-35   | PstI-HpaII | Pool 11  | H    | 3.2               | 0.174                  | 6.81           | 522            | GGTTG   | GGCTAC         | JD002_K      | Panopea generosa          | 
+| 17             | Pool 3        | A    | pa5-16   | PstI-MspI  | Pool 12  | A    | 3.8               | 0.141                  | 4.64           | 519            | TGCAT   | CTTGTA         | JD002_L      | Porites astreoides        | 
+| 65             | Pool 9        | A    | pa5-16   | PstI-HpaII | Pool 12  | B    | 2.4               | 0.141                  | 4.64           | 519            | AAGGA   | CTTGTA         | JD002_L      | Porites astreoides        | 
+| 16             | Pool 2        | H    | pa3-16   | PstI-MspI  | Pool 12  | C    | 3.5               | 0.141                  | 4.64           | 519            | GCATG   | CTTGTA         | JD002_L      | Porites astreoides        | 
+| 64             | Pool 8        | H    | pa3-16   | PstI-HpaII | Pool 12  | D    | 2.9               | 0.141                  | 4.64           | 519            | AACCA   | CTTGTA         | JD002_L      | Porites astreoides        | 
+| 89             | Pool 12       | A    | EPI-33   | PstI-HpaII | Pool 12  | E    | 2.8               | 0.141                  | 4.64           | 519            | CAACC   | CTTGTA         | JD002_L      | Panopea generosa          | 
+| 41             | Pool 6        | A    | EPI-33   | PstI-MspI  | Pool 12  | F    | 2.2               | 0.141                  | 4.64           | 519            | TCGAT   | CTTGTA         | JD002_L      | Panopea generosa          | 
+| 11             | Pool 2        | C    | pa12-15  | PstI-MspI  | Pool 12  | G    | 2.1               | 0.141                  | 4.64           | 519            | CGATC   | CTTGTA         | JD002_L      | Porites astreoides        | 
+| 59             | Pool 8        | C    | pa12-15  | PstI-HpaII | Pool 12  | H    | 1.4               | 0.141                  | 4.64           | 519            | GGTTG   | CTTGTA         | JD002_L      | Porites astreoides        | 
