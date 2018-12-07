@@ -1,12 +1,9 @@
-# Branching _Porites_ project repository
+![_Porites astreoides_](./images/titleimage.png)
 
 This is a repository to accompany a manuscript in preparation titled ["Response of DNA methylation to experimental transplantation in the reef coral Porites astreoides"](https://docs.google.com/document/d/1iN7kf_chLfLjr0Nh5mjNlU0gexdgP9ThgfcxaZgm1Gw/edit).
 
 
-The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for samples of _Porites astreoides_ corals in Belize. Several coral colonies were transplanted to a common garden in November 2015 and sampled again the following year. 
-
-![_Porites astreoides_](./images/titleimage.png)
-
+The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for samples of _Porites astreoides_ corals in Belize. Several coral colonies were transplanted to a common garden in November 2015 and sampled again the following year.
 The goal is to evaluate whether DNA methylation levels in these corals change in response to simulated environmental change. 
 
 
