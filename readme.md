@@ -1,41 +1,48 @@
 # Branching _Porites_ project repository
 
-This is a repository to accompany the manuscript ["Genetic and epigenetic insight into morphospecies in a reef coral"](http://biorxiv.org/content/early/2017/03/22/119156).
+This is a repository to accompany a manuscript in preparation titled ["Response of DNA methylation to experimental transplantation in the reef coral Porites astreoides"](https://docs.google.com/document/d/1iN7kf_chLfLjr0Nh5mjNlU0gexdgP9ThgfcxaZgm1Gw/edit).
 
 
-The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for 27 samples of branching _Porites_ spp. corals collected in Belize. There is taxonomic uncertainty whether Caribbean branching _Porites_ spp. comprise 3 different species or a single polymorphic species. The species are distinguished primarily by branch thickness.
+The study involves analysis of [ddRAD-seq](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037135) and [EpiRAD-seq](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12435/abstract) data for samples of _Porites astreoides_ corals in Belize. Several coral colonies were transplanted to a common garden in November 2015 and sampled again the following year. 
 
-![_Porites porites_](./images/Screen%20Shot%202016-11-03%20at%206.56.27%20PM.png)
+![_Porites astreoides_](./images/titleimage.png)
 
-The goal is to evaluate (1) if there is any genetic structuring of these individuals using the ddRAD data and (2) if there is any epigenetic structuring of these individuals using the EpiRAD data. 
+The goal is to evaluate whether DNA methylation levels in these corals change in response to simulated environmental change. 
 
 
 # Methods overview
 
+One-year common garden transplantation experiment on Belize Barrier Reef
+   colonies moved to common garden from 10-20 km away
+ddRADseq coupled with EpiRADseq (ddRAD variant) to assess methylation
+   EpiRADseq uses methylation-sensitive restriction enzyme
+   Methylation estimated by read counts 
+   Reads low/absent in EpiRADseq library = methylated
+De novo assembly using ipyrad (no P. astreoides genome available yet)
+   Symbiodinium Clade A genome used to remove symbiont reads
+
 ## Library preparation
 
-A starting set of 48 samples of _Porites_ spp. were prepared for ddRADseq and EpiRADseq. Only 30 of these samples were the branching _Porites_ spp. analyzed in this study; the rest were _Porites astreoides_ destined for analysis in a separate study. A separate ddRAD and EpiRAD library was created for each sample, meaning that a total of 96 (48 ddRAD and 48 EpiRAD) samples were run on a 96 well plate. These were split into 12 pools that were run on a single Illumina HiSeq 4000 lane (100 bp paired-end reads). The [data](https://github.com/jldimond/Branching-Porites/tree/master/data) directory contains sample metadata and barcode files associated with each library. 
+ddRADseq and EpiRADseq library preparation protocols are described in detail [here](http://onsnetwork.org/jdimond/2016/08/). Most of the data used for this study was generated in a single set of ddRADseq and EpiRADseq libraries (JD002_A-L) produced in January 2017; technical details of these libraries prior to sequencing are [here](http://onsnetwork.org/jdimond/2017/02/14/rad-library-prep/). A separate ddRAD and EpiRAD library was created for each sample. These were split into 12 pools (A-L) that were run on a single Illumina HiSeq 4000 lane (100 bp paired-end reads). The [data](https://github.com/jldimond/Branching-Porites/tree/master/data) directory contains sample metadata and barcode files associated with each library. 
 
 
 ## Assembly 
 
-Sequences were assembled using ipyrad v0.3.41 (Eaton 2014). We used the ‘denovo - reference’ assembly method with the Symbiodinium minutum (clade B; (Shoguchi et al. 2013)) and Symbiodinium kawagutii (clade F; (Lin et al. 2015) ) draft genomes used as reference to subtract symbiont reads from the de novo assembly. The [assembly workflow](https://github.com/jldimond/Branching-Porites/blob/master/notebooks/ipyrad_assembly.ipynb) details the assembly in a Jupyter notebook. Further specifics of the ipyrad parameters used for assembly can be seen in the aforementioned workflow or directly in the [parameters file](https://github.com/jldimond/Branching-Porites/blob/master/analyses/ipyrad_analysis/params-data3.txt). Information on these parameters and how they are used in ipyrad can be found [here](http://ipyrad.readthedocs.io/).
+Sequences were assembled using ipyrad v.0.5.15 (Eaton 2014). We used the ‘denovo - reference’ assembly method with the Symbiodinium microadriaticum (clade A; [Aranda et al. 2016](https://www.nature.com/articles/srep39734)) genome used as reference to subtract symbiont reads from the de novo assembly. The [assembly workflow](https://github.com/jldimond/Branching-Porites/blob/master/notebooks/ipyrad_assembly.ipynb) details the assembly in a Jupyter notebook. Further specifics of the ipyrad parameters used for assembly can be seen in the aforementioned workflow or directly in the [parameters file](https://github.com/jldimond/Branching-Porites/blob/master/analyses/ipyrad_analysis/params-data3.txt). Information on these parameters and how they are used in ipyrad can be found [here](http://ipyrad.readthedocs.io/).
 
 
 ## Analysis 
 
 Each sample has both a ddRAD-seq and EpiRAD-seq library associated with it. The only difference between the libraries is that the ddRAD library was generated with a methylation-insensitive common cutter (_MspI_) while the EpiRAD library was generated with a methylation-sensitive common cutter (_HpaII_). Both restriction enzymes recognize the same cut site, CCGG, but if this site is methylated, _HpaII_ will not cut and the locus will not be present in the EpiRAD library. Both libraries had the same rare cutter (_PstI_). Thus, both libraries should contain similar sets of loci unless the locus is methylated. 
 
-In essence the analysis involves (1) analysis of single nucleotide polymorphisms (SNPs) in the ddRAD data and (2) analysis of read counts in the EpiRAD data. ipyrad generates many [output files](https://github.com/jldimond/Branching-Porites/tree/master/analyses/ipyrad_analysis/data3_outfiles) that can be readily used for the ddRAD SNP anlysis, but the EpiRAD analysis requires a bit more work to extract workable data. First, read count data are extracted from the .vcf format output from iPyrad. This file is too large to be included in the online repository, but the workflow can be found [here](https://github.com/jldimond/Branching-Porites/blob/master/notebooks/VCF_readcounts.ipynb). The remainder of the analysis is performed in R. The R notebook is located [here](https://github.com/jldimond/Branching-Porites/blob/master/analyses/ipyrad_analysis/data3_outfiles/PoritesRAD_analysis.md).
+ipyrad generates many [output files](https://github.com/jldimond/Branching-Porites/tree/master/analyses/ipyrad_analysis/data3_outfiles) that can be readily used for the ddRAD SNP anlysis, but the EpiRAD analysis requires a bit more work to extract workable data. First, read count data are extracted from the .vcf format output from iPyrad. This file is too large to be included in the online repository, but the workflow can be found [here](https://github.com/jldimond/Branching-Porites/blob/master/notebooks/VCF_readcounts.ipynb). The remainder of the analysis is performed in R. The R notebook is located [here](https://github.com/jldimond/Branching-Porites/blob/master/analyses/ipyrad_analysis/data3_outfiles/PoritesRAD_analysis.md).
 
 
 ## Software
 
 This study made use of the following software:
 
-ipyrad v0.3.41
-
-SnpEff(SnpSift) v4.2
+ipyrad v.0.5.15
 
 R v3.1.3
 
@@ -53,10 +60,6 @@ adegenet v2.0.1
 ade4 v1.7-4
 
 hierfstat v0.04-22
-
-lmtest v0.9-34
-
-relaimpo v2.2-2
 
 iheatmapr v0.2.5
 
