@@ -38,3 +38,6 @@
 data3.txt
 *.nex
 *.loci
+*.nc
+*.dbf
+*.shp
