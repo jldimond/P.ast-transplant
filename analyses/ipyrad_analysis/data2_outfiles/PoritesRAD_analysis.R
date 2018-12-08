@@ -1,9 +1,9 @@
 ############################################################################
-## This script analyzes ddRADseq and EpiRADseq data in branching Porites spp.
+## This script analyzes ddRADseq and EpiRADseq data in Porites astreoides
 
 
 #Set directory
-setwd("~/Documents/Projects/PoritesRAD/Past_data2_outfiles") #BEST ONE YET
+setwd("~/Documents/Projects/PoritesRADseq/P.ast-transplant/analyses/ipyrad_analysis/data2_outfiles") 
 
 #Load libraries
 library(ape, quietly = TRUE)
@@ -45,7 +45,7 @@ melted <- melt(epidd_dist3, na.rm = TRUE)
 
 ggplot(data = melted, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
-  scale_fill_gradient2(low = "white", high = "blue", limit = c(0,0.3), space = "Lab", 
+  scale_fill_gradient2(low = "white", high = "blue", limit = c(0,0.25), space = "Lab", 
                        name="SNP 
 Mismatches") +
   theme_minimal()+ 
@@ -226,38 +226,38 @@ Sym_prop_methyl <- lapply(Sym_resid_all_binary, function(x) sum(x) / length(x))
 
 #Get differences between 2015 and 2016 methylation for each replicate
 #0 is no change, 1 is demethylation, -1 is methylation
-diff <- list()
-for (i in seq(1,length(unlist(Sym_resid_all_binary)), by = 2)){
-  diff[[i]] <- Sym_resid_all_binary[[i]] - Sym_resid_all_binary[[i+1]]
-}
-
-past10diff <- as.data.frame(unlist(diff[[1]]))
-past11diff <- as.data.frame(unlist(diff[[3]]))
-past02diff <- as.data.frame(unlist(diff[[5]]))
-past03diff <- as.data.frame(unlist(diff[[7]]))
-past05diff <- as.data.frame(unlist(diff[[9]]))
-past06diff <- as.data.frame(unlist(diff[[11]]))
-past08diff <- as.data.frame(unlist(diff[[13]]))
-past09diff <- as.data.frame(unlist(diff[[15]]))
-
-temp <- merge(past10diff, past11diff, by = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past02diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past03diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past05diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past06diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past08diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-temp <- merge(temp, past09diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-row.names(temp) <- temp$Row.names
-difftable <- temp[,c(2:9)]
-diff1 <- difftable[rowSums(difftable, na.rm = TRUE) < 8, ]
-diff2 <- diff1[abs(rowSums(difftable, na.rm = TRUE)) >= 3, ]
-
-#get seq numbers, subtracting one from each number to match `.loci` numbers
-seqs <- as.numeric(rownames(diff2))-1
-#write to file
-write.table(seqs, file = "seqs_test.txt", row.names = FALSE, col.names = FALSE)
-#then in bash use grep -B 1 -wFf seqs_test.txt data2.loci > diffseqs.txt
-#awk -v n=3 'NR%n==1' diffseqs.txt | awk '{print $2}' > diffseqs2.txt
+# diff <- list()
+# for (i in seq(1,length(unlist(Sym_resid_all_binary)), by = 2)){
+#   diff[[i]] <- Sym_resid_all_binary[[i]] - Sym_resid_all_binary[[i+1]]
+# }
+# 
+# past10diff <- as.data.frame(unlist(diff[[1]]))
+# past11diff <- as.data.frame(unlist(diff[[3]]))
+# past02diff <- as.data.frame(unlist(diff[[5]]))
+# past03diff <- as.data.frame(unlist(diff[[7]]))
+# past05diff <- as.data.frame(unlist(diff[[9]]))
+# past06diff <- as.data.frame(unlist(diff[[11]]))
+# past08diff <- as.data.frame(unlist(diff[[13]]))
+# past09diff <- as.data.frame(unlist(diff[[15]]))
+# 
+# temp <- merge(past10diff, past11diff, by = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past02diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past03diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past05diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past06diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past08diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# temp <- merge(temp, past09diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# row.names(temp) <- temp$Row.names
+# difftable <- temp[,c(2:9)]
+# diff1 <- difftable[rowSums(difftable, na.rm = TRUE) < 8, ]
+# diff2 <- diff1[abs(rowSums(difftable, na.rm = TRUE)) >= 3, ]
+# 
+# #get seq numbers, subtracting one from each number to match `.loci` numbers
+# seqs <- as.numeric(rownames(diff2))-1
+# #write to file
+# write.table(seqs, file = "seqs_test.txt", row.names = FALSE, col.names = FALSE)
+# #then in bash use grep -B 1 -wFf seqs_test.txt data2.loci > diffseqs.txt
+# #awk -v n=3 'NR%n==1' diffseqs.txt | awk '{print $2}' > diffseqs2.txt
 
 #####################################################################################
 
@@ -386,19 +386,19 @@ for (i in 1:ncol(resid_all)){
 heatmap(clusters4, scale = "none")
 
 
-#Plot to compare raw data to residuals for representative sample
-par(mfrow = c(3, 1))
-par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
-plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
-     col = "blue", cex.axis = 1.1, cex.lab = 1.2, yaxp = c(0, 300, 3))
-plot(counts2_cpm[,13], counts2_cpm[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
-     col = "blue", cex.axis = 1.1, cex.lab = 1.2)
-abline(models$`109_ddr`)
-plot(resid_all[,7], ylab = "Residual", col = "blue", cex.axis = 1.1, cex.lab = 1.2)
-abline(h = -1, lty = "dotted")
-mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
-mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
-mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
+# #Plot to compare raw data to residuals for representative sample
+# par(mfrow = c(3, 1))
+# par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
+# plot(Epidata5[,13], Epidata5[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+#      col = "blue", cex.axis = 1.1, cex.lab = 1.2, yaxp = c(0, 300, 3))
+# plot(counts2_cpm[,13], counts2_cpm[,14], xlab = "ddRAD read counts", ylab = "EpiRAD read counts", 
+#      col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+# abline(models$`109_ddr`)
+# plot(resid_all[,7], ylab = "Residual", col = "blue", cex.axis = 1.1, cex.lab = 1.2)
+# abline(h = -1, lty = "dotted")
+# mtext('A', side=3, line=-1.6, at = 0.15, outer=TRUE)
+# mtext('B', side=3, line=-20, at = 0.15, outer=TRUE)
+# mtext('C', side=3, line=-39, at = 0.15, outer=TRUE)
 
  
 #################################################################
@@ -444,7 +444,7 @@ methobs <- cbind(meth_obs,obs)
 #MDS of EpiRAD data
 
 names <- c("pa10-15", "pa10-16", "pa11-15", "pa11-16", "pa2-15", "pa2-16", "pa3-15",
-           "pa3-16", "pa5-15", "pa5-16", "pa5h-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
+           "pa3-16", "pa5-15", "pa5-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
            "pa9-15", "pa9-16")
 colnames(resid_all_binary) <- names
 resid_t_binary <- t(resid_all_binary)
@@ -595,143 +595,20 @@ upper_tri <- get_upper_tri(methdist3)
 methdist4 <- melt(upper_tri, na.rm = TRUE)
 methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
 
-#linear regression of the snp and meth data
-epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
-summary(epi_snp_lm)
+# #linear regression of the snp and meth data
+# epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
+# summary(epi_snp_lm)
+# 
+# #linear regression without outliers
+# snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
+# methdist6 <- methdist5[which(methdist5[,3]>0.159),]
+# epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
+# summary(epi_snp_lm_no_out)
 
-#linear regression without outliers
-snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
-methdist6 <- methdist5[which(methdist5[,3]>0.159),]
-epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
-summary(epi_snp_lm_no_out)
-
+dev.off()
 plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col = "blue", 
      xlab = "Genetic distance", ylab = "Epigenetic distance")
-abline(epi_snp_lm, col = "orange")
-abline(epi_snp_lm_no_out, col = "green")
+# abline(epi_snp_lm, col = "orange")
+# abline(epi_snp_lm_no_out, col = "green")
 
 
-#################################################################################
-#dataset comparing samples spatially between inshore and offshore
-
-#########################################################################
-#Matrix with ddr and epi loci for comparison of SNP genotyping error
-
-geno6 <- geno2[,c(1:4,7:8,11:12,37:38,67:68,83:84,87:88)] #subset of samples of interest
-geno7 <- geno6[!rowSums(geno6 == 9) >= 1,] #this removes missing values for a complete dataset
-geno4 <- t(geno7)
-#create distanc ematrix
-epidd_dist <- dist.gene(geno4, method = "percent", pairwise.deletion = FALSE,
-                        variance = FALSE)
-epidd_dist2 <- as.matrix(epidd_dist)
-epidd_dist3 <- epidd_dist2[c(seq(from =1, to = nrow(epidd_dist2), by= 2)), 
-                           c(seq(from =2, to = ncol(epidd_dist2), by= 2))]
-
-melted <- melt(epidd_dist3, na.rm = TRUE)
-
-ggplot(data = melted, aes(Var2, Var1, fill = value))+
-  geom_tile(color = "white")+
-  scale_fill_gradient2(low = "white", high = "blue", limit = c(0,0.3), space = "Lab", 
-                       name="SNP 
-                       Mismatches") +
-  theme_minimal()+ 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 9.5, hjust = 1))+
-  labs(x= "EpiRADseq samples", y = "ddRADseq samples")+
-  coord_fixed()
-
-
-## Next we read in a text file derived from the "Read Depth"
-## .vcf output from ipyrad (v.0.5.15). Read counts are used for analysis of 
-## EpiRADseq data.
-
-#Read in data file. The file "data3-2.txt" was generated from the notebook "VCF_readcounts.ipynb"
-Epidata <- read.delim("out.DP.FORMAT", header=TRUE)
-
-#Use aggregate to get means for duplicate records of CHROM (locus ID)
-Epidata2 <- aggregate(.~CHROM, data=Epidata, mean)
-rownames(Epidata2) <- Epidata2$CHROM
-
-#Select samples of interest (some have very low sample sizes)
-# This is for independent data sets
-
-Epidata3 <- Epidata2[,c(3:6,9:10,13:14,39:40,69:70,85:86,89:90)]
-
-
-#Remove ddr rows that have any zeros. The premise here is that zeros 
-#in the EpiRAD dataset are informative because they may reflect 
-#methylation, but they could also relfect true absence of the locus
-#in the library. Here the ddRAD library serves to standarize the EpiRAD
-#library. Any zeros in the ddRAD libary are treated as absence of the
-#locus, thereby leaving zeros in the EpiRAD library only where the 
-#locus was counted in the ddRAD library.
-
-Epidata4 <- Epidata3[apply(Epidata3[c(seq(1, 16, by = 2))],1,
-                           function(z) !any(z<=15)),] #increased from z==0
-
-
-#################################################################
-# Now use edgeR package to standardize EpiRAD count data by library size
-
-#read in the file for edgeR
-counts <- DGEList(counts=Epidata4)
-counts$samples
-#TMM normalization (corrects for library size)
-counts2 <- calcNormFactors(counts)
-counts2$samples
-#extract normalized counts
-counts2_cpm <- cpm(counts2, normalized.lib.sizes=TRUE, log=TRUE)
-
-##Plots to show ddRAD vs EpiRAD library (before normalization)
-par(mfrow = c(5, 5))
-par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
-
-for (i in seq(1,ncol(Epidata4), by = 2)){
-  plot(Epidata4[,i], Epidata4[,i+1], main = colnames(Epidata4[i]), col = "blue")
-}
-
-
-#plot normalized counts
-par(mfrow = c(5, 5))
-par(mar = c(2, 2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-
-for (i in seq(1,ncol(counts2_cpm), by = 2)){
-  plot(counts2_cpm[,i], counts2_cpm[,i+1], main = colnames(counts2_cpm[i]), col = "blue")
-}
-
-
-##################################################################
-#Using lm to get residuals
-
-models <- list()
-for (i in seq(1,ncol(counts2_cpm), by = 2)){
-  models[[colnames(counts2_cpm)[i]]] <- lm(counts2_cpm[,i+1] ~ counts2_cpm[,i])
-}
-
-residuals <- lapply(models, '[[', 2)
-resid_all <- as.data.frame(residuals)  
-
-#plot residuals
-par(mfrow = c(5, 5))
-par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-
-for (i in 1:ncol(resid_all)){
-  plot(resid_all[,i], col = "blue", ylim = c(-10, 4))
-}
-
-#Use k-means clustering to obtain methylated and unmethylated loci
-set.seed(1234)
-clusters <- lapply(residuals, kmeans, 2)
-clusters2 <- lapply(clusters, '[[', 1)
-clusters3 <- as.data.frame(clusters2)
-clusters3[,c(2,3,7,8)] <-ifelse(clusters3[,c(2,3,7,8)] == 2, 1, 2)
-clusters4 <- as.matrix(clusters3)
-
-#plot residuals with k-means colors
-par(mfrow = c(5, 5))
-par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-
-for (i in 1:ncol(resid_all)){
-  plot(resid_all[,i], col = clusters4[,i], ylim = c(-10, 4))
-}
-
-heatmap(clusters4, scale = "none")
