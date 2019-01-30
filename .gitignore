@@ -41,3 +41,5 @@ data3.txt
 *.nc
 *.dbf
 *.shp
+*.blast
+*.fasta
