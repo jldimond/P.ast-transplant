@@ -18,7 +18,7 @@ library(reshape2)
 library(ggplot2)
 library(cowplot)
 
-setwd("~/Documents/Projects/PoritesRADseq/Satellite_data/sst")
+setwd("~/Documents/Projects/PoritesRADseq/P.ast-transplant/satellite-data-analysis/sst")
 
 # list files
 sst = list.files(getwd(), pattern="sst_4km.nc", full.names=FALSE) 
@@ -39,7 +39,7 @@ setwd("~/Documents/Projects/PoritesRADseq/Satellite_data/chla")
 # list files
 chla = list.files(getwd(), pattern="chl_ocx_4km.nc", full.names=FALSE) 
 
-# create ratser stack
+# create raster stack
 chla_stack <- stack(chla)
 
 # crop stack to new extent
