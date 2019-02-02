@@ -10,6 +10,7 @@
 # UN Environment coral reef atlas from http://datadownload.web-production.linode.unep-wcmc.org/download/qesFJJYG/WCMC008_CoralReefs2010_v3.zip
 
 library(raster)
+library(ncdf4)
 library(sp)
 library(rgdal)
 library(dplyr)
@@ -18,10 +19,10 @@ library(reshape2)
 library(ggplot2)
 library(cowplot)
 
-setwd("~/Documents/Projects/PoritesRADseq/P.ast-transplant/satellite-data-analysis/sst")
+setwd("/Users/jd/Documents/Projects/PoritesRADseq/P.ast-transplant/analyses/satellite-data-analysis/")
 
 # list files
-sst = list.files(getwd(), pattern="sst_4km.nc", full.names=FALSE) 
+sst = list.files("./sst", pattern="sst_4km.nc", full.names=TRUE) 
 
 # create ratser stack
 sst_stack <- stack(sst)
@@ -33,11 +34,9 @@ sst_stack_crop <- crop(sst_stack, extent(-88.4,-87.9,16.55,17.125))
 sst_avg <- mean(sst_stack_crop)
 sst_range <- max(sst_stack_crop)-min(sst_stack_crop)
 
-# now for the chla data
-setwd("~/Documents/Projects/PoritesRADseq/Satellite_data/chla")
-
+#now for chla data
 # list files
-chla = list.files(getwd(), pattern="chl_ocx_4km.nc", full.names=FALSE) 
+chla = list.files("./chla", pattern="chl_ocx_4km.nc", full.names=TRUE) 
 
 # create raster stack
 chla_stack <- stack(chla)
@@ -49,10 +48,8 @@ chla_stack_crop <- crop(chla_stack, extent(-88.4,-87.9,16.55,17.125))
 chla_avg <- mean(chla_stack_crop, na.rm = TRUE)
 
 # now for the attenuation data
-setwd("~/Documents/Projects/PoritesRADseq/Satellite_data/attenuation")
-
 # list files
-atten = list.files(getwd(), pattern="Kd_490_4km.nc", full.names=FALSE) 
+atten = list.files("./attenuation", pattern="Kd_490_4km.nc", full.names=TRUE) 
 
 # create ratser stack
 atten_stack <- stack(atten)
@@ -64,7 +61,7 @@ atten_stack_crop <- crop(atten_stack, extent(-88.4,-87.9,16.55,17.125))
 atten_avg <- mean(atten_stack_crop, na.rm = TRUE)
 
 # open Belize basemap
-belize <- readOGR(dsn = "../Belize_Basemap", layer = "Belize_Basemap")
+belize <- readOGR(dsn = "./Belize_Basemap", layer = "Belize_Basemap")
 
 # transform projection to the projection of the MODIS data
 # "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
@@ -74,7 +71,7 @@ belize_trans_clip <- crop(belize_trans, extent(-88.42,-87.9,16.54,17.125))
 plot(belize_trans, col = "gray")
 
 # open coral reef basemap
-coralreef <- readOGR(dsn = "../14_001_WCMC008_CoralReefs2010_v3/01_Data", layer = "WCMC008_CoralReef2010_Py_v3")
+coralreef <- readOGR(dsn = "./14_001_WCMC008_CoralReefs2010_v3/01_Data", layer = "WCMC008_CoralReef2010_Py_v3")
 
 # transform projection to the projection of the MODIS data
 # "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
@@ -84,7 +81,7 @@ coralreef_trans_clip <- crop(coralreef_trans, extent(-88.42,-87.9,16.54,17.125))
 plot(coralreef_trans_clip, col = "gray")
 
 # get coordinates of coral specimens 
-corals <- read.delim("../specimens.txt", header = FALSE)
+corals <- read.delim("./specimens.txt", header = FALSE)
 names(corals) <- c("Latitude","Longitude","IDnumber")
 
 # extract sst data from rasters using coral site data

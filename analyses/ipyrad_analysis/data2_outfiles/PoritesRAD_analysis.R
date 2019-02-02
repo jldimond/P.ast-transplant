@@ -348,9 +348,23 @@ diffmeth3 <- abs(diffmeth2[, first] - diffmeth2[, second])
 diffmeth4 <- which(rowSums(diffmeth3) >=2)
 diffmeth5 <- as.numeric(names(diffmeth4))-1
 
-test <- vennCounts(diffmeth3)
-vennDiagram(test)
-heatmap(diffmeth3, scale = "none", Colv = NA)
+#################################################################
+#Was the degree of methylation change associated with inshore /offshore differences?
+
+epidist2 <- as.matrix(epidist)
+
+epidist3 <- epidist2[row(epidist2) == (col(epidist2) - 1)]
+
+inshoreoffshore <- as.data.frame(cbind(epidist3[c(1,3,9,11,5,7,13,15)],
+                                       c("Inshore", "Inshore", "Inshore", "Inshore",
+                                         "Offshore", "Offshore", "Offshore", "Offshore")))
+
+inshoreoffshore$V1 <- as.numeric(as.character(inshoreoffshore$V1))
+
+boxplot(inshoreoffshore$V1 ~ inshoreoffshore$V2)
+bartlett.test(inshoreoffshore$V1 ~ inshoreoffshore$V2) #variances not sig. different
+t.test(inshoreoffshore$V1 ~ inshoreoffshore$V2, var.equal = TRUE) #df = 6, p-value = 0.6959
+
 #################################################################
 #Compare pairwise genetic distance with pairwise epigenetic distance
 

@@ -1,5 +1,5 @@
 #Set working directory
-setwd("~/Documents/Projects/PoritesRADseq/SymRAD/Sym_BLAST")
+setwd("~/Documents/Projects/PoritesRADseq/P.ast-transplant/analyses/SymbiontGenoytping/")
 #Get list of filenames to import with *.blast suffix
 filenames <- list.files(pattern="*.blast", full.names=TRUE)
 #import files as a list of dataframes
@@ -34,15 +34,13 @@ symsum <- sym6 %>%
   summarise(count=n()) %>% 
   mutate(perc=count/sum(count))
 #add vector for species
-symsum$species <- c(rep("Branching Porites", 32), rep("Porites astreoides", 120))
+symsum$species <- c(rep("Branching Porites", 32), rep("Porites astreoides", 72))
 library(ggstance)
 #plot it
-ggplot(subset(symsum,sample %in% c("80", "81", "82", "84", "85", 
-                                   "86", "87", "88b", "89", "90", "91",
-                                   "95", "96", "98", "99", "pa1-15",
-                                   "pa10-15", "pa11-15", "pa12-15", "pa17-15",
-                                   "pa18-15", "pa2-15", "pa3-15", "pa5-15",
-                                   "pa6-15", "pa7-15", "pa8-15", "pa9-15",
+ggplot(subset(symsum,sample %in% c("pa10-15", "pa10-16","pa11-15", "pa11-16",
+                                   "pa2-15", "pa2-16", "pa3-15", "pa3-16", "pa5-15",
+                                   "pa5-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
+                                   "pa9-15", "pa9-16",
                                    "103", "104", "105", "124", "125", "126",
                                    "128", "129", "130", "131"))) + 
 aes(x = perc, y = sample, fill = factor(clade)) +
