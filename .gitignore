@@ -43,3 +43,4 @@ data3.txt
 *.shp
 *.blast
 *.fasta
+analyses/satellite-data-analysis/.RData

@@ -100,6 +100,25 @@ sst_summary <- ddply(melted, "Location", summarise,
                      sem = sd(value)/sqrt(length(value)),
                      Range = max(value)-min(value), na.rm = TRUE)
 
+sst_mean <- apply(sst_corals[,2:13], 1, mean)
+sst_mean2 <- cbind(sst_corals$Location, sst_mean)
+
+#test for homogeneity of variances differences between locations
+bartlett.test(sst_mean ~ V1, data = sst_mean2) #variances not sig. different
+
+#paired t-test
+t.test(sst_mean ~ V1, data = sst_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.0018
+
+sst_range <- apply(sst_corals[,2:13], 1, function(x) max(x)-min(x))
+sst_range2 <- cbind(sst_corals$Location, sst_range)
+
+#test for homogeneity of variances differences between locations
+bartlett.test(sst_range ~ V1, data = sst_range2) #variances not sig. different
+
+#paired t-test
+t.test(sst_range ~ V1, data = sst_range2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.272
+
+
 # extract chla data from rasters using coral site data
 
 chla_corals <- extract(chla_stack_crop, corals2[,1:2])
@@ -118,6 +137,18 @@ chla_summary <- as.data.frame(chla_summary)
 chla_summary$Mean <- as.numeric(as.character(chla_summary$Mean))
 chla_summary$SEM <- as.numeric(as.character(chla_summary$SEM))
 
+inshore_chl2 <- apply(inshore_chl, 1, mean, na.rm = TRUE)
+offshore_chl2 <- apply(offshore_chl, 1, mean, na.rm = TRUE)
+chl_mean2 <- as.data.frame(cbind(c(rep("Inshore",4),rep("Offshore",4)),c(inshore_chl2, offshore_chl2)))
+chl_mean2$V2 <- as.numeric(as.character(chl_mean2$V2))
+
+#test for homogeneity of variances differences between locations
+bartlett.test(V2 ~ V1, data = chl_mean2) #variances not sig. different
+
+#paired t-test
+t.test(V2 ~ V1, data = chl_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.1165
+
+
 # extract atten data from rasters using coral site data
 
 atten_corals <- extract(atten_stack_crop, corals2[,1:2])
@@ -135,6 +166,17 @@ colnames(atten_summary) <- c("Mean", "SEM", "Location")
 atten_summary <- as.data.frame(atten_summary)
 atten_summary$Mean <- as.numeric(as.character(atten_summary$Mean))
 atten_summary$SEM <- as.numeric(as.character(atten_summary$SEM))
+
+inshore_atten2 <- apply(inshore_atten, 1, mean, na.rm = TRUE)
+offshore_atten2 <- apply(offshore_atten, 1, mean, na.rm = TRUE)
+atten_mean2 <- as.data.frame(cbind(c(rep("Inshore",4),rep("Offshore",4)),c(inshore_atten2, offshore_atten2)))
+atten_mean2$V2 <- as.numeric(as.character(atten_mean2$V2))
+
+#test for homogeneity of variances differences between locations
+bartlett.test(V2 ~ V1, data = atten_mean2) #variances not sig. different
+
+#paired t-test
+t.test(V2 ~ V1, data = atten_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.08306 
 
 
 # turn rasters into dataframes in order to plot with ggplot

@@ -431,7 +431,7 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # abline(epi_snp_lm_no_out, col = "green")
 
 
-#######################################################################################################
+# ######################################################################################################
 # #Select samples of interest (some have very low sample sizes)
 # # This is for independent data sets
 # 
@@ -445,12 +445,12 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # Epidata_09 <- Epidata2[,c(89:92)]
 # 
 # 
-# #Remove ddr rows that have any zeros. The premise here is that zeros 
-# #in the EpiRAD dataset are informative because they may reflect 
+# #Remove ddr rows that have any zeros. The premise here is that zeros
+# #in the EpiRAD dataset are informative because they may reflect
 # #methylation, but they could also relfect true absence of the locus
 # #in the library. Here the ddRAD library serves to standarize the EpiRAD
 # #library. Any zeros in the ddRAD libary are treated as absence of the
-# #locus, thereby leaving zeros in the EpiRAD library only where the 
+# #locus, thereby leaving zeros in the EpiRAD library only where the
 # #locus was counted in the ddRAD library.
 # 
 # Epidata_10_1 <- Epidata_10[apply(Epidata_10[c(seq(1, ncol(Epidata_10), by = 2))],1,
@@ -471,7 +471,7 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 #                                  function(z) !any(z <= 15)), ] #increased from z==0
 # 
 # 
-# Epidata4 <- list(Epidata_10_1, Epidata_11_1, Epidata_02_1, Epidata_03_1, Epidata_05_1, 
+# Epidata4 <- list(Epidata_10_1, Epidata_11_1, Epidata_02_1, Epidata_03_1, Epidata_05_1,
 #                  Epidata_06_1, Epidata_08_1, Epidata_09_1)
 # 
 # ##Plots to show ddRAD vs EpiRAD library (before normalization)
@@ -547,8 +547,8 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # model_09_16 <- lm(counts2_cpm[[8]][,4] ~ counts2_cpm[[8]][,3])
 # 
 # 
-# models <- list(model_10_15, model_10_16, model_11_15, model_11_16, model_02_15, 
-#                model_02_16, model_03_15, model_03_16, model_05_15, model_05_16, 
+# models <- list(model_10_15, model_10_16, model_11_15, model_11_16, model_02_15,
+#                model_02_16, model_03_15, model_03_16, model_05_15, model_05_16,
 #                model_06_15, model_06_16, model_08_15, model_08_16, model_09_15, model_09_16)
 # 
 # 
@@ -567,14 +567,14 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # clusters <- lapply(residuals, kmeans, 2)
 # clusters2 <- lapply(clusters, '[[', 1)
 # clusters3 <- lapply(clusters2[c(3,4,5,6,7,11,12,13,14,15)], function(x) ifelse(x == 2, 1, 2))
-# clusters4 <- list(clusters2[[1]], clusters2[[2]], clusters3[[1]], clusters3[[2]], 
-#                   clusters3[[3]], clusters3[[4]], clusters3[[5]], clusters2[[8]], 
+# clusters4 <- list(clusters2[[1]], clusters2[[2]], clusters3[[1]], clusters3[[2]],
+#                   clusters3[[3]], clusters3[[4]], clusters3[[5]], clusters2[[8]],
 #                   clusters2[[9]], clusters2[[10]], clusters3[[6]], clusters3[[7]],
 #                   clusters3[[8]], clusters3[[9]], clusters3[[10]], clusters2[[16]])
 # 
 # #plot residuals with k-means colors
 # par(mfrow = c(5, 5))
-# par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
+# par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5))
 # 
 # for (i in 1:length(clusters4)){
 #   plot(residuals[[i]], col = clusters4[[i]], ylim = c(-10, 4))
@@ -596,7 +596,7 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # # for (i in seq(1,length(unlist(Sym_resid_all_binary)), by = 2)){
 # #   diff[[i]] <- Sym_resid_all_binary[[i]] - Sym_resid_all_binary[[i+1]]
 # # }
-# # 
+# #
 # # past10diff <- as.data.frame(unlist(diff[[1]]))
 # # past11diff <- as.data.frame(unlist(diff[[3]]))
 # # past02diff <- as.data.frame(unlist(diff[[5]]))
@@ -605,65 +605,65 @@ plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col 
 # # past06diff <- as.data.frame(unlist(diff[[11]]))
 # # past08diff <- as.data.frame(unlist(diff[[13]]))
 # # past09diff <- as.data.frame(unlist(diff[[15]]))
+# # # 
+# # # temp <- merge(past10diff, past11diff, by = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past02diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past03diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past05diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past06diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past08diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # temp <- merge(temp, past09diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
+# # # row.names(temp) <- temp$Row.names
+# # # difftable <- temp[,c(2:9)]
+# # # diff1 <- difftable[rowSums(difftable, na.rm = TRUE) < 8, ]
+# # # diff2 <- diff1[abs(rowSums(difftable, na.rm = TRUE)) >= 3, ]
+# # # 
+# # # #get seq numbers, subtracting one from each number to match `.loci` numbers
+# # # seqs <- as.numeric(rownames(diff2))-1
+# # # #write to file
+# # # write.table(seqs, file = "seqs_test.txt", row.names = FALSE, col.names = FALSE)
+# # # #then in bash use grep -B 1 -wFf seqs_test.txt data2.loci > diffseqs.txt
+# # # #awk -v n=3 'NR%n==1' diffseqs.txt | awk '{print $2}' > diffseqs2.txt
+# 
+# ##############################
+# 
+# # #apply density function to residuals
+# # resid_dens <- lapply(residuals, density)
 # # 
-# # temp <- merge(past10diff, past11diff, by = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past02diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past03diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past05diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past06diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past08diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # temp <- merge(temp, past09diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # row.names(temp) <- temp$Row.names
-# # difftable <- temp[,c(2:9)]
-# # diff1 <- difftable[rowSums(difftable, na.rm = TRUE) < 8, ]
-# # diff2 <- diff1[abs(rowSums(difftable, na.rm = TRUE)) >= 3, ]
+# # #extract x,y coordinates from density list
+# # resid_dens_df <- as.data.frame(lapply(resid_dens, function(x) {x[c(1,2)]}))  
 # # 
-# # #get seq numbers, subtracting one from each number to match `.loci` numbers
-# # seqs <- as.numeric(rownames(diff2))-1
-# # #write to file
-# # write.table(seqs, file = "seqs_test.txt", row.names = FALSE, col.names = FALSE)
-# # #then in bash use grep -B 1 -wFf seqs_test.txt data2.loci > diffseqs.txt
-# # #awk -v n=3 'NR%n==1' diffseqs.txt | awk '{print $2}' > diffseqs2.txt
-
-##############################
-
-# #apply density function to residuals
-# resid_dens <- lapply(residuals, density)
-# 
-# #extract x,y coordinates from density list
-# resid_dens_df <- as.data.frame(lapply(resid_dens, function(x) {x[c(1,2)]}))  
-# 
-# #plot density curves
-# par(mfrow = c(5, 5))
-# par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-# 
-# for (i in seq(1,34, by = 2)){
-#   plot(resid_dens_df[,i], resid_dens_df[,i+1], main = colnames(resid_dens_df[i]), col = "blue")
-# }
-# 
-# #run mixture model analysis on residuals. mu (mean) was taken from average of model run
-# #with unspecified mu
-# mixmdls <- list()
-# for (i in 1:17){
-#   mixmdls[[colnames(resid_all)[i]]] <- normalmixEM(resid_all[,i], mu = c(-8, 1.76))
-# }
-# 
-# #plot density curves from normalmixEM
-# par(mfrow = c(5, 5))
-# par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-# for (i in 1:17){
-#   plot(mixmdls[[i]], whichplots = 2)
-# }
-# 
-# #get posterior probabilities from normalmixEM
-# probs <- as.data.frame(lapply(mixmdls, function(x) {x[6]})) 
-# probs1 <- as.matrix(probs[seq(1, ncol(probs), 2)])
-# names <- c("pa10-15", "pa10-16", "pa11-15", "pa11-16", "pa2-15", "pa2-16", "pa3-15",
-#            "pa3-16", "pa5-15", "pa5-16", "pa5h-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
-#            "pa9-15", "pa9-16")
-# colnames(probs1) <- names
-# rownames(probs1) <- rownames(resid_all)
-# 
-# cols1 <- rbPal(10)[as.numeric(cut(probs1[,1],breaks = 10))]
-# cols <- rainbow(length(probs1[,3]))[order(order(probs1[,3]))]
-# plot(resid_all[,17], col = clusters4[,17])
+# # #plot density curves
+# # par(mfrow = c(5, 5))
+# # par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
+# # 
+# # for (i in seq(1,34, by = 2)){
+# #   plot(resid_dens_df[,i], resid_dens_df[,i+1], main = colnames(resid_dens_df[i]), col = "blue")
+# # }
+# # 
+# # #run mixture model analysis on residuals. mu (mean) was taken from average of model run
+# # #with unspecified mu
+# # mixmdls <- list()
+# # for (i in 1:17){
+# #   mixmdls[[colnames(resid_all)[i]]] <- normalmixEM(resid_all[,i], mu = c(-8, 1.76))
+# # }
+# # 
+# # #plot density curves from normalmixEM
+# # par(mfrow = c(5, 5))
+# # par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
+# # for (i in 1:17){
+# #   plot(mixmdls[[i]], whichplots = 2)
+# # }
+# # 
+# # #get posterior probabilities from normalmixEM
+# # probs <- as.data.frame(lapply(mixmdls, function(x) {x[6]})) 
+# # probs1 <- as.matrix(probs[seq(1, ncol(probs), 2)])
+# # names <- c("pa10-15", "pa10-16", "pa11-15", "pa11-16", "pa2-15", "pa2-16", "pa3-15",
+# #            "pa3-16", "pa5-15", "pa5-16", "pa5h-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
+# #            "pa9-15", "pa9-16")
+# # colnames(probs1) <- names
+# # rownames(probs1) <- rownames(resid_all)
+# # 
+# # cols1 <- rbPal(10)[as.numeric(cut(probs1[,1],breaks = 10))]
+# # cols <- rainbow(length(probs1[,3]))[order(order(probs1[,3]))]
+# # plot(resid_all[,17], col = clusters4[,17])
