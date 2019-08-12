@@ -178,6 +178,57 @@ bartlett.test(V2 ~ V1, data = atten_mean2) #variances not sig. different
 #paired t-test
 t.test(V2 ~ V1, data = atten_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.08306 
 
+#dataframe with all means
+merge_sat <- merge(sst_mean2, sst_range2, by="row.names")
+merge_sat <- merge(merge_sat, atten_mean2, by.x="Row.names", by.y="row.names")
+merge_sat <- merge(merge_sat, chl_mean2, by.x="Row.names", by.y="row.names")
+merge_sat <- merge_sat[,c(1,3,5,7,9)]
+names(merge_sat) <- c("Colony", "SST_Mean", "SST_Range", "kd490", "Chl a")
+merge_sat2 <- cbind(rep(1, 8), merge_sat)
+names(merge_sat2) <- c("i", "Colony", "SST_Mean", "SST_Range", "kd490", "Chl_a")
+merge_sat2$i <- as.factor(merge_sat2$i)
+#add row for common garden
+cg <-data.frame("1",1,28.40292, 3.395, 0.04608333, 0.2462378)
+names(cg)<-colnames(merge_sat2)
+merge_sat2 <- rbind(cg, merge_sat2)
+CG2 <- subset(merge_sat2, Colony == "CG")
+
+plot1 <-ggplot(merge_sat2, aes(x=i, y=SST_Mean)) +
+  geom_dotplot(binaxis='y', stackdir='center') +
+  labs(x="", y= "SST Mean (°C)") +
+  geom_point(data=merge_sat2[1, ], aes(x=i, y=SST_Mean), colour="red") +
+  theme_gray() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+
+plot2 <-ggplot(merge_sat2, aes(x=i, y=SST_Range)) +
+  geom_dotplot(binaxis='y', stackdir='center') +
+  labs(x="", y= "SST Range (°C)") +
+  geom_point(data=merge_sat2[1, ], aes(x=i, y=SST_Range), colour="red") +
+  theme_gray() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+
+plot3 <-ggplot(merge_sat2, aes(x=i, y=kd490)) +
+  geom_dotplot(binaxis='y', stackdir='center') +
+  ylab(bquote('kd490 ('*m^-1*')')) +
+  xlab("") +
+  geom_point(data=merge_sat2[1, ], aes(x=i, y=kd490), colour="red") +
+  theme_gray() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+  
+plot4 <-ggplot(merge_sat2, aes(x=i, y=Chl_a)) +
+  geom_dotplot(binaxis='y', stackdir='center') +
+  ylab(bquote('Chl a ('*mg~ m^-3*')')) +
+  xlab("") +
+  geom_point(data=merge_sat2[1, ], aes(x=i, y=Chl_a), colour="red") +
+  theme_gray() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+  
+plot5 <- plot_grid(plot1, plot2, plot4, nrow=1)
+
 
 # turn rasters into dataframes in order to plot with ggplot
 sst_avg_df <- data.frame(rasterToPoints(sst_avg)) 
@@ -201,6 +252,7 @@ p <- p + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p <- p + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
 p <- p + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
 p <- p + theme_minimal()
+p <- p + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
 
 p2 <- ggplot(sst_summary, aes(x=Location, y=Mean, color=Location, group = Location))
 p2 <- p2 + geom_errorbar(aes(ymin=Mean-sem, ymax=Mean+sem), width=.1, color = c("#525252", "#969696"))
@@ -225,6 +277,8 @@ p3 <- p3 + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p3 <- p3 + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
 p3 <- p3 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
 p3 <- p3 + theme_minimal()
+p3 <- p3 + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
+
 
 p4 <- ggplot(sst_summary, aes(x=Location, y=Range, colour=Location, group = Location))
 p4 <- p4 + geom_col(fill = c("#525252", "#969696"), color= c("#525252", "#969696"))
@@ -241,13 +295,15 @@ p4 <- p4 + theme(legend.position="none")
 
 p5 <- ggplot(chla_avg_df)
 p5 <- p5 + geom_tile(aes(x=Longitude,y=Latitude,fill=Chl_a)) 
-p5 <- p5 + scale_fill_gradientn(colors=c('#313695','#4575b4','#74add1','#abd9e9','#e0f3f8','#fee090','#fdae61','#f46d43','#d73027','#a50026'), 
+p5 <- p5 + scale_fill_gradientn(colors=c('#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45', '#006d2c','#00441b'), 
                                 name=(bquote('Chl a ('*mg~ m^-3*')')))
 p5 <- p5 + coord_equal() + xlab("Longitude") + ylab("Latitude")
 p5 <- p5 + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p5 <- p5 + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
 p5 <- p5 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
-p5 <- p5 + theme_minimal()
+p5 <- p5 + theme_minimal() 
+p5 <- p5 + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
+
 
 p6 <- ggplot(chla_summary, aes(x=Location, y=Mean, colour=Location, group = Location))
 p6 <- p6 + geom_errorbar(aes(ymin=Mean-SEM, ymax=Mean+SEM), width=.1, color = c("#525252", "#969696"))
@@ -305,6 +361,7 @@ p12 <- p12 + draw_plot(p7 + theme(legend.position = "top", legend.box = "horizon
 p12 <- p12 + draw_plot(p8, 0.31, 0.475, 0.29, 0.29)
 
 plot_grid(p9, p10, p11, p12)
+plot_grid(p, p3, p5, plot5, nrow = 2, ncol = 2, labels="AUTO")
 
 # p9 <- ggdraw() 
 # p9 <- p9 + draw_plot(p + theme(legend.justification = "bottom"), 0, 0, 1, 1)
