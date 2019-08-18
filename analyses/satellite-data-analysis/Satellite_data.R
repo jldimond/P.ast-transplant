@@ -362,19 +362,3 @@ p12 <- p12 + draw_plot(p8, 0.31, 0.475, 0.29, 0.29)
 
 plot_grid(p9, p10, p11, p12)
 plot_grid(p, p3, p5, plot5, nrow = 2, ncol = 2, labels="AUTO")
-
-# p9 <- ggdraw() 
-# p9 <- p9 + draw_plot(p + theme(legend.justification = "bottom"), 0, 0, 1, 1)
-# p9 <- p9 + draw_plot(p2, 0.17, 0.65, 0.3, 0.3) 
-# 
-# p10 <- ggdraw() 
-# p10 <- p10 + draw_plot(p3 + theme(legend.justification = "bottom"), 0, 0, 1, 1)
-# p10 <- p10 + draw_plot(p4, 0.17, 0.65, 0.3, 0.3)
-# 
-# p11 <- ggdraw() 
-# p11 <- p11 + draw_plot(p5 + theme(legend.justification = "bottom"), 0, 0, 1, 1)
-# p11 <- p11 + draw_plot(p6, 0.2, 0.65, 0.3, 0.3)
-# 
-# p12 <- ggdraw() 
-# p12 <- p12 + draw_plot(p7 + theme(legend.justification = "bottom"), 0, 0, 1, 1)
-# p12 <- p12 + draw_plot(p8, 0.18, 0.65, 0.3, 0.3)
