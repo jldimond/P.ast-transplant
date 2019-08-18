@@ -1,5 +1,46 @@
+# blastn
+# Iteration: 0
+# Query: 20278
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
 20278	XM_020775789.1	86.301	73	9	1	8	79	971	1043	1.53e-12	84.2
+# blastn
+# Iteration: 0
+# Query: 33059
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 36065
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
 36065	XM_020762555.1	78.378	74	16	0	2	75	822	895	4.99e-06	62.6
+# blastn
+# Iteration: 0
+# Query: 40397
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 49813
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 50635
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 50692
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 64 hits found
 50692	XM_029323598.1	85.227	88	13	0	96	183	4417	4504	1.99e-17	101
 50692	XM_015916211.1	86.420	81	11	0	103	183	1668	1748	2.42e-16	97.8
 50692	XM_015916210.1	86.420	81	11	0	103	183	2181	2261	2.42e-16	97.8
@@ -64,6 +105,13 @@
 50692	XM_029358262.1	89.130	46	5	0	138	183	3601	3556	1.74e-05	61.7
 50692	XM_015903654.1	89.130	46	5	0	138	183	6	51	1.74e-05	61.7
 50692	XM_029324228.1	87.500	48	6	0	103	150	50	3	1.74e-05	60.8
+# blastn
+# Iteration: 0
+# Query: 51711
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 7 hits found
 51711	XM_015903081.1	80.682	88	17	0	1	88	562	649	5.33e-12	83.3
 51711	XM_015903081.1	80.000	75	15	0	109	183	897	823	1.17e-07	68.9
 51711	XM_029341389.1	83.562	73	12	0	1	73	635	707	6.49e-11	78.8
@@ -71,6 +119,28 @@
 51711	XM_027182215.1	78.205	78	17	0	13	90	652	729	1.43e-06	65.3
 51711	XM_022939983.1	79.167	72	15	0	110	181	1804	1733	4.99e-06	63.5
 51711	XM_022939982.1	79.167	72	15	0	110	181	1860	1789	4.99e-06	63.5
+# blastn
+# Iteration: 0
+# Query: 51981
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 52178
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 56218
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 66685
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 16 hits found
 66685	XM_020757069.1	91.803	61	5	0	31	91	3810	3750	1.25e-13	88.7
 66685	XM_001641159.1	88.333	60	7	0	31	90	5295	5236	2.27e-10	77.9
 66685	XM_017719097.1	88.679	53	6	0	38	90	5339	5287	3.36e-08	69.8
@@ -87,10 +157,51 @@
 66685	XM_020988505.1	84.906	53	8	0	38	90	5349	5297	1.74e-05	60.8
 66685	XM_020935401.1	84.906	53	8	0	38	90	5322	5270	1.74e-05	60.8
 66685	XM_001373624.2	84.906	53	8	0	38	90	5325	5273	1.74e-05	60.8
+# blastn
+# Iteration: 0
+# Query: 69826
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
 69826	XR_002297590.1	87.952	83	10	0	9	91	1	83	4.67e-19	105
 69826	XR_002297586.1	87.952	83	10	0	9	91	1	83	4.67e-19	105
 69826	XM_020747879.1	89.062	64	7	0	18	81	2527	2590	1.53e-12	85.1
+# blastn
+# Iteration: 0
+# Query: 70737
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 71640
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 76792
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
 76792	XR_003446911.1	87.500	48	6	0	116	163	1325	1278	1.74e-05	60.8
+# blastn
+# Iteration: 0
+# Query: 79549
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 82074
+# RID: NK46MM1J014
+# Database: nr
+# blastn
+# Iteration: 0
+# Query: 82175
+# RID: NK46MM1J014
+# Database: nr
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 100 hits found
 82175	XM_020748568.1	87.059	85	11	0	100	184	1771	1687	1.63e-18	104
 82175	XM_022933703.1	85.882	85	12	0	100	184	1755	1671	1.99e-17	100
 82175	XM_027198577.1	86.420	81	11	0	104	184	1603	1523	2.42e-16	97.8

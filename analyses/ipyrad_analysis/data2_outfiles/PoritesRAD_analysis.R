@@ -217,8 +217,6 @@ temp <- t(resid_all_binary)
 temp2 <- dist.gene(temp, method = "percent", pairwise.deletion = FALSE,
                    variance = FALSE)
 dist1 <- as.matrix(temp2)
-#dist2 <- epidd_dist2[c(seq(from =1, to = nrow(epidd_dist2), by= 2)), 
-#                     c(seq(from =2, to = ncol(epidd_dist2), by= 2))]
 
 #differences between colonies in 2015
 temp <- t(resid_all_binary[,c(1,3,6,8,10,13,15,17)])
@@ -297,7 +295,7 @@ epix <- epifit$points[,1]
 epiy <- epifit$points[,2]
 
 #MDS plot
-p <- plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", type = 'n', main = "A")
+p <- plot(epix, epiy, xlab="Coordinate 1", ylab="Coordinate 2", type = 'n')
 for (i in seq(1,4, by = 2)){
   arrows(epix[i], epiy[i], epix[i+1], epiy[i+1], length = 0, col = "dark gray")
 }
@@ -314,7 +312,8 @@ names2 <- c(1,1,2,2,2,3,3,4,4,5,5,5,6,6,7,7,8,8)
 shapes <- c(1,2,1,2,3,1,2,1,2,1,2,3,1,2,1,2,1,2)
 palette(brewer.pal(n = 8, name = "Set2"))
 points(epix, epiy, col = names2, pch = shapes, cex = 1.5, lwd = 2)
-legend(1.3,-1, legend = c("2015", "2016", "Control"), pch = (1:3), cex = 1.0, pt.lwd = 1.5)
+legend(1.4,-1.5, legend = c("2015", "2016", "Control"), pch = (1:3), cex = 1.0, pt.lwd = 1.5)
+mtext("A", side = 3, adj = 0)
 
 #######################################################
 #summary plots and analyses
@@ -341,30 +340,30 @@ sd(per_change2[c(29:56),1]) #2016 0.006848356
 p1 <- ggplot(prop_methyl2, aes(x=year2, y=V1*100, group=year2, fill=year2)) +
   geom_boxplot() +
   scale_fill_manual(values=c("#e5f5f9", "#99d8c9")) +
-  labs(x ="Year", y = "Methylated CpGs (%)") +
+  labs(x ="Year", y = "Methylated CpGs (%)", title = "B") +
   theme(axis.text.x = element_text(size=14),
         axis.text.y = element_text(size=14),
         axis.title.x = element_text(size=14),
         axis.title.y = element_text(size=14),
         legend.position = "none") +
-  annotate(geom="text", x=1.5, y=20.1, label="p = 0.511",
-           color="black")
+  annotate(geom="text", x=1.6, y=20.1, label="p = 0.511",
+           color="black") 
 
 #Percent pairwise difference between colonies
 p2 <- ggplot(per_change2, aes(x=year, y=V1*100, group=year, fill=year)) +
   geom_boxplot() +
   scale_fill_manual(values=c("#e5f5f9", "#99d8c9")) +
-  labs(x ="Year", y = "Pairwise methylation difference (%)") +
+  labs(x ="Year", y = "Pairwise methylation difference (%)", title = "C") +
   theme(axis.text.x = element_text(size=14),
         axis.text.y = element_text(size=14),
         axis.title.x = element_text(size=14),
         axis.title.y = element_text(size=14),
         legend.position = "none") +
-  annotate(geom="text", x=1.5, y=4.88, label="p < 0.001",
+  annotate(geom="text", x=1.6, y=4.88, label="p < 0.001",
            color="black")
 
-grid.arrange(p1, p2, ncol=2)
-
+p3 <- grid.arrange(p1, p2, ncol=2)
+plot(p3)
 
 #################################################################
 # Venn diagram looking at shared loci across individuals
@@ -376,329 +375,10 @@ first <- seq(1,ncol(diffmeth2),2)
 second <- seq(2,ncol(diffmeth2),2)  
 diffmeth3 <- abs(diffmeth2[, first] - diffmeth2[, second])
 #differentially methylated loci
-diffmeth4 <- which(rowSums(diffmeth3) >=1)
+diffmeth4 <- which(rowSums(diffmeth3) >=2)
 #need locus names to match .loci file (subtract 1 from name)
 diffmeth5 <- as.numeric(names(diffmeth4))-1
 #table of locus IDs
 write.table(diffmeth5, "diffmeth5.txt", sep="\t", row.names=F)
 
 
-#################################################################
-#Was the degree of methylation change associated with inshore /offshore differences?
-
-epidist2 <- as.matrix(epidist)
-
-epidist3 <- epidist2[row(epidist2) == (col(epidist2) - 1)]
-
-inshoreoffshore <- as.data.frame(cbind(epidist3[c(1,3,9,11,5,7,13,15)],
-                                       c("Inshore", "Inshore", "Inshore", "Inshore",
-                                         "Offshore", "Offshore", "Offshore", "Offshore")))
-
-inshoreoffshore$V1 <- as.numeric(as.character(inshoreoffshore$V1))
-
-boxplot(inshoreoffshore$V1 ~ inshoreoffshore$V2)
-bartlett.test(inshoreoffshore$V1 ~ inshoreoffshore$V2) #variances not sig. different
-t.test(inshoreoffshore$V1 ~ inshoreoffshore$V2, var.equal = TRUE) #df = 6, p-value = 0.6959
-
-#################################################################
-#Compare pairwise genetic distance with pairwise epigenetic distance
-
-snpdist <- t(geno7[,c(seq(1,32, by = 2))])
-
-snpdist2 <- dist.gene(snpdist, method = "percent", pairwise.deletion = FALSE,
-                        variance = FALSE)
-snpdist3 <- as.matrix(snpdist2)
-
-# Get lower triangle of the  matrix
-get_lower_tri<-function(snpdist3){
-  snpdist3[upper.tri(snpdist3)] <- NA
-  return(snpdist3)
-}
-# Get upper triangle of the  matrix
-get_upper_tri <- function(snpdist3){
-  snpdist3[lower.tri(snpdist3)]<- NA
-  return(snpdist3)
-}
-
-#get just the upper triangle of the matrix
-upper_tri <- get_upper_tri(snpdist3)
-snpdist4 <- melt(upper_tri, na.rm = TRUE)
-snpdist5 <- snpdist4[!(snpdist4$value == 0) >= 1,]
-
-#Now the same thing for methylation data
-
-resid_diff <- t(resid_t_binary)
-methdist <- t(resid_diff)
-methdist2 <- dist.gene(methdist, method = "percent", pairwise.deletion = FALSE,
-                        variance = FALSE)
-methdist3 <- as.matrix(methdist2)
-
-# Get lower triangle of the  matrix
-get_lower_tri<-function(methdist3){
-  methdist3[upper.tri(methdist3)] <- NA
-  return(methdist3)
-}
-# Get upper triangle of the  matrix
-get_upper_tri <- function(methdist3){
-  methdist3[lower.tri(methdist3)]<- NA
-  return(methdist3)
-}
-
-#get just the upper triangle of the matrix
-upper_tri <- get_upper_tri(methdist3)
-methdist4 <- melt(upper_tri, na.rm = TRUE)
-methdist5 <- methdist4[!(methdist4$value == 0) >= 1,]
-
-# #linear regression of the snp and meth data
-# epi_snp_lm <- lm(snpdist5[,3] ~ methdist5[,3])
-# summary(epi_snp_lm)
-# 
-# #linear regression without outliers
-# snpdist6 <- snpdist5[which(snpdist5[,3]>0.1),]
-# methdist6 <- methdist5[which(methdist5[,3]>0.159),]
-# epi_snp_lm_no_out <- lm(snpdist6[,3] ~ methdist6[,3])
-# summary(epi_snp_lm_no_out)
-
-dev.off()
-plot(snpdist5[,3], methdist5[,3], ylim = c(0.02, 0.07), xlim = c(0.12,0.20),col = "blue", 
-     xlab = "Genetic distance", ylab = "Epigenetic distance")
-# abline(epi_snp_lm, col = "orange")
-# abline(epi_snp_lm_no_out, col = "green")
-
-
-# ######################################################################################################
-# #Select samples of interest (some have very low sample sizes)
-# # This is for independent data sets
-# 
-# Epidata_10 <- Epidata2[,c(39:42)]
-# Epidata_11 <- Epidata2[,c(43:46)]
-# Epidata_02 <- Epidata2[,c(61:64)]
-# Epidata_03 <- Epidata2[,c(65:68)]
-# Epidata_05 <- Epidata2[,c(69:72)]
-# Epidata_06 <- Epidata2[,c(75:78)]
-# Epidata_08 <- Epidata2[,c(85:88)]
-# Epidata_09 <- Epidata2[,c(89:92)]
-# 
-# 
-# #Remove ddr rows that have any zeros. The premise here is that zeros
-# #in the EpiRAD dataset are informative because they may reflect
-# #methylation, but they could also relfect true absence of the locus
-# #in the library. Here the ddRAD library serves to standarize the EpiRAD
-# #library. Any zeros in the ddRAD libary are treated as absence of the
-# #locus, thereby leaving zeros in the EpiRAD library only where the
-# #locus was counted in the ddRAD library.
-# 
-# Epidata_10_1 <- Epidata_10[apply(Epidata_10[c(seq(1, ncol(Epidata_10), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_11_1 <- Epidata_11[apply(Epidata_11[c(seq(1, ncol(Epidata_11), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_02_1 <- Epidata_02[apply(Epidata_02[c(seq(1, ncol(Epidata_02), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_03_1 <- Epidata_03[apply(Epidata_03[c(seq(1, ncol(Epidata_03), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_05_1 <- Epidata_05[apply(Epidata_05[c(seq(1, ncol(Epidata_05), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_06_1 <- Epidata_06[apply(Epidata_06[c(seq(1, ncol(Epidata_06), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_08_1 <- Epidata_08[apply(Epidata_08[c(seq(1, ncol(Epidata_08), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# Epidata_09_1 <- Epidata_09[apply(Epidata_09[c(seq(1, ncol(Epidata_09), by = 2))],1,
-#                                  function(z) !any(z <= 15)), ] #increased from z==0
-# 
-# 
-# Epidata4 <- list(Epidata_10_1, Epidata_11_1, Epidata_02_1, Epidata_03_1, Epidata_05_1,
-#                  Epidata_06_1, Epidata_08_1, Epidata_09_1)
-# 
-# ##Plots to show ddRAD vs EpiRAD library (before normalization)
-# par(mfrow = c(5, 5))
-# par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
-# 
-# for (i in seq(1,ncol(Epidata4[[1]]), by = 2)){
-#   for (j in 1:8){
-#     plot(Epidata4[[j]][,i], Epidata4[[j]][,i+1], main = colnames(Epidata4[[j]][i]), col = "blue")
-#   }
-# }
-# 
-# # remove_outliers <- function(x, na.rm = TRUE, ...) {
-# #   qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
-# #   H <- 1.5 * IQR(x, na.rm = na.rm)
-# #   y <- x
-# #   y[x < (qnt[1] - H)] <- NA
-# #   y[x > (qnt[2] + H)] <- NA
-# #   y
-# # }
-# 
-# 
-# #################################################################
-# # Now use edgeR package to standardize EpiRAD count data by library size
-# 
-# #read in the file for edgeR
-# counts <- lapply(Epidata4, DGEList)
-# counts
-# #TMM normalization (corrects for library size)
-# counts2 <- lapply(counts, calcNormFactors)
-# counts2
-# #extract normalized counts
-# counts2_cpm <- lapply(counts2, cpm, normalized.lib.sizes=TRUE, log=TRUE)
-# 
-# 
-# #plot normalized counts
-# par(mfrow = c(5, 5))
-# par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
-# 
-# for (i in seq(1,ncol(counts2_cpm[[1]]), by = 2)){
-#   for (j in 1:8){
-#     plot(counts2_cpm[[j]][,i], counts2_cpm[[j]][,i+1], main = colnames(counts2_cpm[[j]][i]), col = "blue")
-#   }
-# }
-# 
-# 
-# ##################################################################
-# #Using lm to get residuals
-# 
-# #models <- list()  NOT WORKING
-# #for (i in seq(1,4, by = 2)){
-# #  for (j in 1:4){
-# #    models <- lapply(counts2_cpm, lm, formula = counts2_cpm[[j]][,i] ~ counts2_cpm[[j]][,i+1])
-# #  }
-# #}
-# 
-# 
-# model_10_15 <- lm(counts2_cpm[[1]][,2] ~ counts2_cpm[[1]][,1])
-# model_10_16 <- lm(counts2_cpm[[1]][,4] ~ counts2_cpm[[1]][,3])
-# model_11_15 <- lm(counts2_cpm[[2]][,2] ~ counts2_cpm[[2]][,1])
-# model_11_16 <- lm(counts2_cpm[[2]][,4] ~ counts2_cpm[[2]][,3])
-# model_02_15 <- lm(counts2_cpm[[3]][,2] ~ counts2_cpm[[3]][,1])
-# model_02_16 <- lm(counts2_cpm[[3]][,4] ~ counts2_cpm[[3]][,3])
-# model_03_15 <- lm(counts2_cpm[[4]][,2] ~ counts2_cpm[[4]][,1])
-# model_03_16 <- lm(counts2_cpm[[4]][,4] ~ counts2_cpm[[4]][,3])
-# model_05_15 <- lm(counts2_cpm[[5]][,2] ~ counts2_cpm[[5]][,1])
-# model_05_16 <- lm(counts2_cpm[[5]][,4] ~ counts2_cpm[[5]][,3])
-# model_06_15 <- lm(counts2_cpm[[6]][,2] ~ counts2_cpm[[6]][,1])
-# model_06_16 <- lm(counts2_cpm[[6]][,4] ~ counts2_cpm[[6]][,3])
-# model_08_15 <- lm(counts2_cpm[[7]][,2] ~ counts2_cpm[[7]][,1])
-# model_08_16 <- lm(counts2_cpm[[7]][,4] ~ counts2_cpm[[7]][,3])
-# model_09_15 <- lm(counts2_cpm[[8]][,2] ~ counts2_cpm[[8]][,1])
-# model_09_16 <- lm(counts2_cpm[[8]][,4] ~ counts2_cpm[[8]][,3])
-# 
-# 
-# models <- list(model_10_15, model_10_16, model_11_15, model_11_16, model_02_15,
-#                model_02_16, model_03_15, model_03_16, model_05_15, model_05_16,
-#                model_06_15, model_06_16, model_08_15, model_08_16, model_09_15, model_09_16)
-# 
-# 
-# residuals <- lapply(models, '[[', 2)
-# 
-# #plot residuals
-# par(mfrow = c(5, 5))
-# par(mar = c(2, 2 ,2 ,2), oma = c(4, 4, 0.5, 0.5))
-# 
-# for (i in 1:length(residuals)){
-#   plot(residuals[[i]], col = "blue", ylim = c(-10, 4))
-# }
-# 
-# #k-means clustering to separate methylated and unmethylated loci
-# set.seed(1234)
-# clusters <- lapply(residuals, kmeans, 2)
-# clusters2 <- lapply(clusters, '[[', 1)
-# clusters3 <- lapply(clusters2[c(3,4,5,6,7,11,12,13,14,15)], function(x) ifelse(x == 2, 1, 2))
-# clusters4 <- list(clusters2[[1]], clusters2[[2]], clusters3[[1]], clusters3[[2]],
-#                   clusters3[[3]], clusters3[[4]], clusters3[[5]], clusters2[[8]],
-#                   clusters2[[9]], clusters2[[10]], clusters3[[6]], clusters3[[7]],
-#                   clusters3[[8]], clusters3[[9]], clusters3[[10]], clusters2[[16]])
-# 
-# #plot residuals with k-means colors
-# par(mfrow = c(5, 5))
-# par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5))
-# 
-# for (i in 1:length(clusters4)){
-#   plot(residuals[[i]], col = clusters4[[i]], ylim = c(-10, 4))
-# }
-# 
-# #################################################################
-# #Make binary dataset of EpiRAD data based on residuals <=-1
-# #All methylated loci converted to 1, nonmethylated to zero
-# #Select samples of interest (some have very low sample sizes)
-# 
-# Sym_resid_all_binary <- lapply(clusters4, function(x) x-1)
-# 
-# #proportion of methylated cutsites
-# Sym_prop_methyl <- lapply(Sym_resid_all_binary, function(x) sum(x) / length(x))
-# 
-# #Get differences between 2015 and 2016 methylation for each replicate
-# #0 is no change, 1 is demethylation, -1 is methylation
-# # diff <- list()
-# # for (i in seq(1,length(unlist(Sym_resid_all_binary)), by = 2)){
-# #   diff[[i]] <- Sym_resid_all_binary[[i]] - Sym_resid_all_binary[[i+1]]
-# # }
-# #
-# # past10diff <- as.data.frame(unlist(diff[[1]]))
-# # past11diff <- as.data.frame(unlist(diff[[3]]))
-# # past02diff <- as.data.frame(unlist(diff[[5]]))
-# # past03diff <- as.data.frame(unlist(diff[[7]]))
-# # past05diff <- as.data.frame(unlist(diff[[9]]))
-# # past06diff <- as.data.frame(unlist(diff[[11]]))
-# # past08diff <- as.data.frame(unlist(diff[[13]]))
-# # past09diff <- as.data.frame(unlist(diff[[15]]))
-# # # 
-# # # temp <- merge(past10diff, past11diff, by = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past02diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past03diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past05diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past06diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past08diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # temp <- merge(temp, past09diff, by.x = 1, by.y = 0, all.x = TRUE, all.y = TRUE)
-# # # row.names(temp) <- temp$Row.names
-# # # difftable <- temp[,c(2:9)]
-# # # diff1 <- difftable[rowSums(difftable, na.rm = TRUE) < 8, ]
-# # # diff2 <- diff1[abs(rowSums(difftable, na.rm = TRUE)) >= 3, ]
-# # # 
-# # # #get seq numbers, subtracting one from each number to match `.loci` numbers
-# # # seqs <- as.numeric(rownames(diff2))-1
-# # # #write to file
-# # # write.table(seqs, file = "seqs_test.txt", row.names = FALSE, col.names = FALSE)
-# # # #then in bash use grep -B 1 -wFf seqs_test.txt data2.loci > diffseqs.txt
-# # # #awk -v n=3 'NR%n==1' diffseqs.txt | awk '{print $2}' > diffseqs2.txt
-# 
-# ##############################
-# 
-# # #apply density function to residuals
-# # resid_dens <- lapply(residuals, density)
-# # 
-# # #extract x,y coordinates from density list
-# # resid_dens_df <- as.data.frame(lapply(resid_dens, function(x) {x[c(1,2)]}))  
-# # 
-# # #plot density curves
-# # par(mfrow = c(5, 5))
-# # par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-# # 
-# # for (i in seq(1,34, by = 2)){
-# #   plot(resid_dens_df[,i], resid_dens_df[,i+1], main = colnames(resid_dens_df[i]), col = "blue")
-# # }
-# # 
-# # #run mixture model analysis on residuals. mu (mean) was taken from average of model run
-# # #with unspecified mu
-# # mixmdls <- list()
-# # for (i in 1:17){
-# #   mixmdls[[colnames(resid_all)[i]]] <- normalmixEM(resid_all[,i], mu = c(-8, 1.76))
-# # }
-# # 
-# # #plot density curves from normalmixEM
-# # par(mfrow = c(5, 5))
-# # par(mar = c(2,2, 2, 2), oma = c(4, 4, 0.5, 0.5)) 
-# # for (i in 1:17){
-# #   plot(mixmdls[[i]], whichplots = 2)
-# # }
-# # 
-# # #get posterior probabilities from normalmixEM
-# # probs <- as.data.frame(lapply(mixmdls, function(x) {x[6]})) 
-# # probs1 <- as.matrix(probs[seq(1, ncol(probs), 2)])
-# # names <- c("pa10-15", "pa10-16", "pa11-15", "pa11-16", "pa2-15", "pa2-16", "pa3-15",
-# #            "pa3-16", "pa5-15", "pa5-16", "pa5h-16", "pa6-15", "pa6-16", "pa8-15", "pa8-16",
-# #            "pa9-15", "pa9-16")
-# # colnames(probs1) <- names
-# # rownames(probs1) <- rownames(resid_all)
-# # 
-# # cols1 <- rbPal(10)[as.numeric(cut(probs1[,1],breaks = 10))]
-# # cols <- rainbow(length(probs1[,3]))[order(order(probs1[,3]))]
-# # plot(resid_all[,17], col = clusters4[,17])
