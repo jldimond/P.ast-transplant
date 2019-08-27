@@ -276,9 +276,6 @@ heat <- superheat(heat.mat2[2:630, c(1:16)], bottom.label.text.size = 5,
           grid.hline.size = 0.1,bottom.label.text.angle = 90,
           yt.axis.name = "Methylation", yt.plot.type = "bar")
 
-par(mfrow = c(2, 1))
-par(mar = c(4, 4.5, 2, 1), oma = c(1, 1, 0, 0))
-
 
 ###########################################################################
 #MDS of EpiRAD data
@@ -366,7 +363,7 @@ p3 <- grid.arrange(p1, p2, ncol=2)
 plot(p3)
 
 #################################################################
-# Venn diagram looking at shared loci across individuals
+# Shared differentially methylated loci across individuals, extract IDs
 
 #just get diff methylated loci 
 diffmeth <- resid_all_binary[,c(1:4,6:11,13:18)][which(rowSums(resid_all_binary[,c(1:4,6:11,13:18)]) >= 1 ),]
@@ -382,3 +379,77 @@ diffmeth5 <- as.numeric(names(diffmeth4))-1
 write.table(diffmeth5, "diffmeth5.txt", sep="\t", row.names=F)
 
 
+#################################################################
+#Compare pairwise genetic distance with pairwise epigenetic distance
+
+snpdist <- t(geno7[,c(seq(1,36, by = 2))])
+
+snpdist2 <- dist.gene(snpdist, method = "percent", pairwise.deletion = FALSE,
+                      variance = FALSE)
+snpdist3 <- as.matrix(snpdist2)
+
+# Get lower triangle of the  matrix
+get_lower_tri<-function(snpdist3){
+  snpdist3[upper.tri(snpdist3)] <- NA
+  return(snpdist3)
+}
+# Get upper triangle of the  matrix
+get_upper_tri <- function(snpdist3){
+  snpdist3[lower.tri(snpdist3)]<- NA
+  return(snpdist3)
+}
+
+#get just the upper triangle of the matrix
+upper_tri <- get_upper_tri(snpdist3)
+snpdist4 <- melt(upper_tri, na.rm = TRUE)
+
+#Now the same thing for methylation data
+
+resid_diff <- t(resid_t_binary)
+methdist <- t(resid_diff)
+methdist2 <- dist.gene(methdist, method = "percent", pairwise.deletion = FALSE,
+                       variance = FALSE)
+methdist3 <- as.matrix(methdist2)
+
+# Get lower triangle of the  matrix
+get_lower_tri<-function(methdist3){
+  methdist3[upper.tri(methdist3)] <- NA
+  return(methdist3)
+}
+# Get upper triangle of the  matrix
+get_upper_tri <- function(methdist3){
+  methdist3[lower.tri(methdist3)]<- NA
+  return(methdist3)
+}
+
+#get just the upper triangle of the matrix
+upper_tri <- get_upper_tri(methdist3)
+methdist4 <- melt(upper_tri, na.rm = TRUE)
+
+#combine meth and snp datasets
+methsnpdist <- cbind(snpdist4,methdist4)
+#exclude "clone" comparisons
+methsnpdist2 <- methsnpdist[!(methsnpdist$value <= 0.05) >= 1,]
+
+#linear regression of the snp and meth data
+epi_snp_lm <- lm(methsnpdist2[,6] ~ methsnpdist2[,3])
+summary(epi_snp_lm)
+
+plot(methsnpdist2[,3], methsnpdist2[,6], col = "blue", pch = 16, alpha = 0.5, 
+     xlab = "Genetic distance", ylab = "Epigenetic distance")
+abline(lm(methsnpdist2[,6] ~ methsnpdist2[,3]))
+
+r2label <- paste("R^2 == ", round(summary(epi_snp_lm)$r.squared,3))
+qplot(x = methsnpdist2[,3], y = methsnpdist2[,6], data = methsnpdist2, geom = "point") +
+  geom_smooth(method='lm') +
+  labs(x = "Genetic distance", y = "Epigenetic distance") +
+  theme(axis.text.x = element_text(size=14),
+        axis.text.y = element_text(size=14),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        legend.position = "none") +
+  annotate(geom="text", x=0.145, y=0.055, label="p < 0.001",
+           color="black") +
+  annotate(geom="text", x=0.1456, y=0.057, label= r2label, parse=TRUE,
+           color="black") +
+  theme(plot.margin=unit(c(1,1,1,1),"cm"))

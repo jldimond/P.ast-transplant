@@ -112,13 +112,6 @@ t.test(sst_mean ~ V1, data = sst_mean2, var.equal = TRUE, paired = FALSE) #df = 
 sst_range <- apply(sst_corals[,2:13], 1, function(x) max(x)-min(x))
 sst_range2 <- cbind(sst_corals$Location, sst_range)
 
-#test for homogeneity of variances differences between locations
-bartlett.test(sst_range ~ V1, data = sst_range2) #variances not sig. different
-
-#paired t-test
-t.test(sst_range ~ V1, data = sst_range2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.272
-
-
 # extract chla data from rasters using coral site data
 
 chla_corals <- extract(chla_stack_crop, corals2[,1:2])
@@ -141,12 +134,6 @@ inshore_chl2 <- apply(inshore_chl, 1, mean, na.rm = TRUE)
 offshore_chl2 <- apply(offshore_chl, 1, mean, na.rm = TRUE)
 chl_mean2 <- as.data.frame(cbind(c(rep("Inshore",4),rep("Offshore",4)),c(inshore_chl2, offshore_chl2)))
 chl_mean2$V2 <- as.numeric(as.character(chl_mean2$V2))
-
-#test for homogeneity of variances differences between locations
-bartlett.test(V2 ~ V1, data = chl_mean2) #variances not sig. different
-
-#paired t-test
-t.test(V2 ~ V1, data = chl_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.1165
 
 
 # extract atten data from rasters using coral site data
@@ -171,12 +158,6 @@ inshore_atten2 <- apply(inshore_atten, 1, mean, na.rm = TRUE)
 offshore_atten2 <- apply(offshore_atten, 1, mean, na.rm = TRUE)
 atten_mean2 <- as.data.frame(cbind(c(rep("Inshore",4),rep("Offshore",4)),c(inshore_atten2, offshore_atten2)))
 atten_mean2$V2 <- as.numeric(as.character(atten_mean2$V2))
-
-#test for homogeneity of variances differences between locations
-bartlett.test(V2 ~ V1, data = atten_mean2) #variances not sig. different
-
-#paired t-test
-t.test(V2 ~ V1, data = atten_mean2, var.equal = TRUE, paired = FALSE) #df = 6, p-value = 0.08306 
 
 #dataframe with all means
 merge_sat <- merge(sst_mean2, sst_range2, by="row.names")
