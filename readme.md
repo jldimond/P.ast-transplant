@@ -43,6 +43,8 @@ This study made use of the following software:
 
 ipyrad v.0.5.15
 
+VCFtools v.0.1.15
+
 R v3.1.3
 
 RStudio v1.0.136
