@@ -255,6 +255,26 @@ year2 <- rep(c("2015", "2016"), 8)
 prop_methyl2 <- as.data.frame(cbind(prop_methyl[c(1:4,6:11,13:18)],year2))
 prop_methyl2$V1 <- as.numeric(as.character(prop_methyl2$V1))
 
+#differences between controls and non controls in 2016
+temp <- t(resid_all_binary[,c(2,4,5,7,9,11,12,14,16,18)])
+temp2 <- dist.gene(temp, method = "percent", pairwise.deletion = FALSE,
+                   variance = FALSE)
+dist9 <- as.matrix(temp2)
+get_upper_tri <- function(dist9){
+  dist9[lower.tri(dist9)]<- NA
+  return(dist9)
+}
+upper_tri <- get_upper_tri(dist9)
+dist10 <- melt(upper_tri, na.rm = TRUE)
+dist11 <- dist10[!(dist10$value == 0) >= 1,]
+include_list <- c("76","86","96","55","54","52","51","32","42","52","72","82","92","11")
+exp <- dist11[include_list, ]
+include_list2 <- c("77","87","97","65","64","62","61","33","43","53","73","83","93","21")
+control <- dist11[include_list2, ]
+exp_control <- rbind(exp, control)
+treat <- rep(c("Transplant", "Control"), each = 14)
+exp_control2 <- as.data.frame(cbind(exp_control,treat))
+
 ############################################################################
 #heatmap of EpiRAD data 
 
@@ -310,34 +330,49 @@ shapes <- c(1,2,1,2,3,1,2,1,2,1,2,3,1,2,1,2,1,2)
 palette(brewer.pal(n = 8, name = "Set2"))
 points(epix, epiy, col = names2, pch = shapes, cex = 1.5, lwd = 2)
 legend(1.4,-1.5, legend = c("2015", "2016", "Control"), pch = (1:3), cex = 1.0, pt.lwd = 1.5)
-mtext("A", side = 3, adj = 0)
+#mtext("A", side = 3, adj = 0)
+names3 <- (c("", "pa10", "pa11", "", "", "pa2", "", "pa3", "", "",
+             "pa5",  "",  "pa6", "", "", "pa8",  "pa9", ""))
+text(epix, epiy, labels = names3, pos = 3, offset = 0.7)
 
 #######################################################
 #summary plots and analyses
 
 #Methylated CpGs by year
 #test for homogeneity of variances differences between years
-bartlett.test(V1 ~ year2, data = prop_methyl2) #variances sig. different p-value = 0.4579
+bartlett.test(V1 ~ year2, data = prop_methyl2) #variances not sig. different p-value = 0.4579
 
 #paired t-test
-t.test(V1 ~ year2, data = prop_methyl2, var.equal = FALSE, paired = TRUE) #p-value = 0.5111
+t.test(V1 ~ year2, data = prop_methyl2, var.equal = TRUE, paired = TRUE) #p-value = 0.5111
 
 #Pairwise methylation difference
 #test for homogeneity of variances differences between years
-bartlett.test(V1 ~ year, data = per_change2) #variances sig. different p-value = 0.4471
+bartlett.test(V1 ~ year, data = per_change2) #variances not sig. different p-value = 0.4471
 
 #paired t-test
-t.test(V1 ~ year, data = per_change2, var.equal = FALSE, paired = TRUE) #p-value = 0.0005982
+t.test(V1 ~ year, data = per_change2, var.equal = TRUE, paired = TRUE) #p-value = 0.0005982
 mean(per_change2[c(1:28),1]) #2015 0.03957529
 sd(per_change2[c(1:28),1]) #2015 0.005906561
 mean(per_change2[c(29:56),1]) #2016 0.03577107
 sd(per_change2[c(29:56),1]) #2016 0.006848356
 
+#Pairwise methylation difference (exp vs control)
+#test for homogeneity of variances differences between treatments
+bartlett.test(value ~ treat, data = exp_control2) #variances not sig. different p-value = 0.5987
+
+#paired t-test
+t.test(value ~ treat, data = exp_control2, var.equal = TRUE, paired = TRUE) #p-value = 9.607e-05
+mean(exp_control2[c(1:14),3]) #exp 0.03611174
+sd(exp_control2[c(1:14),3]) #exp 0.006186618
+mean(exp_control2[c(15:28),3]) #control 0.04076766
+sd(exp_control2[c(15:28),3]) #control 0.007180855
+
 #Percent CpG methylation by year
 p1 <- ggplot(prop_methyl2, aes(x=year2, y=V1*100, group=year2, fill=year2)) +
   geom_boxplot() +
   scale_fill_manual(values=c("#e5f5f9", "#99d8c9")) +
-  labs(x ="Year", y = "Methylated CpGs (%)", title = "B") +
+  labs(x ="Year", y = "Methylated CpGs (%)", title = "A") +
+  theme_gray() +
   theme(axis.text.x = element_text(size=14),
         axis.text.y = element_text(size=14),
         axis.title.x = element_text(size=14),
@@ -350,7 +385,8 @@ p1 <- ggplot(prop_methyl2, aes(x=year2, y=V1*100, group=year2, fill=year2)) +
 p2 <- ggplot(per_change2, aes(x=year, y=V1*100, group=year, fill=year)) +
   geom_boxplot() +
   scale_fill_manual(values=c("#e5f5f9", "#99d8c9")) +
-  labs(x ="Year", y = "Pairwise methylation difference (%)", title = "C") +
+  labs(x ="Year", y = "Pairwise methylation difference (%)", title = "B") +
+  theme_gray() +
   theme(axis.text.x = element_text(size=14),
         axis.text.y = element_text(size=14),
         axis.title.x = element_text(size=14),
@@ -359,8 +395,22 @@ p2 <- ggplot(per_change2, aes(x=year, y=V1*100, group=year, fill=year)) +
   annotate(geom="text", x=1.6, y=4.88, label="p < 0.001",
            color="black")
 
-p3 <- grid.arrange(p1, p2, ncol=2)
-plot(p3)
+#Percent pairwise difference between controls and non-controls, 2016
+p3 <- ggplot(exp_control2, aes(x=treat, y=value*100, group=treat, fill=treat)) +
+  geom_boxplot() +
+  scale_fill_manual(values=c("#e5f5f9", "#99d8c9")) +
+  labs(x ="Treatment", y = "Pairwise methylation difference (%)", title = "C") +
+  theme_gray() +
+  theme(axis.text.x = element_text(size=14),
+        axis.text.y = element_text(size=14),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        legend.position = "none") +
+  annotate(geom="text", x=1.6, y=4.88, label="p < 0.001",
+           color="black") 
+
+p4 <- grid.arrange(p1, p2, p3, ncol=3)
+plot(p4)
 
 #################################################################
 # Shared differentially methylated loci across individuals, extract IDs

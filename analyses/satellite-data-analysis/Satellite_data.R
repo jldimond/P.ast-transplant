@@ -224,6 +224,12 @@ names(chla_avg_df) <- c("Longitude","Latitude","Chl_a")
 atten_avg_df <- data.frame(rasterToPoints(atten_avg)) 
 names(atten_avg_df) <- c("Longitude","Latitude","kd490")
 
+# get offset coordinates for plotting
+corals_off <- read.delim("./specimens_offset.txt", header = FALSE)
+names(corals_off) <- c("Latitude","Longitude","IDnumber")
+
+# plot
+
 p <- ggplot(sst_avg_df)
 p <- p + geom_tile(aes(x=Longitude,y=Latitude,fill=SST_Mean)) 
 p <- p + scale_fill_gradientn(colors=c('#313695','#4575b4','#74add1','#abd9e9','#e0f3f8','#fee090','#fdae61','#f46d43','#d73027','#a50026'), 
@@ -231,7 +237,7 @@ p <- p + scale_fill_gradientn(colors=c('#313695','#4575b4','#74add1','#abd9e9','
 p <- p + coord_equal() + xlab("Longitude") + ylab("Latitude")
 p <- p + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p <- p + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
-p <- p + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
+p <- p + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals_off)
 p <- p + theme_minimal()
 p <- p + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
 
@@ -256,7 +262,7 @@ p3 <- p3 + scale_fill_gradientn(colors=c('#313695','#4575b4','#74add1','#abd9e9'
 p3 <- p3 + coord_equal() + xlab("Longitude") + ylab("Latitude")
 p3 <- p3 + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p3 <- p3 + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
-p3 <- p3 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
+p3 <- p3 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals_off)
 p3 <- p3 + theme_minimal()
 p3 <- p3 + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
 
@@ -281,7 +287,7 @@ p5 <- p5 + scale_fill_gradientn(colors=c('#f7fcfd','#e5f5f9','#ccece6','#99d8c9'
 p5 <- p5 + coord_equal() + xlab("Longitude") + ylab("Latitude")
 p5 <- p5 + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p5 <- p5 + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
-p5 <- p5 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
+p5 <- p5 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals_off)
 p5 <- p5 + theme_minimal() 
 p5 <- p5 + annotate("segment", x = -88, xend = -88.08, y = 16.8, yend = 16.8, colour = "black", size=1, arrow=arrow(length=unit(0.30,"cm"), type = "closed"))
 
@@ -307,7 +313,7 @@ p7 <- p7 + scale_fill_gradientn(colors=c('#313695','#4575b4','#74add1','#abd9e9'
 p7 <- p7 + coord_equal() + xlab("Longitude") + ylab("Latitude")
 p7 <- p7 + geom_polygon(data=belize_trans_clip, aes(x=long, y=lat, group=group))
 p7 <- p7 + geom_polygon(data=coralreef_trans_clip, aes(x=long, y=lat, group=group), color = "gray", fill= "gray")
-p7 <- p7 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals)
+p7 <- p7 + geom_text(aes(x=Longitude,y=Latitude, label=IDnumber),data=corals_off)
 p7 <- p7 + theme_minimal()
 
 p8 <- ggplot(atten_summary, aes(x=Location, y=Mean, colour=Location, group = Location))
