@@ -489,10 +489,18 @@ plot(methsnpdist2[,3], methsnpdist2[,6], col = "blue", pch = 16, alpha = 0.5,
      xlab = "Genetic distance", ylab = "Epigenetic distance")
 abline(lm(methsnpdist2[,6] ~ methsnpdist2[,3]))
 
-r2label <- paste("R^2 == ", round(summary(epi_snp_lm)$r.squared,3))
+
+#mantel test (Vegan package)
+
+mantel(as.dist(snpdist3), as.dist(methdist3), method="pearson", permutations=999)
+
+#Mantel statistic r: 0.6176 
+#Significance: 0.001 
+
+
 qplot(x = methsnpdist2[,3], y = methsnpdist2[,6], data = methsnpdist2, geom = "point") +
-  geom_smooth(method='lm') +
   labs(x = "Genetic distance", y = "Epigenetic distance") +
+  theme_gray() +
   theme(axis.text.x = element_text(size=14),
         axis.text.y = element_text(size=14),
         axis.title.x = element_text(size=14),
@@ -500,6 +508,6 @@ qplot(x = methsnpdist2[,3], y = methsnpdist2[,6], data = methsnpdist2, geom = "p
         legend.position = "none") +
   annotate(geom="text", x=0.145, y=0.055, label="p < 0.001",
            color="black") +
-  annotate(geom="text", x=0.1456, y=0.057, label= r2label, parse=TRUE,
+  annotate(geom="text", x=0.145, y=0.057, label= "r = 0.618",
            color="black") +
   theme(plot.margin=unit(c(1,1,1,1),"cm"))
